@@ -27,7 +27,7 @@ def teardown_module(module):
 
 def run_flake8(file_contents):
     with open(str(TMP_DIR / "example.py"), 'w') as tempf:
-        tempf.write(dedent(file_contents).strip() + '\n')
+        tempf.write(dedent(file_contents.lstrip('\n')).strip() + '\n')
 
     orig_dir = os.getcwd()
     os.chdir(str(TMP_DIR))
