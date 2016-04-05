@@ -34,49 +34,23 @@ been picked up with:
 Rules
 -----
 
-C400: Unnecessary generator in list comprehension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C400: Unnecessary generator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Complains about unnecessary use of a generator with `list()` instead of a list
-comprehension:
+Complains about unnecessary use of a generator when a list/set/dict
+comprehension would do:
+
+For example, an unnecessary usage of ``list()`` plus a generator, instead of a
+list comprehension:
 
 * ``list(f(x) for x in foo)`` -> ``[f(x) for x in foo]``
 
-The message includes the suggested rewrite, for example:
+This triggers a message like:
 
 .. code-block:: sh
 
     $ flake8 file.py
     file.py:1:1: C400 Unnecessary generator - rewrite as a list comprehension.
 
-
-C401: Unnecessary generator in set comprehension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Complains about unnecessary use of a generator with `set()` instead of a set
-comprehension:
-
-* ``set(f(x) for x in foo)`` -> ``{f(x) for x in foo}``
-
-The message includes the suggested rewrite, for example:
-
-.. code-block:: sh
-
-    $ flake8 file.py
-    file.py:1:1: C401 Unnecessary generator - rewrite as a set comprehension.
-
-
-C402: Unnecessary generator in dict comprehension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Complains about unnecessary use of a generator with `dict()` instead of a dict
-comprehension:
-
-* ``dict((x, f(x)) for x in foo)`` -> ``{x: f(x) for x in foo}``
-
-The message includes the suggested rewrite, for example:
-
-.. code-block:: sh
-
-    $ flake8 file.py
-    file.py:1:1: C402 Unnecessary generator - rewrite as a dict comprehension.
+This works similarly for ``set()`` and ``dict()`` with generators instead of
+their respective comprehensions.

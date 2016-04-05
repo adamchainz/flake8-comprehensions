@@ -54,23 +54,23 @@ def run_flake8(file_contents):
         os.chdir(orig_dir)
 
 
-def test_C100_pass_1():
+def test_C400_list_pass_1():
     errors = run_flake8("""
         foo = [x for x in range(10)]
     """)
     assert errors == []
 
 
-def test_C100_fail_1():
+def test_C400_list_fail_1():
     errors = run_flake8("""
         foo = list(x for x in range(10))
     """)
     assert errors == [
-        'example.py:1:7: C100 Unnecessary generator - rewrite as a list comprehension.',
+        'example.py:1:7: C400 Unnecessary generator - rewrite as a list comprehension.',
     ]
 
 
-def test_C100_fail_2():
+def test_C400_list_fail_2():
     errors = run_flake8("""
         foobar = list(
             str(x)
@@ -79,27 +79,27 @@ def test_C100_fail_2():
         )
     """)
     assert errors == [
-        'example.py:1:10: C100 Unnecessary generator - rewrite as a list comprehension.',
+        'example.py:1:10: C400 Unnecessary generator - rewrite as a list comprehension.',
     ]
 
 
-def test_C101_pass_1():
+def test_C400_set_pass_1():
     errors = run_flake8("""
         foo = {x for x in range(10)}
     """)
     assert errors == []
 
 
-def test_C101_fail_1():
+def test_C400_set_fail_1():
     errors = run_flake8("""
         foo = set(x for x in range(10))
     """)
     assert errors == [
-        'example.py:1:7: C101 Unnecessary generator - rewrite as a set comprehension.',
+        'example.py:1:7: C400 Unnecessary generator - rewrite as a set comprehension.',
     ]
 
 
-def test_C101_fail_2():
+def test_C400_set_fail_2():
     errors = run_flake8("""
         foobar = set(
             str(x) for x
@@ -107,27 +107,27 @@ def test_C101_fail_2():
         )
     """)
     assert errors == [
-        'example.py:1:10: C101 Unnecessary generator - rewrite as a set comprehension.',
+        'example.py:1:10: C400 Unnecessary generator - rewrite as a set comprehension.',
     ]
 
 
-def test_C102_pass_1():
+def test_C400_dict_pass_1():
     errors = run_flake8("""
         foo = {x: str(x) for x in range(10)}
     """)
     assert errors == []
 
 
-def test_C102_fail_1():
+def test_C400_dict__fail_1():
     errors = run_flake8("""
         foo = dict((x, str(x)) for x in range(10))
     """)
     assert errors == [
-        'example.py:1:7: C102 Unnecessary generator - rewrite as a dict comprehension.',
+        'example.py:1:7: C400 Unnecessary generator - rewrite as a dict comprehension.',
     ]
 
 
-def test_C102_fail_2():
+def test_C400_dict__fail_2():
     errors = run_flake8("""
         foobar = dict(
             (x, str(x))
@@ -136,5 +136,5 @@ def test_C102_fail_2():
         )
     """)
     assert errors == [
-        'example.py:1:10: C102 Unnecessary generator - rewrite as a dict comprehension.',
+        'example.py:1:10: C400 Unnecessary generator - rewrite as a dict comprehension.',
     ]

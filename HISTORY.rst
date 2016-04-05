@@ -12,5 +12,5 @@ Pending Release
 ------------------
 
 * First release on PyPI.
-* ``I200`` rule that complains about unnecessary import aliasing, e.g.
-  ``from foo import bar as bar``.
+* ``C400`` rule that complains about an unnecessary usage of a generator when a
+  list/set/dict comprehension would do.
