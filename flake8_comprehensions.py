@@ -19,18 +19,46 @@ class ComprehensionChecker(object):
         self.tree = tree
 
     message_C400 = 'C400 Unnecessary generator - rewrite as a {type} comprehension.'
+    message_C401 = 'C401 Unnecessary list comprehension - rewrite as a {type} comprehension.'
+    message_C402 = 'C402 Unnecessary list literal - rewrite as a {type} literal.'
 
     def run(self):
         for node in ast.walk(self.tree):
             if (
                 isinstance(node, ast.Call) and
-                len(node.args) == 1 and
-                isinstance(node.args[0], ast.GeneratorExp)
+                len(node.args) == 1
             ):
-                if node.func.id in ('list', 'set', 'dict'):
+                if (
+                    isinstance(node.args[0], ast.GeneratorExp) and
+                    node.func.id in ('list', 'set', 'dict')
+                ):
                     yield (
                         node.lineno,
                         node.col_offset,
                         self.message_C400.format(type=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    isinstance(node.args[0], ast.ListComp) and
+                    node.func.id in ('set', 'dict')
+                ):
+
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.message_C401.format(type=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    isinstance(node.args[0], ast.List) and
+                    node.func.id in ('set', 'dict')
+                ):
+
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.message_C402.format(type=node.func.id),
                         type(self),
                     )

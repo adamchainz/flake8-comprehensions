@@ -37,20 +37,53 @@ Rules
 C400: Unnecessary generator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Complains about unnecessary use of a generator when a list/set/dict
-comprehension would do:
-
-For example, an unnecessary usage of ``list()`` plus a generator, instead of a
-list comprehension:
+Complains about unnecessary use of a generator inside a call to
+``list()``/``set()``/``dict()`` when an equivalent comprehension would do.
+For example:
 
 * ``list(f(x) for x in foo)`` -> ``[f(x) for x in foo]``
+* ``set(f(x) for x in foo)`` -> ``{f(x) for x in foo}``
+* ``dict((x, f(x)) for x in foo)`` -> ``{x: f(x) for x in foo}``
 
-This triggers a message like:
+This rule triggers a message like:
 
 .. code-block:: sh
 
     $ flake8 file.py
     file.py:1:1: C400 Unnecessary generator - rewrite as a list comprehension.
 
-This works similarly for ``set()`` and ``dict()`` with generators instead of
-their respective comprehensions.
+
+C401: Unnecessary list comprehension
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Complains about unnecessary use of a list comprehension, for example when
+inside a ``set()`` call. For example:
+
+* ``set([f(x) for x in foo])`` -> ``{f(x) for x in foo}``
+* ``dict([(x, f(x)) for x in foo])`` -> ``{x: f(x) for x in foo}``
+
+This triggers a message like:
+
+.. code-block:: sh
+
+    $ flake8 file.py
+    file.py:1:1: C401 Unnecessary list comprehension - rewrite as a set comprehension.
+
+
+C402: Unnecessary list literal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Complains about unnecessary list literals, for example when inside a ``set()``
+call. For example:
+
+* ``set([1, 2])`` -> ``{1, 2}``
+* ``set([])`` -> ``set()``
+* ``dict([])`` -> ``{}``
+* ``dict([(1, 2)])`` -> ``{1: 2}``
+
+This triggers a message like:
+
+.. code-block:: sh
+
+    $ flake8 file.py
+    file.py:1:1: C402 Unnecessary list literal - rewrite as a set literal.

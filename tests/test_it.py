@@ -138,3 +138,85 @@ def test_C400_dict__fail_2():
     assert errors == [
         'example.py:1:10: C400 Unnecessary generator - rewrite as a dict comprehension.',
     ]
+
+
+def test_C401_set_pass_1():
+    errors = run_flake8("""
+        foo = {x for x in range(10)}
+    """)
+    assert errors == []
+
+
+def test_C401_set_fail_1():
+    errors = run_flake8("""
+        foo = set([x for x in range(10)])
+    """)
+    assert errors == [
+        'example.py:1:7: C401 Unnecessary list comprehension - rewrite as a set comprehension.',
+    ]
+
+
+def test_C401_dict_pass_1():
+    errors = run_flake8("""
+        foo = {x: x for x in range(10)}
+    """)
+    assert errors == []
+
+
+def test_C401_dict_fail_1():
+    errors = run_flake8("""
+        foo = dict([(x, x) for x in range(10)])
+    """)
+    assert errors == [
+        'example.py:1:7: C401 Unnecessary list comprehension - rewrite as a dict comprehension.',
+    ]
+
+
+def test_C402_set_pass_1():
+    errors = run_flake8("""
+        foo = set(range)
+    """)
+    assert errors == []
+
+
+def test_C402_set_fail_1():
+    errors = run_flake8("""
+        foo = set([])
+    """)
+    assert errors == [
+        'example.py:1:7: C402 Unnecessary list literal - rewrite as a set literal.',
+    ]
+
+
+def test_C402_set_fail_2():
+    errors = run_flake8("""
+        foo = set([1])
+    """)
+    assert errors == [
+        'example.py:1:7: C402 Unnecessary list literal - rewrite as a set literal.',
+    ]
+
+
+def test_C402_dict_pass_1():
+    errors = run_flake8("""
+        foo = dict(range)
+    """)
+    assert errors == []
+
+
+def test_C402_dict_fail_1():
+    errors = run_flake8("""
+        foo = dict([])
+    """)
+    assert errors == [
+        'example.py:1:7: C402 Unnecessary list literal - rewrite as a dict literal.',
+    ]
+
+
+def test_C402_dict_fail_2():
+    errors = run_flake8("""
+        foo = dict([(1, 2)])
+    """)
+    assert errors == [
+        'example.py:1:7: C402 Unnecessary list literal - rewrite as a dict literal.',
+    ]
