@@ -8,7 +8,7 @@ Pending Release
 * New release notes here
 
 
-1.0.0 (2016-01-23)
+1.0.0 (2016-04-05)
 ------------------
 
 * First release on PyPI.
