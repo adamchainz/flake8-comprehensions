@@ -1,0 +1,12 @@
+docutils==0.12
+flake8==2.4.1
+isort==4.2.2
+pathlib==1.0.1
+pep8==1.7.0
+py==1.4.31
+pyflakes==1.1.0
+Pygments==2.0.2
+pytest==2.8.5
+six==1.10.0
+tox==2.1.1
+wheel==0.23.0
