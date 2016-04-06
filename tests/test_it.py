@@ -220,3 +220,11 @@ def test_C402_dict_fail_2():
     assert errors == [
         'example.py:1:7: C402 Unnecessary list literal - rewrite as a dict literal.',
     ]
+
+
+def test_it_does_not_crash_on_attribute_functions():
+    errors = run_flake8("""
+        import foo
+        bar = foo.baz(x for x in range(10))
+    """)
+    assert errors == []

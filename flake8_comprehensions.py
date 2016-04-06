@@ -26,7 +26,8 @@ class ComprehensionChecker(object):
         for node in ast.walk(self.tree):
             if (
                 isinstance(node, ast.Call) and
-                len(node.args) == 1
+                len(node.args) == 1 and
+                isinstance(node.func, ast.Name)
             ):
                 if (
                     isinstance(node.args[0], ast.GeneratorExp) and
