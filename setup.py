@@ -37,7 +37,7 @@ with open('HISTORY.rst') as history_file:
 
 setup(
     name='flake8-comprehensions',
-    version='1.0.0',
+    version='1.1.0',
     description='A flake8 plugin to help you write better list/set/dict '
                 'comprehensions.',
     long_description=readme + '\n\n' + history,
