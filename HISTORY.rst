@@ -6,6 +6,8 @@ Pending Release
 ---------------
 
 * New release notes here
+* ``C407`` rule that complains about unnecessary list comprehensions inside
+  builtins that can work on generators.
 
 1.2.0 (2016-07-11)
 ------------------

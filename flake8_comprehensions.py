@@ -26,6 +26,7 @@ class ComprehensionChecker(object):
         'C404': 'C404 Unnecessary list comprehension - rewrite as a dict comprehension.',
         'C405': 'C405 Unnecessary list literal - rewrite as a set literal.',
         'C406': 'C406 Unnecessary list literal - rewrite as a dict literal.',
+        'C407': "C407 Unnecessary list comprehension - '{func}' can take a generator.",
     }
 
     def run(self):
@@ -78,5 +79,17 @@ class ComprehensionChecker(object):
                         node.lineno,
                         node.col_offset,
                         self.messages[msg_key].format(type=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    isinstance(node.args[0], ast.ListComp) and
+                    node.func.id in ('all', 'any', 'frozenset', 'max', 'min', 'sorted', 'sum', 'tuple',)
+                ):
+
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages['C407'].format(func=node.func.id),
                         type(self),
                     )

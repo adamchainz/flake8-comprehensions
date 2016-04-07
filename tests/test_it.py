@@ -222,6 +222,54 @@ def test_C406_fail_2():
     ]
 
 
+def test_C407_sum_pass_1():
+    errors = run_flake8("""
+        foo = sum(x for x in range(10))
+    """)
+    assert errors == []
+
+
+def test_C407_sum_fail_1():
+    errors = run_flake8("""
+        foo = sum([x for x in range(10)])
+    """)
+    assert errors == [
+        "example.py:1:6: C407 Unnecessary list comprehension - 'sum' can take a generator.",
+    ]
+
+
+def test_C407_max_fail_1():
+    errors = run_flake8("""
+        foo = max([x for x in range(10)])
+    """)
+    assert errors == [
+        "example.py:1:6: C407 Unnecessary list comprehension - 'max' can take a generator.",
+    ]
+
+
+def test_C407_tuple_pass_1():
+    errors = run_flake8("""
+        foo = tuple()
+    """)
+    assert errors == []
+
+
+def test_C407_tuple_pass_2():
+    errors = run_flake8("""
+        foo = tuple(x for x in range(10))
+    """)
+    assert errors == []
+
+
+def test_C407_tuple_fail_1():
+    errors = run_flake8("""
+        foo = tuple([x for x in range(10)])
+    """)
+    assert errors == [
+        "example.py:1:6: C407 Unnecessary list comprehension - 'tuple' can take a generator.",
+    ]
+
+
 def test_it_does_not_crash_on_attribute_functions():
     errors = run_flake8("""
         import foo
