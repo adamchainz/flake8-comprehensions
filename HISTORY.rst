@@ -6,6 +6,8 @@ Pending Release
 ---------------
 
 * New release notes here
+* Split all rule codes by type. This allows granular selection of the rules in
+  flake8 configuration.
 
 
 1.1.1 (2016-04-06)

@@ -1,5 +1,5 @@
 =====================
-Flake8 Comprehensions
+flake8-comprehensions
 =====================
 
 .. image:: https://img.shields.io/pypi/v/flake8-comprehensions.svg
@@ -34,56 +34,49 @@ been picked up with:
 Rules
 -----
 
-C400: Unnecessary generator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==== ====
+Code Rule
+==== ====
+C400 Unnecessary generator - rewrite as a list comprehension.
+C401 Unnecessary generator - rewrite as a set comprehension.
+C402 Unnecessary generator - rewrite as a dict comprehension.
+C403 Unnecessary list comprehension - rewrite as a set comprehension.
+C404 Unnecessary list comprehension - rewrite as a dict comprehension.
+C405 Unnecessary list literal - rewrite as a set literal.
+C406 Unnecessary list literal - rewrite as a dict literal.
+==== ====
 
-Complains about unnecessary use of a generator inside a call to
-``list()``/``set()``/``dict()`` when an equivalent comprehension would do.
-For example:
+Examples
+--------
 
-* ``list(f(x) for x in foo)`` -> ``[f(x) for x in foo]``
-* ``set(f(x) for x in foo)`` -> ``{f(x) for x in foo}``
-* ``dict((x, f(x)) for x in foo)`` -> ``{x: f(x) for x in foo}``
+C400-402: Unnecessary generator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This rule triggers a message like:
+It's unnecessary to use ``list``, ``set``, or ``dict`` around a generator
+expression, since there are equivalent comprehensions for these types. For
+example:
 
-.. code-block:: sh
+* ``list(f(x) for x in foo)`` is better as ``[f(x) for x in foo]``
+* ``set(f(x) for x in foo)`` is better as ``{f(x) for x in foo}``
+* ``dict((x, f(x)) for x in foo)`` is better as ``{x: f(x) for x in foo}``
 
-    $ flake8 file.py
-    file.py:1:1: C400 Unnecessary generator - rewrite as a list comprehension.
+C403-404: Unnecessary list comprehension
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+It's unnecessary to use a list comprehension inside a call to ``set`` or
+``dict``, since there are equivalent comprehensions for these types. For
+example:
 
-C401: Unnecessary list comprehension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* ``set([f(x) for x in foo])`` is better as ``{f(x) for x in foo}``
+* ``dict([(x, f(x)) for x in foo])`` is better as ``{x: f(x) for x in foo}``
 
-Complains about unnecessary use of a list comprehension, for example when
-inside a ``set()`` call. For example:
+C405-406: Unnecessary list literal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* ``set([f(x) for x in foo])`` -> ``{f(x) for x in foo}``
-* ``dict([(x, f(x)) for x in foo])`` -> ``{x: f(x) for x in foo}``
+It's unnecessary to use a list literal within a call to ``set`` or ``dict``
+since there is literal syntax for these types. For example:
 
-This triggers a message like:
-
-.. code-block:: sh
-
-    $ flake8 file.py
-    file.py:1:1: C401 Unnecessary list comprehension - rewrite as a set comprehension.
-
-
-C402: Unnecessary list literal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Complains about unnecessary list literals, for example when inside a ``set()``
-call. For example:
-
-* ``set([1, 2])`` -> ``{1, 2}``
-* ``set([])`` -> ``set()``
-* ``dict([])`` -> ``{}``
-* ``dict([(1, 2)])`` -> ``{1: 2}``
-
-This triggers a message like:
-
-.. code-block:: sh
-
-    $ flake8 file.py
-    file.py:1:1: C402 Unnecessary list literal - rewrite as a set literal.
+* ``set([1, 2])`` is better as ``{1, 2}``
+* ``set([])`` is better as ``set()``
+* ``dict([])`` is better as ``{}``
+* ``dict([(1, 2)])`` is better as ``{1: 2}``
