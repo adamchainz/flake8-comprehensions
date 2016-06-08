@@ -8,7 +8,7 @@ flake8-comprehensions
 .. image:: https://img.shields.io/travis/adamchainz/flake8-comprehensions.svg
         :target: https://travis-ci.org/adamchainz/flake8-comprehensions
 
-A `flake8 <https://flake8.readthedocs.org/en/latest/index.html>`_ plugin that
+A `flake8 <https://flake8.readthedocs.io/en/latest/index.html>`_ plugin that
 helps you write better list/set/dict comprehensions.
 
 * Free software: ISC license
