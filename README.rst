@@ -44,6 +44,7 @@ C403 Unnecessary list comprehension - rewrite as a set comprehension.
 C404 Unnecessary list comprehension - rewrite as a dict comprehension.
 C405 Unnecessary list literal - rewrite as a set literal.
 C406 Unnecessary list literal - rewrite as a dict literal.
+C407 Unnecessary list comprehension - '<builtin>' can take a generator.
 ==== ====
 
 Examples
@@ -80,3 +81,26 @@ since there is literal syntax for these types. For example:
 * ``set([])`` is better as ``set()``
 * ``dict([])`` is better as ``{}``
 * ``dict([(1, 2)])`` is better as ``{1: 2}``
+
+
+C407: Unnecessary list comprehension - '<builtin>' can take a generator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to pass a list comprehension to some builtins that can take
+generators instead. For example:
+
+* ``sum([x ** 2 for x in range(10)])`` is better as
+  ``sum(x ** 2 for x in range(10))``
+* ``all([foo.bar for foo in foos])`` is better as
+  ``all(foo.bar for foo in foos)``
+
+The list of builtins that are checked for are:
+
+* ``all``
+* ``any``
+* ``frozenset``
+* ``max``
+* ``min``
+* ``sorted``
+* ``sum``
+* ``tuple``
