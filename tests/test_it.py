@@ -66,7 +66,7 @@ def test_C400_fail_1():
         foo = list(x for x in range(10))
     """)
     assert errors == [
-        'example.py:1:6: C400 Unnecessary generator - rewrite as a list comprehension.',
+        'example.py:1:7: C400 Unnecessary generator - rewrite as a list comprehension.',
     ]
 
 
@@ -79,7 +79,7 @@ def test_C400_fail_2():
         )
     """)
     assert errors == [
-        'example.py:1:9: C400 Unnecessary generator - rewrite as a list comprehension.',
+        'example.py:1:10: C400 Unnecessary generator - rewrite as a list comprehension.',
     ]
 
 
@@ -95,7 +95,7 @@ def test_C401_fail_1():
         foo = set(x for x in range(10))
     """)
     assert errors == [
-        'example.py:1:6: C401 Unnecessary generator - rewrite as a set comprehension.',
+        'example.py:1:7: C401 Unnecessary generator - rewrite as a set comprehension.',
     ]
 
 
@@ -107,7 +107,7 @@ def test_C401_fail_2():
         )
     """)
     assert errors == [
-        'example.py:1:9: C401 Unnecessary generator - rewrite as a set comprehension.',
+        'example.py:1:10: C401 Unnecessary generator - rewrite as a set comprehension.',
     ]
 
 
@@ -123,7 +123,7 @@ def test_C402_fail_1():
         foo = dict((x, str(x)) for x in range(10))
     """)
     assert errors == [
-        'example.py:1:6: C402 Unnecessary generator - rewrite as a dict comprehension.',
+        'example.py:1:7: C402 Unnecessary generator - rewrite as a dict comprehension.',
     ]
 
 
@@ -136,7 +136,7 @@ def test_C402_fail_2():
         )
     """)
     assert errors == [
-        'example.py:1:9: C402 Unnecessary generator - rewrite as a dict comprehension.',
+        'example.py:1:10: C402 Unnecessary generator - rewrite as a dict comprehension.',
     ]
 
 
@@ -152,7 +152,7 @@ def test_C403_fail_1():
         foo = set([x for x in range(10)])
     """)
     assert errors == [
-        'example.py:1:6: C403 Unnecessary list comprehension - rewrite as a set comprehension.',
+        'example.py:1:7: C403 Unnecessary list comprehension - rewrite as a set comprehension.',
     ]
 
 
@@ -168,7 +168,7 @@ def test_C404_fail_1():
         foo = dict([(x, x) for x in range(10)])
     """)
     assert errors == [
-        'example.py:1:6: C404 Unnecessary list comprehension - rewrite as a dict comprehension.',
+        'example.py:1:7: C404 Unnecessary list comprehension - rewrite as a dict comprehension.',
     ]
 
 
@@ -184,7 +184,7 @@ def test_C405_fail_1():
         foo = set([])
     """)
     assert errors == [
-        'example.py:1:6: C405 Unnecessary list literal - rewrite as a set literal.',
+        'example.py:1:7: C405 Unnecessary list literal - rewrite as a set literal.',
     ]
 
 
@@ -193,7 +193,7 @@ def test_C405_fail_2():
         foo = set([1])
     """)
     assert errors == [
-        'example.py:1:6: C405 Unnecessary list literal - rewrite as a set literal.',
+        'example.py:1:7: C405 Unnecessary list literal - rewrite as a set literal.',
     ]
 
 
@@ -209,7 +209,7 @@ def test_C406_fail_1():
         foo = dict([])
     """)
     assert errors == [
-        'example.py:1:6: C406 Unnecessary list literal - rewrite as a dict literal.',
+        'example.py:1:7: C406 Unnecessary list literal - rewrite as a dict literal.',
     ]
 
 
@@ -218,7 +218,7 @@ def test_C406_fail_2():
         foo = dict([(1, 2)])
     """)
     assert errors == [
-        'example.py:1:6: C406 Unnecessary list literal - rewrite as a dict literal.',
+        'example.py:1:7: C406 Unnecessary list literal - rewrite as a dict literal.',
     ]
 
 
@@ -234,7 +234,7 @@ def test_C407_sum_fail_1():
         foo = sum([x for x in range(10)])
     """)
     assert errors == [
-        "example.py:1:6: C407 Unnecessary list comprehension - 'sum' can take a generator.",
+        "example.py:1:7: C407 Unnecessary list comprehension - 'sum' can take a generator.",
     ]
 
 
@@ -243,7 +243,7 @@ def test_C407_max_fail_1():
         foo = max([x for x in range(10)])
     """)
     assert errors == [
-        "example.py:1:6: C407 Unnecessary list comprehension - 'max' can take a generator.",
+        "example.py:1:7: C407 Unnecessary list comprehension - 'max' can take a generator.",
     ]
 
 
@@ -266,7 +266,7 @@ def test_C407_tuple_fail_1():
         foo = tuple([x for x in range(10)])
     """)
     assert errors == [
-        "example.py:1:6: C407 Unnecessary list comprehension - 'tuple' can take a generator.",
+        "example.py:1:7: C407 Unnecessary list comprehension - 'tuple' can take a generator.",
     ]
 
 
