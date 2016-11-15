@@ -55,7 +55,7 @@ setup(
     py_modules=['flake8_comprehensions'],
     include_package_data=True,
     install_requires=[
-        'flake8',
+        'flake8!=3.2.0',
     ],
     license="ISCL",
     zip_safe=False,
