@@ -7,6 +7,9 @@ Pending Release
 
 .. Insert new release notes below this line
 
+* ``C408`` rule that complains about using ``tuple()``, ``list()``, or
+  ``dict()`` instead of a literal.
+
 1.3.0 (2017-05-01)
 ------------------
 

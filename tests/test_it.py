@@ -301,7 +301,7 @@ def test_C407_max_fail_1():
 
 def test_C407_tuple_pass_1():
     errors = run_flake8("""
-        foo = tuple()
+        foo = ()
     """)
     assert errors == []
 
@@ -328,3 +328,51 @@ def test_it_does_not_crash_on_attribute_functions():
         bar = foo.baz(x for x in range(10))
     """)
     assert errors == []
+
+
+def test_C408_pass_1():
+    errors = run_flake8('()')
+    assert errors == []
+
+
+def test_C408_pass_2():
+    errors = run_flake8('[]')
+    assert errors == []
+
+
+def test_C408_pass_3():
+    errors = run_flake8('{}')
+    assert errors == []
+
+
+def test_C408_pass_4():
+    errors = run_flake8('set()')
+    assert errors == []
+
+
+def test_C408_fail_1():
+    errors = run_flake8('tuple()')
+    assert errors == [
+        "example.py:1:1: C408 Unnecessary tuple call - rewrite as tuple literal."
+    ]
+
+
+def test_C408_fail_2():
+    errors = run_flake8('list()')
+    assert errors == [
+        "example.py:1:1: C408 Unnecessary list call - rewrite as list literal."
+    ]
+
+
+def test_C408_fail_3():
+    errors = run_flake8('dict()')
+    assert errors == [
+        "example.py:1:1: C408 Unnecessary dict call - rewrite as dict literal."
+    ]
+
+
+def test_C408_fail_4():
+    errors = run_flake8('dict(a=1)')
+    assert errors == [
+        "example.py:1:1: C408 Unnecessary dict call - rewrite as dict literal."
+    ]
