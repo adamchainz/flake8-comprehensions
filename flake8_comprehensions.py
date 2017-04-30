@@ -38,17 +38,28 @@ class ComprehensionChecker(object):
             ):
                 if (
                     isinstance(node.args[0], ast.GeneratorExp) and
-                    node.func.id in ('list', 'set', 'dict')
+                    node.func.id in ('list', 'set')
                 ):
                     msg_key = {
                         'list': 'C400',
                         'set': 'C401',
-                        'dict': 'C402',
                     }[node.func.id]
                     yield (
                         node.lineno,
                         node.col_offset,
                         self.messages[msg_key],
+                        type(self),
+                    )
+
+                elif (
+                    isinstance(node.args[0], ast.GeneratorExp) and
+                    not isinstance(node.args[0].elt, ast.Call) and
+                    node.func.id == 'dict'
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages['C402'],
                         type(self),
                     )
 
