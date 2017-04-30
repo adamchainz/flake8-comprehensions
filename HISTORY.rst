@@ -10,6 +10,7 @@ Pending Release
   This bug was fixed in Flake8 3.2.1.
 * Prevent false positives of ``C402`` from generators of expressions that
   aren't two-tuples.
+* ``C405`` and ``C406`` now also complain about unnecessary tuple literals.
 
 1.2.1 (2016-06-27)
 ------------------

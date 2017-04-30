@@ -213,6 +213,24 @@ def test_C405_fail_2():
     ]
 
 
+def test_C405_fail_3():
+    errors = run_flake8("""
+        foo = set(())
+    """)
+    assert errors == [
+        'example.py:1:7: C405 Unnecessary tuple literal - rewrite as a set literal.',
+    ]
+
+
+def test_C405_fail_4():
+    errors = run_flake8("""
+        foo = set((1,))
+    """)
+    assert errors == [
+        'example.py:1:7: C405 Unnecessary tuple literal - rewrite as a set literal.',
+    ]
+
+
 def test_C406_pass_1():
     errors = run_flake8("""
         foo = dict(range)
@@ -235,6 +253,24 @@ def test_C406_fail_2():
     """)
     assert errors == [
         'example.py:1:7: C406 Unnecessary list literal - rewrite as a dict literal.',
+    ]
+
+
+def test_C406_fail_3():
+    errors = run_flake8("""
+        foo = dict(())
+    """)
+    assert errors == [
+        'example.py:1:7: C406 Unnecessary tuple literal - rewrite as a dict literal.',
+    ]
+
+
+def test_C406_fail_4():
+    errors = run_flake8("""
+        foo = dict(((1, 2),))
+    """)
+    assert errors == [
+        'example.py:1:7: C406 Unnecessary tuple literal - rewrite as a dict literal.',
     ]
 
 

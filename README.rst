@@ -42,8 +42,8 @@ C401 Unnecessary generator - rewrite as a set comprehension.
 C402 Unnecessary generator - rewrite as a dict comprehension.
 C403 Unnecessary list comprehension - rewrite as a set comprehension.
 C404 Unnecessary list comprehension - rewrite as a dict comprehension.
-C405 Unnecessary list literal - rewrite as a set literal.
-C406 Unnecessary list literal - rewrite as a dict literal.
+C405 Unnecessary (list/tuple) literal - rewrite as a set literal.
+C406 Unnecessary (list/tuple) literal - rewrite as a dict literal.
 C407 Unnecessary list comprehension - '<builtin>' can take a generator.
 ==== ====
 
@@ -81,6 +81,7 @@ since there is literal syntax for these types. For example:
 * ``set([])`` is better as ``set()``
 * ``dict([])`` is better as ``{}``
 * ``dict([(1, 2)])`` is better as ``{1: 2}``
+* ``dict(((1, 2),))`` is better as ``{1: 2}``
 
 
 C407: Unnecessary list comprehension - '<builtin>' can take a generator
