@@ -27,16 +27,19 @@ class ComprehensionChecker(object):
         'C405': 'C405 Unnecessary {type} literal - rewrite as a set literal.',
         'C406': 'C406 Unnecessary {type} literal - rewrite as a dict literal.',
         'C407': "C407 Unnecessary list comprehension - '{func}' can take a generator.",
+        'C408': "C408 Unnecessary {type} call - rewrite as {type} literal.",
     }
 
     def run(self):
         for node in ast.walk(self.tree):
             if (
                 isinstance(node, ast.Call) and
-                len(node.args) == 1 and
                 isinstance(node.func, ast.Name)
             ):
+                n_args = len(node.args)
+
                 if (
+                    n_args == 1 and
                     isinstance(node.args[0], ast.GeneratorExp) and
                     node.func.id in ('list', 'set')
                 ):
@@ -52,6 +55,7 @@ class ComprehensionChecker(object):
                     )
 
                 elif (
+                    n_args == 1 and
                     isinstance(node.args[0], ast.GeneratorExp) and
                     isinstance(node.args[0].elt, ast.Tuple) and
                     len(node.args[0].elt.elts) == 2 and
@@ -65,6 +69,7 @@ class ComprehensionChecker(object):
                     )
 
                 elif (
+                    n_args == 1 and
                     isinstance(node.args[0], ast.ListComp) and
                     node.func.id in ('set', 'dict')
                 ):
@@ -80,6 +85,7 @@ class ComprehensionChecker(object):
                     )
 
                 elif (
+                    n_args == 1 and
                     isinstance(node.args[0], (ast.Tuple, ast.List)) and
                     node.func.id in ('set', 'dict')
                 ):
@@ -95,6 +101,7 @@ class ComprehensionChecker(object):
                     )
 
                 elif (
+                    n_args == 1 and
                     isinstance(node.args[0], ast.ListComp) and
                     node.func.id in ('all', 'any', 'frozenset', 'max', 'min', 'sorted', 'sum', 'tuple',)
                 ):
@@ -103,5 +110,16 @@ class ComprehensionChecker(object):
                         node.lineno,
                         node.col_offset,
                         self.messages['C407'].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    n_args == 0 and
+                    node.func.id in ('tuple', 'list', 'dict')
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages['C408'].format(type=node.func.id),
                         type(self),
                     )
