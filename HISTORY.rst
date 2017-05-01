@@ -5,7 +5,11 @@ History
 Pending Release
 ---------------
 
-* New release notes here
+.. Insert new release notes below this line
+
+1.3.0 (2017-05-01)
+------------------
+
 * Don't allow installation with Flake8 3.2.0 which doesn't enable the plugin.
   This bug was fixed in Flake8 3.2.1.
 * Prevent false positives of ``C402`` from generators of expressions that
