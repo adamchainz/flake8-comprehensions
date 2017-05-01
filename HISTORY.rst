@@ -8,8 +8,8 @@ Pending Release
 * New release notes here
 * Don't allow installation with Flake8 3.2.0 which doesn't enable the plugin.
   This bug was fixed in Flake8 3.2.1.
-* Fix C402 false positive where a function call prevents using dict
-  comprehension.
+* Prevent false positives of ``C402`` from generators of expressions that
+  aren't two-tuples.
 
 1.2.1 (2016-06-27)
 ------------------
