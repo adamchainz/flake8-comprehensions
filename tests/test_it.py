@@ -118,6 +118,14 @@ def test_C402_pass_1():
     assert errors == []
 
 
+def test_C402_pass_2():
+    errors = run_flake8("""
+        lst = ['a=1', 'b=2', 'c=3']
+        dict(pair.split('=') for pair in lst)
+    """)
+    assert errors == []
+
+
 def test_C402_fail_1():
     errors = run_flake8("""
         foo = dict((x, str(x)) for x in range(10))
@@ -137,6 +145,16 @@ def test_C402_fail_2():
     """)
     assert errors == [
         'example.py:1:10: C402 Unnecessary generator - rewrite as a dict comprehension.',
+    ]
+
+
+def test_C402_fail_3():
+    errors = run_flake8("""
+        lst = [('a', 1), ('b', 2), ('c', 3)]
+        dict(pair for pair in lst if pair[1] % 2 == 0)
+    """)
+    assert errors == [
+        'example.py:2:1: C402 Unnecessary generator - rewrite as a dict comprehension.',
     ]
 
 
