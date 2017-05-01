@@ -11,7 +11,8 @@ def get_version(filename):
     """
     Return package version as listed in `__version__` in `filename`.
     """
-    init_py = open(filename).read()
+    with open(filename) as f:
+        init_py = f.read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
