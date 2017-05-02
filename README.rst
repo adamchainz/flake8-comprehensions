@@ -46,6 +46,8 @@ C405 Unnecessary (list/tuple) literal - rewrite as a set literal.
 C406 Unnecessary (list/tuple) literal - rewrite as a dict literal.
 C407 Unnecessary list comprehension - '<builtin>' can take a generator.
 C408 Unnecessary (dict/list/tuple) call - rewrite as a literal.
+C409 Unnecessary (list/tuple) passed to tuple() - (remove the outer call to tuple()/rewrite as a tuple literal).
+C410 Unnecessary (list/tuple) passed to list() - (remove the outer call to list()/rewrite as a list literal).
 ==== ====
 
 Examples
@@ -72,18 +74,21 @@ example:
 * ``set([f(x) for x in foo])`` is better as ``{f(x) for x in foo}``
 * ``dict([(x, f(x)) for x in foo])`` is better as ``{x: f(x) for x in foo}``
 
-C405-406: Unnecessary list literal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C405-406,C409-410: Unnecessary list/tuple literal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It's unnecessary to use a list literal within a call to ``set`` or ``dict``
-since there is literal syntax for these types. For example:
+It's unnecessary to use a list or tuple literal within a call to ``tuple``,
+``list``, ``set``, or ``dict`` since there is literal syntax for these types.
+For example:
 
-* ``set([1, 2])`` is better as ``{1, 2}``
+* ``tuple([1, 2])`` and ``tuple((1, 2))`` are better as ``(1, 2)``
+* ``tuple([])`` is better as ``()``
+* ``list([1, 2])`` and ``list((1, 2))`` are better as ``[1, 2]``
+* ``list([])`` is better as ``[]``
+* ``set([1, 2])`` and ``set((1, 2))`` are better as ``{1, 2}``
 * ``set([])`` is better as ``set()``
+* ``dict([(1, 2)])`` and ``dict(((1, 2),))`` are better as ``{1: 2}``
 * ``dict([])`` is better as ``{}``
-* ``dict([(1, 2)])`` is better as ``{1: 2}``
-* ``dict(((1, 2),))`` is better as ``{1: 2}``
-
 
 C407: Unnecessary list comprehension - '<builtin>' can take a generator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

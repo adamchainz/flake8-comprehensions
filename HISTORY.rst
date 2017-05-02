@@ -9,6 +9,8 @@ Pending Release
 
 * ``C408`` rule that complains about using ``tuple()``, ``list()``, or
   ``dict()`` instead of a literal.
+* ``C409`` and ``C410`` rules that complain about an unnecessary list or tuple
+  that could be rewritten as a literal.
 
 1.3.0 (2017-05-01)
 ------------------
