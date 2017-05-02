@@ -10,4 +10,7 @@ install:
   - pip install tox
 
 script:
+  - mkdir /tmp/python35bin/
+  - ln -s ~/virtualenv/python3.5/bin/python /tmp/python35bin/python3.5
+  - export PATH=$PATH:/tmp/python35bin
   - tox
