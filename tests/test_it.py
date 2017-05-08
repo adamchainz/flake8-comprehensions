@@ -353,26 +353,26 @@ def test_C408_pass_4():
 def test_C408_fail_1():
     errors = run_flake8('tuple()')
     assert errors == [
-        "example.py:1:1: C408 Unnecessary tuple call - rewrite as tuple literal."
+        "example.py:1:1: C408 Unnecessary tuple call - rewrite as a literal."
     ]
 
 
 def test_C408_fail_2():
     errors = run_flake8('list()')
     assert errors == [
-        "example.py:1:1: C408 Unnecessary list call - rewrite as list literal."
+        "example.py:1:1: C408 Unnecessary list call - rewrite as a literal."
     ]
 
 
 def test_C408_fail_3():
     errors = run_flake8('dict()')
     assert errors == [
-        "example.py:1:1: C408 Unnecessary dict call - rewrite as dict literal."
+        "example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
     ]
 
 
 def test_C408_fail_4():
     errors = run_flake8('dict(a=1)')
     assert errors == [
-        "example.py:1:1: C408 Unnecessary dict call - rewrite as dict literal."
+        "example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
     ]

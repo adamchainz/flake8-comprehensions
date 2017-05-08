@@ -45,6 +45,7 @@ C404 Unnecessary list comprehension - rewrite as a dict comprehension.
 C405 Unnecessary (list/tuple) literal - rewrite as a set literal.
 C406 Unnecessary (list/tuple) literal - rewrite as a dict literal.
 C407 Unnecessary list comprehension - '<builtin>' can take a generator.
+C408 Unnecessary (dict/list/tuple) call - rewrite as a literal.
 ==== ====
 
 Examples
@@ -105,3 +106,14 @@ The list of builtins that are checked for are:
 * ``sorted``
 * ``sum``
 * ``tuple``
+
+C408: Unnecessary (dict/list/tuple) call - rewrite as a literal.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's slower to call e.g. ``dict()`` than using the empty literal, because the
+name ``dict`` must be looked up in the global scope in case it has been
+rebound. Same for the other two basic types here. For example:
+
+* ``dict()`` is better as ``{}``
+* ``list()`` is better as ``[]``
+* ``tuple()`` is better as ``()``

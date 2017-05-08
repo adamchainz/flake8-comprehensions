@@ -27,7 +27,7 @@ class ComprehensionChecker(object):
         'C405': 'C405 Unnecessary {type} literal - rewrite as a set literal.',
         'C406': 'C406 Unnecessary {type} literal - rewrite as a dict literal.',
         'C407': "C407 Unnecessary list comprehension - '{func}' can take a generator.",
-        'C408': "C408 Unnecessary {type} call - rewrite as {type} literal.",
+        'C408': "C408 Unnecessary {type} call - rewrite as a literal.",
     }
 
     def run(self):
