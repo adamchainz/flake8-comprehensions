@@ -12,6 +12,8 @@ Pending Release
   ``dict()`` instead of a literal.
 * ``C409`` and ``C410`` rules that complain about an unnecessary list or tuple
   that could be rewritten as a literal.
+* ``C411`` rule that complains about using list comprehension inside a
+  ``list()`` call.
 
 1.3.0 (2017-05-01)
 ------------------
