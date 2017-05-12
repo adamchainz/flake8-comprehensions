@@ -46,6 +46,7 @@ C405 Unnecessary (list/tuple) literal - rewrite as a set literal.
 C406 Unnecessary (list/tuple) literal - rewrite as a dict literal.
 C407 Unnecessary list comprehension - '<builtin>' can take a generator.
 C408 Unnecessary (dict/list/tuple) call - rewrite as a literal.
+C411 Unnecessary list call - remove the outer call to list().
 ==== ====
 
 Examples
@@ -117,3 +118,11 @@ rebound. Same for the other two basic types here. For example:
 * ``dict()`` is better as ``{}``
 * ``list()`` is better as ``[]``
 * ``tuple()`` is better as ``()``
+
+C411: Unnecessary list call - remove the outer call to list().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to use a ``list`` around list comprehension, since it is
+equivalent without it. For example:
+
+* ``list([f(x) for x in foo])`` is better as ``[f(x) for x in foo]``

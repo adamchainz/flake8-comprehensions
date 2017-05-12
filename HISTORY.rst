@@ -9,6 +9,8 @@ Pending Release
 
 * ``C408`` rule that complains about using ``tuple()``, ``list()``, or
   ``dict()`` instead of a literal.
+* ``C411`` rule that complains about using list comprehension inside a
+  ``list()`` call.
 
 1.3.0 (2017-05-01)
 ------------------

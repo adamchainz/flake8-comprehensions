@@ -376,3 +376,19 @@ def test_C408_fail_4():
     assert errors == [
         "example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
     ]
+
+
+def test_C411_pass_1():
+    errors = run_flake8("""
+        [x for x in range(10)]
+    """)
+    assert errors == []
+
+
+def test_C411_fail_1():
+    errors = run_flake8("""
+        list([x for x in range(10)])
+    """)
+    assert errors == [
+        'example.py:1:1: C411 Unnecessary list call - remove the outer call to list().',
+    ]
