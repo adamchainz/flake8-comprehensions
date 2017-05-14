@@ -36,7 +36,7 @@ setup(
     url='https://github.com/adamchainz/flake8-comprehensions',
     entry_points={
         'flake8.extension': [
-            'C40 = flake8_comprehensions:ComprehensionChecker',
+            'C4 = flake8_comprehensions:ComprehensionChecker',
         ],
     },
     py_modules=['flake8_comprehensions'],

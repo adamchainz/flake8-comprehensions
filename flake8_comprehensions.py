@@ -24,10 +24,12 @@ class ComprehensionChecker(object):
         'C402': 'C402 Unnecessary generator - rewrite as a dict comprehension.',
         'C403': 'C403 Unnecessary list comprehension - rewrite as a set comprehension.',
         'C404': 'C404 Unnecessary list comprehension - rewrite as a dict comprehension.',
-        'C405': 'C405 Unnecessary {type} literal - rewrite as a set literal.',
-        'C406': 'C406 Unnecessary {type} literal - rewrite as a dict literal.',
+        'C405': 'C405 Unnecessary {type} literal - ',
+        'C406': 'C406 Unnecessary {type} literal - ',
         'C407': "C407 Unnecessary list comprehension - '{func}' can take a generator.",
         'C408': "C408 Unnecessary {type} call - rewrite as a literal.",
+        'C409': 'C409 Unnecessary {type} passed to tuple() - ',
+        'C410': 'C410 Unnecessary {type} passed to list() - ',
     }
 
     def run(self):
@@ -86,17 +88,39 @@ class ComprehensionChecker(object):
 
                 elif (
                     n_args == 1 and
-                    isinstance(node.args[0], (ast.Tuple, ast.List)) and
-                    node.func.id in ('set', 'dict')
+                    (isinstance(node.args[0], ast.Tuple) and node.func.id == 'tuple' or
+                     isinstance(node.args[0], ast.List) and node.func.id == 'list')
                 ):
+                    suffix = 'remove the outer call to {func}().'
                     msg_key = {
-                        'set': 'C405',
-                        'dict': 'C406',
+                        'tuple': 'C409',
+                        'list': 'C410',
                     }[node.func.id]
+                    msg = self.messages[msg_key] + suffix
                     yield (
                         node.lineno,
                         node.col_offset,
-                        self.messages[msg_key].format(type=type(node.args[0]).__name__.lower()),
+                        msg.format(type=type(node.args[0]).__name__.lower(), func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    n_args == 1 and
+                    isinstance(node.args[0], (ast.Tuple, ast.List)) and
+                    node.func.id in ('tuple', 'list', 'set', 'dict')
+                ):
+                    suffix = 'rewrite as a {func} literal.'
+                    msg_key = {
+                        'tuple': 'C409',
+                        'list': 'C410',
+                        'set': 'C405',
+                        'dict': 'C406',
+                    }[node.func.id]
+                    msg = self.messages[msg_key] + suffix
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        msg.format(type=type(node.args[0]).__name__.lower(), func=node.func.id),
                         type(self),
                     )
 

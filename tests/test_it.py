@@ -376,3 +376,89 @@ def test_C408_fail_4():
     assert errors == [
         "example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
     ]
+
+
+def test_C409_pass_1():
+    errors = run_flake8("""
+        foo = tuple(range)
+    """)
+    assert errors == []
+
+
+def test_C409_fail_1():
+    errors = run_flake8("""
+        foo = tuple([])
+    """)
+    assert errors == [
+        'example.py:1:7: C409 Unnecessary list passed to tuple() - rewrite as a tuple literal.',
+    ]
+
+
+def test_C409_fail_2():
+    errors = run_flake8("""
+        foo = tuple([1, 2])
+    """)
+    assert errors == [
+        'example.py:1:7: C409 Unnecessary list passed to tuple() - rewrite as a tuple literal.',
+    ]
+
+
+def test_C409_fail_3():
+    errors = run_flake8("""
+        foo = tuple(())
+    """)
+    assert errors == [
+        'example.py:1:7: C409 Unnecessary tuple passed to tuple() - remove the outer call to tuple().',
+    ]
+
+
+def test_C409_fail_4():
+    errors = run_flake8("""
+        foo = tuple((1, 2))
+    """)
+    assert errors == [
+        'example.py:1:7: C409 Unnecessary tuple passed to tuple() - remove the outer call to tuple().',
+    ]
+
+
+def test_C410_pass_1():
+    errors = run_flake8("""
+        foo = list(range)
+    """)
+    assert errors == []
+
+
+def test_C410_fail_1():
+    errors = run_flake8("""
+        foo = list([])
+    """)
+    assert errors == [
+        'example.py:1:7: C410 Unnecessary list passed to list() - remove the outer call to list().',
+    ]
+
+
+def test_C410_fail_2():
+    errors = run_flake8("""
+        foo = list([1, 2])
+    """)
+    assert errors == [
+        'example.py:1:7: C410 Unnecessary list passed to list() - remove the outer call to list().',
+    ]
+
+
+def test_C410_fail_3():
+    errors = run_flake8("""
+        foo = list(())
+    """)
+    assert errors == [
+        'example.py:1:7: C410 Unnecessary tuple passed to list() - rewrite as a list literal.',
+    ]
+
+
+def test_C410_fail_4():
+    errors = run_flake8("""
+        foo = list((1, 2))
+    """)
+    assert errors == [
+        'example.py:1:7: C410 Unnecessary tuple passed to list() - rewrite as a list literal.',
+    ]
