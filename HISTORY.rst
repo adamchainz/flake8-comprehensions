@@ -7,6 +7,7 @@ Pending Release
 
 .. Insert new release notes below this line
 
+* Plugin now reserves the full ``C4XX`` code space rather than just ``C40X``
 * ``C408`` rule that complains about using ``tuple()``, ``list()``, or
   ``dict()`` instead of a literal.
 * ``C409`` and ``C410`` rules that complain about an unnecessary list or tuple
