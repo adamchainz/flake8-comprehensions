@@ -350,6 +350,22 @@ def test_C408_pass_4():
     assert errors == []
 
 
+def test_C408_pass_5():
+    errors = run_flake8('''\
+        foo = {}
+        dict(bar=1, **foo)
+    ''')
+    assert errors == []
+
+
+def test_C408_pass_6():
+    errors = run_flake8('''\
+        foo = [1, 2]
+        list(*foo)
+    ''')
+    assert errors == []
+
+
 def test_C408_fail_1():
     errors = run_flake8('tuple()')
     assert errors == [

@@ -141,6 +141,8 @@ class ComprehensionChecker(object):
 
                 elif (
                     n_args == 0 and
+                    not has_star_args(node) and
+                    not has_keyword_args(node) and
                     node.func.id in ('tuple', 'list', 'dict')
                 ):
                     yield (
@@ -149,3 +151,17 @@ class ComprehensionChecker(object):
                         self.messages['C408'].format(type=node.func.id),
                         type(self),
                     )
+
+
+def has_star_args(call_node):
+    return (
+        any(isinstance(a, ast.Starred) for a in call_node.args) or  # Python 3
+        getattr(call_node, 'starargs', None) is not None  # Python 2
+    )
+
+
+def has_keyword_args(call_node):
+    return (
+        any(k.arg is None for k in call_node.keywords) or  # Python 3
+        getattr(call_node, 'kwargs', None) is not None  # Python 2
+    )
