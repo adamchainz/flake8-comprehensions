@@ -7,6 +7,9 @@ Pending Release
 
 .. Insert new release notes below this line
 
+1.4.1 (2017-05-17)
+------------------
+
 * Fix false positives in ``C408`` for calls using ``*args`` or ``**kwargs``.
 
 1.4.0 (2017-05-14)
