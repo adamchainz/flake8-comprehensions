@@ -5,5 +5,6 @@ modernize
 multilint
 pathlib
 pytest
+pytest-flake8dir
 Pygments
 six
