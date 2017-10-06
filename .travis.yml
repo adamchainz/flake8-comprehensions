@@ -4,8 +4,30 @@ notifications:
 sudo: false
 dist: trusty
 language: python
-python: '3.6'
 cache: pip
+
+matrix:
+  include:
+    - python: 2.7
+      env: TOXENV=py27
+    - python: 3.3
+      env: TOXENV=py33
+    # Travis is using Python 3.4.2 by default which reports inaccurate line
+    # numbers causing test failures. See BPO-21295, fixed in Python 3.4.3.
+    # https://bugs.python.org/issue21295
+    #
+    # Can replace with 3.4 once Travis upgrades to a newer point release:
+    # https://github.com/travis-ci/travis-ci/issues/7672
+    - python: 3.4.3
+      env: TOXENV=py34
+    - python: 3.5
+      env: TOXENV=py35
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 2.7
+      env: TOXENV=py27-codestyle
+    - python: 3.6
+      env: TOXENV=py36-codestyle
 
 install:
   - pip install tox
