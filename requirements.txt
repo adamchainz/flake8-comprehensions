@@ -18,5 +18,5 @@ pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-flake8dir==1.1.0
-pytest==3.2.3
+pytest==3.2.4
 six==1.11.0
