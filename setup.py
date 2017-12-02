@@ -47,6 +47,7 @@ setup(
              'dict comprehension',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'Framework :: Flake8',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: ISC License (ISCL)',
         'Natural Language :: English',
