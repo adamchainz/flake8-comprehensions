@@ -10,7 +10,8 @@ docutils==0.14
 enum34==1.1.6             # via flake8
 flake8==3.5.0
 funcsigs==1.0.2           # via pytest
-isort==4.2.15
+futures==3.1.1
+isort==4.3.2
 mccabe==0.6.1             # via flake8
 modernize==0.6
 multilint==2.2.0
