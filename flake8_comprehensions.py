@@ -129,7 +129,7 @@ class ComprehensionChecker(object):
                 elif (
                     n_args == 1 and
                     isinstance(node.args[0], ast.ListComp) and
-                    node.func.id in ('all', 'any', 'frozenset', 'max', 'min', 'sorted', 'sum', 'tuple',)
+                    node.func.id in ('all', 'any', 'frozenset', 'max', 'min', 'sorted', 'sum', 'tuple')
                 ):
 
                     yield (
