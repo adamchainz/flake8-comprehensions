@@ -3,7 +3,7 @@ flake8-comprehensions
 =====================
 
 .. image:: https://img.shields.io/pypi/v/flake8-comprehensions.svg
-        :target: https://pypi.python.org/pypi/flake8-comprehensions
+        :target: https://pypi.org/project/flake8-comprehensions/
 
 .. image:: https://img.shields.io/travis/adamchainz/flake8-comprehensions.svg
         :target: https://travis-ci.org/adamchainz/flake8-comprehensions
