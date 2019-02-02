@@ -1,12 +1,9 @@
 docutils
 flake8
 flake8-commas
-futures<3.2.0
 isort
-modernize
 multilint
 pathlib
 pytest
 pytest-flake8dir
 Pygments
-six
