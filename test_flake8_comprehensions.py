@@ -1,7 +1,3 @@
-# -*- encoding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-
 def test_C400_pass_1(flake8dir):
     flake8dir.make_example_py("""
         foo = [x for x in range(10)]
