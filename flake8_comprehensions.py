@@ -151,14 +151,8 @@ class ComprehensionChecker(object):
 
 
 def has_star_args(call_node):
-    return (
-        any(isinstance(a, ast.Starred) for a in call_node.args) or  # Python 3
-        getattr(call_node, 'starargs', None) is not None  # Python 2
-    )
+    return any(isinstance(a, ast.Starred) for a in call_node.args)
 
 
 def has_keyword_args(call_node):
-    return (
-        any(k.arg is None for k in call_node.keywords) or  # Python 3
-        getattr(call_node, 'kwargs', None) is not None  # Python 2
-    )
+    return any(k.arg is None for k in call_node.keywords)
