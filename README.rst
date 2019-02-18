@@ -61,9 +61,9 @@ It's unnecessary to use ``list``, ``set``, or ``dict`` around a generator
 expression, since there are equivalent comprehensions for these types. For
 example:
 
-* ``list(f(x) for x in foo)`` is better as ``[f(x) for x in foo]``
-* ``set(f(x) for x in foo)`` is better as ``{f(x) for x in foo}``
-* ``dict((x, f(x)) for x in foo)`` is better as ``{x: f(x) for x in foo}``
+* Rewrite ``list(f(x) for x in foo)`` as ``[f(x) for x in foo]``
+* Rewrite ``set(f(x) for x in foo)`` as ``{f(x) for x in foo}``
+* Rewrite ``dict((x, f(x)) for x in foo)`` as ``{x: f(x) for x in foo}``
 
 C403-404: Unnecessary list comprehension
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,8 +72,8 @@ It's unnecessary to use a list comprehension inside a call to ``set`` or
 ``dict``, since there are equivalent comprehensions for these types. For
 example:
 
-* ``set([f(x) for x in foo])`` is better as ``{f(x) for x in foo}``
-* ``dict([(x, f(x)) for x in foo])`` is better as ``{x: f(x) for x in foo}``
+* Rewrite ``set([f(x) for x in foo])`` as ``{f(x) for x in foo}``
+* Rewrite ``dict([(x, f(x)) for x in foo])`` as ``{x: f(x) for x in foo}``
 
 C405-406,C409-410: Unnecessary list/tuple literal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,14 +82,14 @@ It's unnecessary to use a list or tuple literal within a call to ``tuple``,
 ``list``, ``set``, or ``dict`` since there is literal syntax for these types.
 For example:
 
-* ``tuple([1, 2])`` and ``tuple((1, 2))`` are better as ``(1, 2)``
-* ``tuple([])`` is better as ``()``
-* ``list([1, 2])`` and ``list((1, 2))`` are better as ``[1, 2]``
-* ``list([])`` is better as ``[]``
-* ``set([1, 2])`` and ``set((1, 2))`` are better as ``{1, 2}``
-* ``set([])`` is better as ``set()``
-* ``dict([(1, 2)])`` and ``dict(((1, 2),))`` are better as ``{1: 2}``
-* ``dict([])`` is better as ``{}``
+* Rewrite ``tuple([1, 2])`` or ``tuple((1, 2))`` as ``(1, 2)``
+* Rewrite ``tuple([])`` as ``()``
+* Rewrite ``list([1, 2])`` or ``list((1, 2))`` as ``[1, 2]``
+* Rewrite ``list([])`` is better as ``[]``
+* Rewrite ``set([1, 2])`` or ``set((1, 2))`` as ``{1, 2}``
+* Rewrite ``set([])`` as ``set()``
+* Rewrite ``dict([(1, 2)])`` or ``dict(((1, 2),))`` as ``{1: 2}``
+* Rewrite ``dict([])`` as ``{}``
 
 C407: Unnecessary list comprehension - '<builtin>' can take a generator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,9 +97,9 @@ C407: Unnecessary list comprehension - '<builtin>' can take a generator
 It's unnecessary to pass a list comprehension to some builtins that can take
 generators instead. For example:
 
-* ``sum([x ** 2 for x in range(10)])`` is better as
+* Rewrite ``sum([x ** 2 for x in range(10)])`` as
   ``sum(x ** 2 for x in range(10))``
-* ``all([foo.bar for foo in foos])`` is better as
+* Rewrite ``all([foo.bar for foo in foos])`` as
   ``all(foo.bar for foo in foos)``
 
 The list of builtins that are checked for are:
@@ -120,9 +120,9 @@ It's slower to call e.g. ``dict()`` than using the empty literal, because the
 name ``dict`` must be looked up in the global scope in case it has been
 rebound. Same for the other two basic types here. For example:
 
-* ``dict()`` is better as ``{}``
-* ``list()`` is better as ``[]``
-* ``tuple()`` is better as ``()``
+* Rewrite ``dict()`` as ``{}``
+* Rewrite ``list()`` as ``[]``
+* Rewrite ``tuple()`` as ``()``
 
 C411: Unnecessary list call - remove the outer call to list().
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -130,4 +130,4 @@ C411: Unnecessary list call - remove the outer call to list().
 It's unnecessary to use a ``list`` around list comprehension, since it is
 equivalent without it. For example:
 
-* ``list([f(x) for x in foo])`` is better as ``[f(x) for x in foo]``
+* Rewrite ``list([f(x) for x in foo])`` as ``[f(x) for x in foo]``
