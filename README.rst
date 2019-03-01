@@ -106,6 +106,7 @@ The list of builtins that are checked for are:
 
 * ``all``
 * ``any``
+* ``enumerate``
 * ``frozenset``
 * ``max``
 * ``min``

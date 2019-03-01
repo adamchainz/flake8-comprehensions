@@ -7,6 +7,8 @@ Pending Release
 
 .. Insert new release notes below this line
 
+* Add missing builtin ``enumerate`` to ``C407``.
+
 2.0.0 (2019-02-02)
 ------------------
 
