@@ -271,6 +271,16 @@ def test_C407_max_fail_1(flake8dir):
     ]
 
 
+def test_C407_enumerate_fail_1(flake8dir):
+    flake8dir.make_example_py("""
+        foo = enumerate([x for x in range(10)])
+    """)
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:7: C407 Unnecessary list comprehension - 'enumerate' can take a generator.",
+    ]
+
+
 def test_C407_tuple_pass_1(flake8dir):
     flake8dir.make_example_py("""
         foo = ()
