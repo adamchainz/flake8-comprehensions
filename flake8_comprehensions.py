@@ -5,7 +5,7 @@ __email__ = 'me@adamj.eu'
 __version__ = '2.1.0'
 
 
-class ComprehensionChecker(object):
+class ComprehensionChecker:
     """
     Flake8 plugin to help you write better list/set/dict comprehensions.
     """
