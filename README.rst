@@ -20,7 +20,7 @@ Install from ``pip`` with:
 
      pip install flake8-comprehensions
 
-Python 3.4+ supported.
+Python 3.5-3.7 supported.
 
 When installed it will automatically be run as part of ``flake8``; you can
 check it is being picked up with:
