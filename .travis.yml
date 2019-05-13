@@ -1,14 +1,17 @@
-sudo: true
 dist: xenial
-
-language: python
-python: 3.7
-cache: pip
 
 notifications:
   email: false
 
-install:
-- pip install tox
+language: python
+cache: pip
+
+matrix:
+  include:
+  - python: 3.5
+  - python: 3.6
+  - python: 3.7
+
+install: pip install tox-travis
 
 script: tox
