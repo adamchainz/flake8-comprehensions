@@ -8,6 +8,9 @@ flake8-comprehensions
 .. image:: https://img.shields.io/travis/adamchainz/flake8-comprehensions.svg
         :target: https://travis-ci.org/adamchainz/flake8-comprehensions
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/python/black
+
 A `flake8 <https://flake8.readthedocs.io/en/latest/index.html>`_ plugin that
 helps you write better list/set/dict comprehensions.
 
