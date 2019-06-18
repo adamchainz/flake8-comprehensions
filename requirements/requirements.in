@@ -1,6 +1,7 @@
+black ; python_version == '3.7.*'
 docutils
 flake8
-flake8-commas
+flake8-bugbear
 isort
 multilint
 pathlib
