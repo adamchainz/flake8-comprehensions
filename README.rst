@@ -88,7 +88,7 @@ For example:
 * Rewrite ``tuple([1, 2])`` or ``tuple((1, 2))`` as ``(1, 2)``
 * Rewrite ``tuple([])`` as ``()``
 * Rewrite ``list([1, 2])`` or ``list((1, 2))`` as ``[1, 2]``
-* Rewrite ``list([])`` is better as ``[]``
+* Rewrite ``list([])`` as ``[]``
 * Rewrite ``set([1, 2])`` or ``set((1, 2))`` as ``{1, 2}``
 * Rewrite ``set([])`` as ``set()``
 * Rewrite ``dict([(1, 2)])`` or ``dict(((1, 2),))`` as ``{1: 2}``
