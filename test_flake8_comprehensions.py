@@ -625,3 +625,36 @@ def test_C411_fail_1(flake8dir):
         "./example.py:1:1: C411 Unnecessary list call - remove the outer call "
         + "to list()."
     ]
+
+
+def test_C412_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        [] == [x for x in range(10)]
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C412_pass_2(flake8dir):
+    flake8dir.make_example_py(
+        """
+        10 in (x for x in range(10))
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C412_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        10 in [x for x in range(10)]
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C412 Unnecessary list comprehension - rhs of 'in' "
+        + "can be a generator."
+    ]

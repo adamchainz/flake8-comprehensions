@@ -31,6 +31,7 @@ class ComprehensionChecker:
         "C409": "C409 Unnecessary {type} passed to tuple() - ",
         "C410": "C410 Unnecessary {type} passed to list() - ",
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
+        "C412": "C412 Unnecessary list comprehension - rhs of 'in' can be a generator.",
     }
 
     def run(self):
@@ -154,6 +155,19 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         self.messages["C408"].format(type=node.func.id),
+                        type(self),
+                    )
+            elif isinstance(node, ast.Compare):
+                if (
+                    len(node.ops) == 1
+                    and isinstance(node.ops[0], ast.In)
+                    and len(node.comparators) == 1
+                    and isinstance(node.comparators[0], ast.ListComp)
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C412"],
                         type(self),
                     )
 

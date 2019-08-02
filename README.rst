@@ -135,3 +135,11 @@ It's unnecessary to use a ``list`` around list comprehension, since it is
 equivalent without it. For example:
 
 * Rewrite ``list([f(x) for x in foo])`` as ``[f(x) for x in foo]``
+
+C412: Unnecessary list comprehension - rhs of 'in' can be a generator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to put a list comprehension on rhs of 'in' that can take
+generators instead. For example:
+
+* Rewrite ``y in [f(x) for x in foo]`` as ``y in (f(x) for x in foo)``
