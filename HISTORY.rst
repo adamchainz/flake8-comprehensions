@@ -7,6 +7,9 @@ Pending Release
 
 .. Insert new release notes below this line
 
+2.2.0 (2019-08-12)
+------------------
+
 * Update Python support to 3.5-3.7, as 3.4 has reached its end of life.
 * ``C412`` rule that complains about using list comprehension with ``in``.
 
