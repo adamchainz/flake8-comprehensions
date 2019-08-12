@@ -655,6 +655,6 @@ def test_C412_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:1: C412 Unnecessary list comprehension - rhs of 'in' "
-        + "can be a generator."
+        "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
+        + "take a generator."
     ]

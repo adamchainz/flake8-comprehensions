@@ -31,7 +31,7 @@ class ComprehensionChecker:
         "C409": "C409 Unnecessary {type} passed to tuple() - ",
         "C410": "C410 Unnecessary {type} passed to list() - ",
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
-        "C412": "C412 Unnecessary list comprehension - rhs of 'in' can be a generator.",
+        "C412": "C412 Unnecessary list comprehension - 'in' can take a generator.",
     }
 
     def run(self):
