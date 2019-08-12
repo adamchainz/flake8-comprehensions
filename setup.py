@@ -27,6 +27,12 @@ setup(
     author="Adam Johnson",
     author_email="me@adamj.eu",
     url="https://github.com/adamchainz/flake8-comprehensions",
+    project_urls={
+        "Changelog": (
+            "https://github.com/adamchainz/flake8-comprehensions"
+            + "/blob/master/HISTORY.rst"
+        )
+    },
     entry_points={
         "flake8.extension": ["C4 = flake8_comprehensions:ComprehensionChecker"]
     },
