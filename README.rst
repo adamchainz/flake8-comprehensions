@@ -52,6 +52,7 @@ C408 Unnecessary (dict/list/tuple) call - rewrite as a literal.
 C409 Unnecessary (list/tuple) passed to tuple() - (remove the outer call to tuple()/rewrite as a tuple literal).
 C410 Unnecessary (list/tuple) passed to list() - (remove the outer call to list()/rewrite as a list literal).
 C411 Unnecessary list call - remove the outer call to list().
+C412 Unnecessary list comprehension - 'in' can take a generator.
 ==== ====
 
 Examples
@@ -135,3 +136,11 @@ It's unnecessary to use a ``list`` around list comprehension, since it is
 equivalent without it. For example:
 
 * Rewrite ``list([f(x) for x in foo])`` as ``[f(x) for x in foo]``
+
+C412: Unnecessary list comprehension - 'in' can take a generator.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to pass a list comprehension to 'in' that can take a
+generator instead. For example:
+
+* Rewrite ``y in [f(x) for x in foo]`` as ``y in (f(x) for x in foo)``
