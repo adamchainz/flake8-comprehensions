@@ -32,9 +32,9 @@ entrypoints==0.3 \
     --hash=sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19 \
     --hash=sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451 \
     # via flake8
-flake8-bugbear==19.3.0 \
-    --hash=sha256:5070774b668be92c4312e5ca82748ddf4ecaa7a24ff062662681bb745c7896eb \
-    --hash=sha256:fef9c9826d14ec23187ae1edeb3c6513c4e46bf0e70d86bac38f7d9aabae113d
+flake8-bugbear==19.8.0 \
+    --hash=sha256:d8c466ea79d5020cb20bf9f11cf349026e09517a42264f313d3f6fddb83e0571 \
+    --hash=sha256:ded4d282778969b5ab5530ceba7aa1a9f1b86fa7618fc96a19a1d512331640f8
 flake8==3.7.8 \
     --hash=sha256:19241c1cbc971b9962473e4438a2ca19749a7dd002dd1a946eaba171b4114548 \
     --hash=sha256:8e9dfa3cecb2400b3738a42c54c3043e821682b9c840b0448c0503f781130696
@@ -57,9 +57,9 @@ more-itertools==7.2.0 \
     --hash=sha256:409cd48d4db7052af495b09dec721011634af3753ae1ef92d2b32f73a745f832 \
     --hash=sha256:92b8c4b06dac4f0611c0729b2f2ede52b2e1bac1ab48f089c7ddc12e26bb60c4 \
     # via pytest
-multilint==3.0.0 \
-    --hash=sha256:07feb85131ea90ef140c0d4359360ef8cae9b3d0666956b36f5ada6fd348056f \
-    --hash=sha256:8951fca99ab8a97c59cc3d17361a3a8ce03fe4cfa0ac34463d024117c60c5a0b
+multilint==4.0.0 \
+    --hash=sha256:449d87f851cbc2770ba5e20372704e6629fb0afa2596bc23efe22a11c2446fa4 \
+    --hash=sha256:854e4fb703426f00fdc74c46db5638832424ce6fa5191cc71a01c73821b1465a
 packaging==19.1 \
     --hash=sha256:a7ac867b97fdc07ee80a8058fe4435ccd274ecc3b0ed61d852d7d53055528cf9 \
     --hash=sha256:c491ca87294da7cc01902edbe30a5bc6c4c28172b5138ab4e4aa1b9d7bfaeafe \
@@ -96,9 +96,9 @@ pyparsing==2.4.2 \
 pytest-flake8dir==2.1.0 \
     --hash=sha256:bbcecc3fc3a548532fa85efca4c7956fdce7ad3d5724f8a300be069b178491de \
     --hash=sha256:d1251889a09fbcb8f19c2f9de34fbd3aa9121eeff8bce8d5a36758e5f317ef63
-pytest==5.0.1 \
-    --hash=sha256:6ef6d06de77ce2961156013e9dff62f1b2688aa04d0dc244299fe7d67e09370d \
-    --hash=sha256:a736fed91c12681a7b34617c8fcefe39ea04599ca72c608751c31d89579a3f77
+pytest==5.1.0 \
+    --hash=sha256:3805d095f1ea279b9870c3eeae5dddf8a81b10952c8835cd628cf1875b0ef031 \
+    --hash=sha256:abc562321c2d190dd63c2faadf70b86b7af21a553b61f0df5f5e1270717dc5a3
 readme-renderer==24.0 \
     --hash=sha256:bb16f55b259f27f75f640acf5e00cf897845a8b3e4731b5c1a436e4b8529202f \
     --hash=sha256:c8532b79afc0375a85f10433eca157d6b50f7d6990f337fa498c96cd4bfc203d \
@@ -115,9 +115,9 @@ six==1.12.0 \
     --hash=sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c \
     --hash=sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73 \
     # via bleach, packaging, readme-renderer
-tqdm==4.32.2 \
-    --hash=sha256:14a285392c32b6f8222ecfbcd217838f88e11630affe9006cd0e94c7eff3cb61 \
-    --hash=sha256:25d4c0ea02a305a688e7e9c2cdc8f862f989ef2a4701ab28ee963295f5b109ab \
+tqdm==4.33.0 \
+    --hash=sha256:1dc82f87a8726602fa7177a091b5e8691d6523138a8f7acd08e58088f51e389f \
+    --hash=sha256:47220a4f2aeebbc74b0ab317584264ea44c745e1fd5ff316b675cd0aff8afad8 \
     # via twine
 twine==1.13.0 \
     --hash=sha256:0fb0bfa3df4f62076cab5def36b1a71a2e4acb4d1fa5c97475b048117b1a6446 \
@@ -141,4 +141,4 @@ zipp==0.5.2 \
 
 # WARNING: The following packages were not pinned, but pip requires them to be
 # pinned when the requirements file includes hashes. Consider using the --allow-unsafe flag.
-# setuptools==41.0.1        # via twine
+# setuptools==41.1.0        # via twine
