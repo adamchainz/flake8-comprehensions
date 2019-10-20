@@ -10,7 +10,7 @@ Pending Release
 * Converted setuptools metadata to configuration file. This meant removing the
   ``__version__`` attribute from the package. If you want to inspect the
   installed version, use
-  ``pkg_resources.get_distribution("apig-wsgi").version``
+  ``pkg_resources.get_distribution("flake8-comprehensions").version``
   (`docs <https://setuptools.readthedocs.io/en/latest/pkg_resources.html#getting-or-creating-distributions>`__).
 
 * Add dependencies on ``cached-property`` and ``setuptools``.
