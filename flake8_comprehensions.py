@@ -1,8 +1,7 @@
 import ast
+import pkg_resources
 
-__author__ = "Adam Johnson"
-__email__ = "me@adamj.eu"
-__version__ = "2.2.0"
+from cached_property import cached_property
 
 
 class ComprehensionChecker:
@@ -11,7 +10,10 @@ class ComprehensionChecker:
     """
 
     name = "flake8-comprehensions"
-    version = __version__
+
+    @cached_property
+    def version(self):
+        return pkg_resources.get_distribution("flake8-comprehensions").version
 
     def __init__(self, tree, *args, **kwargs):
         self.tree = tree
