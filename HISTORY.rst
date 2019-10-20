@@ -13,6 +13,8 @@ Pending Release
   ``pkg_resources.get_distribution("apig-wsgi").version``
   (`docs <https://setuptools.readthedocs.io/en/latest/pkg_resources.html#getting-or-creating-distributions>`__).
 
+* Add dependencies on ``cached-property`` and ``setuptools``.
+
 2.2.0 (2019-08-12)
 ------------------
 
