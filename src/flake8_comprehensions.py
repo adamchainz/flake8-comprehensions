@@ -1,7 +1,6 @@
 import ast
 
 import pkg_resources
-
 from cached_property import cached_property
 
 
