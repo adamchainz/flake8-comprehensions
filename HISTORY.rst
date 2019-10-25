@@ -14,7 +14,7 @@ Pending Release
   (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
   `backport <https://pypi.org/project/importlib-metadata/>`__).
 
-* Add dependencies on ``cached-property`` and ``setuptools``.
+* Add dependencies on ``cached-property`` and ``importlib-metadata``.
 
 * Fix false negatives in ``C407`` for cases when ``enumerate`` and ``sum()``
   are passed more than one argument.
