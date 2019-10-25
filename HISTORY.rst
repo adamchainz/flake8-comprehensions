@@ -5,7 +5,10 @@ History
 Pending Release
 ---------------
 
-.. Insert new release notes below this line
+(Any notes for changes pending release go here.)
+
+2.3.0 (2019-10-25)
+------------------
 
 * Converted setuptools metadata to configuration file. This meant removing the
   ``__version__`` attribute from the package. If you want to inspect the
@@ -13,9 +16,7 @@ Pending Release
   ``importlib.metadata.version("flake8-comprehensions")``
   (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
   `backport <https://pypi.org/project/importlib-metadata/>`__).
-
 * Add dependencies on ``cached-property`` and ``importlib-metadata``.
-
 * Fix false negatives in ``C407`` for cases when ``enumerate`` and ``sum()``
   are passed more than one argument.
 
