@@ -1,7 +1,12 @@
 import ast
+import sys
 
-import pkg_resources
 from cached_property import cached_property
+
+if sys.version_info >= (3, 8):
+    from importlib.metadata import version
+else:
+    from importlib_metadata import version
 
 
 class ComprehensionChecker:
@@ -13,7 +18,7 @@ class ComprehensionChecker:
 
     @cached_property
     def version(self):
-        return pkg_resources.get_distribution("flake8-comprehensions").version
+        return version("flake8-comprehensions")
 
     def __init__(self, tree, *args, **kwargs):
         self.tree = tree
