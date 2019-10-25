@@ -39,10 +39,10 @@ class ComprehensionChecker:
     def run(self):
         for node in ast.walk(self.tree):
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
-                n_args = len(node.args)
+                num_positional_args = len(node.args)
 
                 if (
-                    n_args == 1
+                    num_positional_args == 1
                     and isinstance(node.args[0], ast.GeneratorExp)
                     and node.func.id in ("list", "set")
                 ):
@@ -55,7 +55,7 @@ class ComprehensionChecker:
                     )
 
                 elif (
-                    n_args == 1
+                    num_positional_args == 1
                     and isinstance(node.args[0], ast.GeneratorExp)
                     and isinstance(node.args[0].elt, ast.Tuple)
                     and len(node.args[0].elt.elts) == 2
@@ -69,7 +69,7 @@ class ComprehensionChecker:
                     )
 
                 elif (
-                    n_args == 1
+                    num_positional_args == 1
                     and isinstance(node.args[0], ast.ListComp)
                     and node.func.id in ("list", "set", "dict")
                 ):
@@ -83,7 +83,7 @@ class ComprehensionChecker:
                         type(self),
                     )
 
-                elif n_args == 1 and (
+                elif num_positional_args == 1 and (
                     isinstance(node.args[0], ast.Tuple)
                     and node.func.id == "tuple"
                     or isinstance(node.args[0], ast.List)
@@ -102,7 +102,7 @@ class ComprehensionChecker:
                     )
 
                 elif (
-                    n_args == 1
+                    num_positional_args == 1
                     and isinstance(node.args[0], (ast.Tuple, ast.List))
                     and node.func.id in ("tuple", "list", "set", "dict")
                 ):
@@ -124,19 +124,18 @@ class ComprehensionChecker:
                     )
 
                 elif (
-                    n_args == 1
+                    num_positional_args == 1
                     and isinstance(node.args[0], ast.ListComp)
                     and node.func.id
                     in (
                         "all",
                         "any",
-                        "enumerate",
                         "frozenset",
+                        "tuple",
+                        # These take 1 positional argument + some keyword arguments
                         "max",
                         "min",
                         "sorted",
-                        "sum",
-                        "tuple",
                     )
                 ):
 
@@ -148,7 +147,25 @@ class ComprehensionChecker:
                     )
 
                 elif (
-                    n_args == 0
+                    num_positional_args in (1, 2)
+                    and isinstance(node.args[0], ast.ListComp)
+                    and node.func.id
+                    in (
+                        # These can take a second positional argument
+                        "enumerate",
+                        "sum",
+                    )
+                ):
+
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args == 0
                     and not has_star_args(node)
                     and not has_keyword_args(node)
                     and node.func.id in ("tuple", "list", "dict")
