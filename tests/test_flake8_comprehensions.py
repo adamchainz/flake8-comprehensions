@@ -339,13 +339,15 @@ def test_C407_max_pass_1(flake8dir):
 
 
 def test_C407_max_pass_2(flake8dir):
-    flake8dir.make_example_py("max((x for x in range(10)), key=lambda x: x * 2)"    )
+    flake8dir.make_example_py("max((x for x in range(10)), key=lambda x: x * 2)")
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
 def test_C407_max_pass_3(flake8dir):
-    flake8dir.make_example_py("max((x for x in range(10)), default=1, key=lambda x: x * 2)  ")
+    flake8dir.make_example_py(
+        "max((x for x in range(10)), default=1, key=lambda x: x * 2)"
+    )
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
