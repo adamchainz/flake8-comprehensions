@@ -16,6 +16,9 @@ Pending Release
 
 * Add dependencies on ``cached-property`` and ``setuptools``.
 
+* Fix false negatives in ``C407`` for cases when ``enumerate`` and ``sum()``
+  are passed more than one argument.
+
 2.2.0 (2019-08-12)
 ------------------
 

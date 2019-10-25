@@ -332,28 +332,76 @@ def test_C407_sum_fail_1(flake8dir):
     ]
 
 
-def test_C407_max_fail_1(flake8dir):
+def test_C407_max_pass_1(flake8dir):
+    flake8dir.make_example_py("max(x for x in range(10))")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_max_pass_2(flake8dir):
+    flake8dir.make_example_py("max((x for x in range(10)), key=lambda x: x * 2)")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_max_pass_3(flake8dir):
     flake8dir.make_example_py(
-        """
-        foo = max([x for x in range(10)])
-    """
+        "max((x for x in range(10)), default=1, key=lambda x: x * 2)"
     )
     result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_max_fail_1(flake8dir):
+    flake8dir.make_example_py("max([x for x in range(10)])")
+    result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C407 Unnecessary list comprehension - 'max' can take "
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
         + "a generator."
     ]
 
 
-def test_C407_enumerate_fail_1(flake8dir):
-    flake8dir.make_example_py(
-        """
-        foo = enumerate([x for x in range(10)])
-    """
-    )
+def test_C407_max_fail_2(flake8dir):
+    flake8dir.make_example_py("max([x for x in range(10)], default=1)")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C407 Unnecessary list comprehension - 'enumerate' "
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
+        + "a generator."
+    ]
+
+
+def test_C407_enumerate_pass_1(flake8dir):
+    flake8dir.make_example_py("enumerate(1 for i in range(10))")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_enumerate_pass_2(flake8dir):
+    flake8dir.make_example_py("enumerate((1 for i in range(10)), 1)")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_enumerate_pass_3(flake8dir):
+    flake8dir.make_example_py("enumerate((1 for i in range(10)), start=1)")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_enumerate_fail_1(flake8dir):
+    flake8dir.make_example_py("enumerate([x for x in range(10)])")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'enumerate' "
+        + "can take a generator."
+    ]
+
+
+def test_C407_enumerate_fail_2(flake8dir):
+    flake8dir.make_example_py("enumerate([x for x in range(10)], 1)")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'enumerate' "
         + "can take a generator."
     ]
 
