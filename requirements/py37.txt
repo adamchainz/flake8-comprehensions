@@ -45,10 +45,13 @@ docutils==0.15.2 \
 entrypoints==0.3 \
     --hash=sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19 \
     --hash=sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451 \
-    # via flake8
+    # via flake8, pytest-randomly
 flake8-bugbear==19.8.0 \
     --hash=sha256:d8c466ea79d5020cb20bf9f11cf349026e09517a42264f313d3f6fddb83e0571 \
     --hash=sha256:ded4d282778969b5ab5530ceba7aa1a9f1b86fa7618fc96a19a1d512331640f8
+flake8-tidy-imports==3.0.0 \
+    --hash=sha256:8460933e89449e2e9d1d38ef1c099ad713d67cd1d13f172b8d025030a9887a6f \
+    --hash=sha256:a1f6a962ce4e733858187c1c047f98246e400af2e6bed90e780d888e439938da
 flake8==3.7.8 \
     --hash=sha256:19241c1cbc971b9962473e4438a2ca19749a7dd002dd1a946eaba171b4114548 \
     --hash=sha256:8e9dfa3cecb2400b3738a42c54c3043e821682b9c840b0448c0503f781130696
@@ -109,6 +112,9 @@ pyparsing==2.4.2 \
 pytest-flake8dir==2.1.0 \
     --hash=sha256:bbcecc3fc3a548532fa85efca4c7956fdce7ad3d5724f8a300be069b178491de \
     --hash=sha256:d1251889a09fbcb8f19c2f9de34fbd3aa9121eeff8bce8d5a36758e5f317ef63
+pytest-randomly==3.1.0 \
+    --hash=sha256:5facc2b5ac56e36b9c4bf14f49cc7b4c95427835bbf4a3c739b71a5f5f82d58a \
+    --hash=sha256:9256c9ff88466f7bf9794d2eeeea8fbf1cd1bc8df1b3575df59e89b8813bffaa
 pytest==5.2.2 \
     --hash=sha256:27abc3fef618a01bebb1f0d6d303d2816a99aa87a5968ebc32fe971be91eb1e6 \
     --hash=sha256:58cee9e09242937e136dbb3dab466116ba20d6b7828c7620f23947f37eb4dae4

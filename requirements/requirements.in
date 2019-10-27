@@ -3,11 +3,13 @@ cached-property>=1.0.0,<2.0.0
 docutils
 flake8
 flake8-bugbear
+flake8-tidy-imports
 importlib-metadata ; python_version < "3.8"
 isort
 multilint
 pathlib
+Pygments
 pytest
 pytest-flake8dir
-Pygments
+pytest-randomly
 twine
