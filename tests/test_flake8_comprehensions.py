@@ -1,3 +1,8 @@
+import re
+import subprocess
+import sys
+
+
 def test_C400_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -706,3 +711,17 @@ def test_C412_fail_1(flake8dir):
         "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
         + "take a generator."
     ]
+
+
+def test_version():
+    result = subprocess.run(
+        [sys.executable, "-m", "flake8", "--version"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    assert (
+        re.search(
+            rb"\bflake8-comprehensions: [0-9]+.[0-9]+.[0-9]+\b", result.stdout, re.M
+        )
+        is not None
+    )
