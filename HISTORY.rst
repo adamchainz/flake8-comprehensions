@@ -2,10 +2,11 @@
 History
 =======
 
-Pending Release
----------------
+3.0.1 (2019-10-28)
+------------------
 
-(Any notes for changes pending release go here.)
+* Fix version display on ``flake8 --version`` (removing dependency on
+  ``cached-property``). Thanks to Jon Dufresne.
 
 3.0.0 (2019-10-25)
 ------------------
