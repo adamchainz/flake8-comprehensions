@@ -7,7 +7,7 @@ Pending Release
 
 (Any notes for changes pending release go here.)
 
-2.3.0 (2019-10-25)
+3.0.0 (2019-10-25)
 ------------------
 
 * Update Flake8 support to 3.0+ only. 3.0.0 was released in 2016 and the plugin
