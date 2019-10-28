@@ -1,5 +1,4 @@
 black ; python_version == '3.7.*'
-cached-property>=1.0.0,<2.0.0
 docutils
 flake8
 flake8-bugbear
