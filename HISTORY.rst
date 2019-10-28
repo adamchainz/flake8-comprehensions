@@ -2,6 +2,11 @@
 History
 =======
 
+Pending Release
+---------------
+
+* Update Python support to 3.5-3.8.
+
 3.0.1 (2019-10-28)
 ------------------
 
