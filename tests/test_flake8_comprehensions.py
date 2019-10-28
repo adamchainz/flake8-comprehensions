@@ -8,9 +8,7 @@ else:
 
 def test_version(flake8dir):
     result = flake8dir.run_flake8(["--version"])
-    version_string = (
-        "flake8-comprehensions: " + version("flake8-comprehensions")
-    )
+    version_string = "flake8-comprehensions: " + version("flake8-comprehensions")
     assert version_string in result.out_lines[0]
 
 
@@ -488,7 +486,6 @@ def test_it_does_not_crash_on_attribute_functions(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == []
-
 
 
 # C408
