@@ -1,6 +1,20 @@
-import re
-import subprocess
 import sys
+
+if sys.version_info >= (3, 8):
+    from importlib.metadata import version
+else:
+    from importlib_metadata import version
+
+
+def test_version(flake8dir):
+    result = flake8dir.run_flake8(["--version"])
+    version_string = (
+        "flake8-comprehensions: " + version("flake8-comprehensions")
+    )
+    assert version_string in result.out_lines[0]
+
+
+# C400
 
 
 def test_C400_pass_1(flake8dir):
@@ -43,6 +57,9 @@ def test_C400_fail_2(flake8dir):
     ]
 
 
+# C401
+
+
 def test_C401_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -80,6 +97,9 @@ def test_C401_fail_2(flake8dir):
         "./example.py:1:10: C401 Unnecessary generator - rewrite as a set "
         + "comprehension."
     ]
+
+
+# C402
 
 
 def test_C402_pass_1(flake8dir):
@@ -144,6 +164,9 @@ def test_C402_fail_2(flake8dir):
     ]
 
 
+# C403
+
+
 def test_C403_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -167,6 +190,9 @@ def test_C403_fail_1(flake8dir):
     ]
 
 
+# C404
+
+
 def test_C404_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -188,6 +214,9 @@ def test_C404_fail_1(flake8dir):
         "./example.py:1:7: C404 Unnecessary list comprehension - rewrite as a "
         + "dict comprehension."
     ]
+
+
+# C405
 
 
 def test_C405_pass_1(flake8dir):
@@ -252,6 +281,9 @@ def test_C405_fail_4(flake8dir):
     ]
 
 
+# C406
+
+
 def test_C406_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -312,6 +344,9 @@ def test_C406_fail_4(flake8dir):
         "./example.py:1:7: C406 Unnecessary tuple literal - rewrite as a dict "
         + "literal."
     ]
+
+
+# C407
 
 
 def test_C407_sum_pass_1(flake8dir):
@@ -455,6 +490,10 @@ def test_it_does_not_crash_on_attribute_functions(flake8dir):
     assert result.out_lines == []
 
 
+
+# C408
+
+
 def test_C408_pass_1(flake8dir):
     flake8dir.make_example_py("()")
     result = flake8dir.run_flake8()
@@ -533,6 +572,9 @@ def test_C408_fail_4(flake8dir):
     ]
 
 
+# C409
+
+
 def test_C409_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -593,6 +635,9 @@ def test_C409_fail_4(flake8dir):
         "./example.py:1:7: C409 Unnecessary tuple passed to tuple() - remove "
         + "the outer call to tuple()."
     ]
+
+
+# C410
 
 
 def test_C410_pass_1(flake8dir):
@@ -657,6 +702,9 @@ def test_C410_fail_4(flake8dir):
     ]
 
 
+# C411
+
+
 def test_C411_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
@@ -678,6 +726,9 @@ def test_C411_fail_1(flake8dir):
         "./example.py:1:1: C411 Unnecessary list call - remove the outer call "
         + "to list()."
     ]
+
+
+# C412
 
 
 def test_C412_pass_1(flake8dir):
@@ -711,17 +762,3 @@ def test_C412_fail_1(flake8dir):
         "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
         + "take a generator."
     ]
-
-
-def test_version():
-    result = subprocess.run(
-        [sys.executable, "-m", "flake8", "--version"],
-        stdout=subprocess.PIPE,
-        check=True,
-    )
-    assert (
-        re.search(
-            rb"\bflake8-comprehensions: [0-9]+.[0-9]+.[0-9]+\b", result.stdout, re.M
-        )
-        is not None
-    )
