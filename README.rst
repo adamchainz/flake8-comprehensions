@@ -53,6 +53,8 @@ C409 Unnecessary (list/tuple) passed to tuple() - (remove the outer call to tupl
 C410 Unnecessary (list/tuple) passed to list() - (remove the outer call to list()/rewrite as a list literal).
 C411 Unnecessary list call - remove the outer call to list().
 C412 Unnecessary list comprehension - 'in' can take a generator.
+C413 Unnecessary list call around sorted().
+C413 Unnecessary reversed call around sorted() - (use sorted(..., reverse=(True/False))/toggle reverse argument to sorted()).
 ==== ====
 
 Examples
@@ -144,3 +146,14 @@ It's unnecessary to pass a list comprehension to 'in' that can take a
 generator instead. For example:
 
 * Rewrite ``y in [f(x) for x in foo]`` as ``y in (f(x) for x in foo)``
+
+C413: Unnecessary list/reversed call around sorted().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to use ``list()`` around ``sorted()`` as it already returns a
+list. It is also suboptimal to use ``reversed()`` around ``sorted()`` as the
+latter has a ``reverse`` argument. For example:
+
+* Rewrite ``list(sorted([2, 3, 1]))`` as ``sorted([2, 3, 1])``
+* Rewrite ``reversed(sorted([2, 3, 1]))`` as ``sorted([2, 3, 1], reverse=True)``
+* Rewrite ``reversed(sorted([2, 3, 1], reverse=True))`` as ``sorted([2, 3, 1])``

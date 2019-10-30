@@ -9,6 +9,9 @@ Pending Release
 * Fix false positives for C404 for list comprehensions not directly creating
   tuples.
 
+* Add ``C413`` rule that checks for unnecessary use of ``list()`` or
+  ``reversed()`` around ``sorted()``.
+
 3.0.1 (2019-10-28)
 ------------------
 

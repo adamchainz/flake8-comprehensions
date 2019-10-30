@@ -758,3 +758,54 @@ def test_C412_fail_1(flake8dir):
         "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
         + "take a generator."
     ]
+
+
+# C413
+
+
+def test_C413_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        sorted([2, 3, 1])
+        sorted([2, 3, 1], reverse=True)
+        sorted([2, 3, 1], reverse=False)
+        sorted([2, 3, 1], reverse=0)
+        sorted([2, 3, 1], reverse=1)
+        reversed([2, 3, 1])
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C413_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        list(sorted([2, 3, 1]))
+        reversed(sorted([2, 3, 1]))
+        reversed(sorted([2, 3, 1], reverse=False))
+        reversed(sorted([2, 3, 1], reverse=True))
+        reversed(sorted([2, 3, 1], reverse=0))
+        reversed(sorted([2, 3, 1], reverse=1))
+        reversed(sorted([2, 3, 1], reverse=bool()))
+        reversed(sorted([2, 3, 1], reverse=not True))
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C413 Unnecessary list call around sorted().",
+        "./example.py:2:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=True).",
+        "./example.py:3:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=True).",
+        "./example.py:4:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=False).",
+        "./example.py:5:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=True).",
+        "./example.py:6:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=False).",
+        "./example.py:7:1: C413 Unnecessary reversed call around sorted()"
+        + " - toggle reverse argument to sorted().",
+        "./example.py:8:1: C413 Unnecessary reversed call around sorted()"
+        + " - toggle reverse argument to sorted().",
+    ]
