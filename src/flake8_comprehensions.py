@@ -36,6 +36,7 @@ class ComprehensionChecker:
         "C412": "C412 Unnecessary list comprehension - 'in' can take a generator.",
         "C413": "C413 Unnecessary {outer} call around {inner}().",
         "C414": "C414 Unnecessary {inner} call within {outer}().",
+        "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
     }
 
     def run(self):
@@ -246,6 +247,25 @@ class ComprehensionChecker:
                         self.messages["C414"].format(
                             inner=node.args[0].func.id, outer=node.func.id
                         ),
+                        type(self),
+                    )
+
+                elif (
+                    node.func.id in {"reversed", "set", "sorted"}
+                    and num_positional_args > 0
+                    and isinstance(node.args[0], ast.Subscript)
+                    and isinstance(node.args[0].slice, ast.Slice)
+                    and node.args[0].slice.lower is None
+                    and node.args[0].slice.upper is None
+                    and isinstance(node.args[0].slice.step, ast.UnaryOp)
+                    and isinstance(node.args[0].slice.step.op, ast.USub)
+                    and isinstance(node.args[0].slice.step.operand, ast.Num)
+                    and node.args[0].slice.step.operand.n == 1
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C415"].format(func=node.func.id),
                         type(self),
                     )
 

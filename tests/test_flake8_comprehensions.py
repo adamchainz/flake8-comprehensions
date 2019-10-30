@@ -872,3 +872,40 @@ def test_C414_fail_1(flake8dir):
         "./example.py:18:1: C414 Unnecessary reversed call within sorted().",
         "./example.py:19:1: C414 Unnecessary reversed call within sorted().",
     ]
+
+
+# C415
+
+
+def test_C415_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        set([2, 3, 1][::1])
+        sorted([2, 3, 1][::1])
+        reversed([2, 3, 1][::1])
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C415_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        set([2, 3, 1][::-1])
+        sorted([2, 3, 1][::-1])
+        sorted([2, 3, 1][::-1], reverse=True)
+        reversed([2, 3, 1][::-1])
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C415 Unnecessary subscript reversal of iterable "
+        + "within set().",
+        "./example.py:2:1: C415 Unnecessary subscript reversal of iterable "
+        + "within sorted().",
+        "./example.py:3:1: C415 Unnecessary subscript reversal of iterable "
+        + "within sorted().",
+        "./example.py:4:1: C415 Unnecessary subscript reversal of iterable "
+        + "within reversed().",
+    ]

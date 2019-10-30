@@ -16,6 +16,8 @@ Pending Release
       or ``sorted()``
     * ``list()`` or ``tuple()``  within ``list()`` or ``tuple()``
     * ``set()``  within ``set``
+* Add ``C415`` rule that checks for unnecessary reversal of an iterable via
+  subscript within ``reversed()``, ``set()``, or ``sorted()``.
 
 3.0.1 (2019-10-28)
 ------------------
