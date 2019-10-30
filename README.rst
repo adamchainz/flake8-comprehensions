@@ -57,6 +57,7 @@ C413 Unnecessary list call around sorted().
 C413 Unnecessary reversed call around sorted() - (use sorted(..., reverse=(True/False))/toggle reverse argument to sorted()).
 C414 Unnecessary (list/reversed/set/sorted/tuple) call within list/set/sorted/tuple().
 C415 Unnecessary subscript reversal of iterable within reversed/set/sorted().
+C416 Unnecessary (list/set) comprehension - rewrite using list/set().
 ==== ====
 
 Examples
@@ -192,3 +193,16 @@ the original iterable. For example:
 * Rewrite ``set(iterable[::-1])`` as ``set(iterable)``
 * Rewrite ``sorted(iterable[::-1])`` as ``sorted(iterable, reverse=True)``
 * Rewrite ``reversed(iterable[::-1])`` as ``iterable``
+
+C416: Unnecessary (list/set) comprehension - rewrite using list/set().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to use a list comprehension if the elements are unchanged. The
+iterable should be wrapped in ``list()`` instead. For example:
+
+* Rewrite ``[x for x in iterable]`` as ``list(iterable)``
+* Rewrite ``[(x, y) for x, y in iterable]`` as ``list(iterable)``
+* Rewrite ``[(x, y) for (x, y) in iterable]`` as ``list(iterable)``
+* Rewrite ``{x for x in iterable}`` as ``set(iterable)``
+* Rewrite ``{(x, y) for x, y in iterable}`` as ``set(iterable)``
+* Rewrite ``{(x, y) for (x, y) in iterable}`` as ``set(iterable)``

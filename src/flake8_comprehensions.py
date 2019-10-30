@@ -37,6 +37,7 @@ class ComprehensionChecker:
         "C413": "C413 Unnecessary {outer} call around {inner}().",
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
+        "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
     }
 
     def run(self):
@@ -280,6 +281,38 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         self.messages["C412"],
+                        type(self),
+                    )
+
+            elif isinstance(node, (ast.ListComp, ast.SetComp)):
+                if (
+                    len(node.generators) == 1
+                    and not node.generators[0].ifs
+                    and (
+                        (
+                            isinstance(node.elt, ast.Name)
+                            and isinstance(node.generators[0].target, ast.Name)
+                            and node.elt.id == node.generators[0].target.id
+                        )
+                        or (
+                            isinstance(node.elt, ast.Tuple)
+                            and isinstance(node.generators[0].target, ast.Tuple)
+                            and all(
+                                isinstance(a, ast.Name)
+                                and isinstance(b, ast.Name)
+                                and a.id == b.id
+                                for a, b in zip(
+                                    node.elt.elts, node.generators[0].target.elts
+                                )
+                            )
+                        )
+                    )
+                ):
+                    lookup = {ast.ListComp: "list", ast.SetComp: "set"}
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C416"].format(type=lookup[node.__class__]),
                         type(self),
                     )
 

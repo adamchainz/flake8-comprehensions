@@ -18,6 +18,8 @@ Pending Release
     * ``set()``  within ``set``
 * Add ``C415`` rule that checks for unnecessary reversal of an iterable via
   subscript within ``reversed()``, ``set()``, or ``sorted()``.
+* Add ``C416`` rule that checks for unnecessary list or set comprehensions that
+  can be rewritten using ``list()`` or ``set()``.
 
 3.0.1 (2019-10-28)
 ------------------
