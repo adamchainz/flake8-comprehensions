@@ -35,6 +35,7 @@ class ComprehensionChecker:
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
         "C412": "C412 Unnecessary list comprehension - 'in' can take a generator.",
         "C413": "C413 Unnecessary {outer} call around {inner}().",
+        "C414": "C414 Unnecessary {inner} call within {outer}().",
     }
 
     def run(self):
@@ -219,6 +220,32 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         msg.format(inner=node.args[0].func.id, outer=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args > 0
+                    and isinstance(node.args[0], ast.Call)
+                    and isinstance(node.args[0].func, ast.Name)
+                    and (
+                        (
+                            node.func.id in {"set", "sorted"}
+                            and node.args[0].func.id
+                            in {"list", "reversed", "sorted", "tuple"}
+                        )
+                        or (
+                            node.func.id in {"list", "tuple"}
+                            and node.args[0].func.id in {"list", "tuple"}
+                        )
+                        or (node.func.id == "set" and node.args[0].func.id == "set")
+                    )
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C414"].format(
+                            inner=node.args[0].func.id, outer=node.func.id
+                        ),
                         type(self),
                     )
 

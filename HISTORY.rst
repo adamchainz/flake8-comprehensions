@@ -11,6 +11,11 @@ Pending Release
 
 * Add ``C413`` rule that checks for unnecessary use of ``list()`` or
   ``reversed()`` around ``sorted()``.
+* Add ``C414`` rule that checks for unnecessary use of the following:
+    * ``list()``, ``reversed()``, ``sorted()``, or ``tuple()``  within ``set``
+      or ``sorted()``
+    * ``list()`` or ``tuple()``  within ``list()`` or ``tuple()``
+    * ``set()``  within ``set``
 
 3.0.1 (2019-10-28)
 ------------------

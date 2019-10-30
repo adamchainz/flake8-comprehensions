@@ -809,3 +809,66 @@ def test_C413_fail_1(flake8dir):
         "./example.py:8:1: C413 Unnecessary reversed call around sorted()"
         + " - toggle reverse argument to sorted().",
     ]
+
+
+# C414
+
+
+def test_C414_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        a = [2, 3, 1]
+        list(set(a))
+        tuple(set(a))
+        sorted(set(a))
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C414_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        a = [2, 3, 1]
+        list(list(a))
+        list(tuple(a))
+        tuple(list(a))
+        tuple(tuple(a))
+        set(set(a))
+        set(list(a))
+        set(tuple(a))
+        set(sorted(a))
+        set(sorted(a, reverse=True))
+        set(reversed(a))
+        sorted(list(a))
+        sorted(tuple(a))
+        sorted(sorted(a))
+        sorted(sorted(a), reverse=True)
+        sorted(sorted(a, reverse=True))
+        sorted(sorted(a, reverse=True), reverse=True)
+        sorted(reversed(a))
+        sorted(reversed(a), reverse=True)
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:2:1: C414 Unnecessary list call within list().",
+        "./example.py:3:1: C414 Unnecessary tuple call within list().",
+        "./example.py:4:1: C414 Unnecessary list call within tuple().",
+        "./example.py:5:1: C414 Unnecessary tuple call within tuple().",
+        "./example.py:6:1: C414 Unnecessary set call within set().",
+        "./example.py:7:1: C414 Unnecessary list call within set().",
+        "./example.py:8:1: C414 Unnecessary tuple call within set().",
+        "./example.py:9:1: C414 Unnecessary sorted call within set().",
+        "./example.py:10:1: C414 Unnecessary sorted call within set().",
+        "./example.py:11:1: C414 Unnecessary reversed call within set().",
+        "./example.py:12:1: C414 Unnecessary list call within sorted().",
+        "./example.py:13:1: C414 Unnecessary tuple call within sorted().",
+        "./example.py:14:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:15:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:16:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:17:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:18:1: C414 Unnecessary reversed call within sorted().",
+        "./example.py:19:1: C414 Unnecessary reversed call within sorted().",
+    ]
