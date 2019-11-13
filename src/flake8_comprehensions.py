@@ -56,26 +56,28 @@ class ComprehensionChecker:
 
                 elif (
                     num_positional_args == 1
-                    and isinstance(node.args[0], ast.GeneratorExp)
+                    and isinstance(node.args[0], (ast.GeneratorExp, ast.ListComp))
                     and isinstance(node.args[0].elt, ast.Tuple)
                     and len(node.args[0].elt.elts) == 2
                     and node.func.id == "dict"
                 ):
+                    if isinstance(node.args[0], ast.GeneratorExp):
+                        msg = "C402"
+                    else:
+                        msg = "C404"
                     yield (
                         node.lineno,
                         node.col_offset,
-                        self.messages["C402"],
+                        self.messages[msg],
                         type(self),
                     )
 
                 elif (
                     num_positional_args == 1
                     and isinstance(node.args[0], ast.ListComp)
-                    and node.func.id in ("list", "set", "dict")
+                    and node.func.id in ("list", "set")
                 ):
-                    msg_key = {"list": "C411", "set": "C403", "dict": "C404"}[
-                        node.func.id
-                    ]
+                    msg_key = {"list": "C411", "set": "C403"}[node.func.id]
                     yield (
                         node.lineno,
                         node.col_offset,

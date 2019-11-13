@@ -6,6 +6,8 @@ Pending Release
 ---------------
 
 * Update Python support to 3.5-3.8.
+* Fix false positives for C404 for list comprehensions not directly creating
+  tuples.
 
 3.0.1 (2019-10-28)
 ------------------

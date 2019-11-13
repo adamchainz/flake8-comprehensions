@@ -192,21 +192,20 @@ def test_C403_fail_1(flake8dir):
 
 
 def test_C404_pass_1(flake8dir):
-    flake8dir.make_example_py(
-        """
-        foo = {x: x for x in range(10)}
-    """
-    )
+    flake8dir.make_example_py("foo = {x: x for x in range(10)}")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C404_pass_2(flake8dir):
+    # Previously a false positive
+    flake8dir.make_example_py("foo = dict([x.split('=') for x in ['a=1', 'b=2']])")
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
 def test_C404_fail_1(flake8dir):
-    flake8dir.make_example_py(
-        """
-        foo = dict([(x, x) for x in range(10)])
-    """
-    )
+    flake8dir.make_example_py("foo = dict([(x, x) for x in range(10)])")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:7: C404 Unnecessary list comprehension - rewrite as a "
