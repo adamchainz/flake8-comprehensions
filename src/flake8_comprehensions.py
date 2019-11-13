@@ -34,7 +34,7 @@ class ComprehensionChecker:
         "C410": "C410 Unnecessary {type} passed to list() - ",
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
         "C412": "C412 Unnecessary list comprehension - 'in' can take a generator.",
-        "C413": "C413 Unnecessary {outer} call around {inner}().",
+        "C413": "C413 Unnecessary {outer} call around {inner}(){remediation}.",
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
@@ -190,38 +190,36 @@ class ComprehensionChecker:
                     and isinstance(node.args[0].func, ast.Name)
                     and node.args[0].func.id == "sorted"
                 ):
-                    msg = self.messages["C413"]
+                    remediation = ""
                     if node.func.id == "reversed":
-                        reverse_value = (
-                            [False]
-                            if not node.args[0].keywords
-                            else [
-                                kw.arg == "reverse"
-                                and (
-                                    isinstance(kw.value, ast.NameConstant)
-                                    and kw.value.value
-                                    or isinstance(kw.value, ast.Num)
-                                    and kw.value.n != 0
-                                )
-                                for kw in node.args[0].keywords
-                                if isinstance(kw.value, (ast.NameConstant, ast.Num))
-                            ]
-                        )
-                        if reverse_value:
-                            msg = msg.rstrip(
-                                "."
-                            ) + " - use sorted(..., reverse={!r}).".format(
-                                not reverse_value[0]
-                            )
+                        reverse_flag_value = False
+                        for keyword in node.args[0].keywords:
+                            if keyword.arg != "reverse":
+                                continue
+                            if isinstance(keyword.value, ast.NameConstant):
+                                reverse_flag_value = keyword.value.value
+                            elif isinstance(keyword.value, ast.Num):
+                                reverse_flag_value = bool(keyword.value.n)
+                            else:
+                                # Complex value
+                                reverse_flag_value = None
+
+                        if reverse_flag_value is None:
+                            remediation = " - toggle reverse argument to sorted()"
                         else:
-                            msg = (
-                                msg.rstrip(".")
-                                + " - toggle reverse argument to sorted()."
+                            remediation = " - use sorted(..., reverse={!r})".format(
+                                not reverse_flag_value
                             )
+
+                    msg = self.messages["C413"].format(
+                        inner=node.args[0].func.id,
+                        outer=node.func.id,
+                        remediation=remediation,
+                    )
                     yield (
                         node.lineno,
                         node.col_offset,
-                        msg.format(inner=node.args[0].func.id, outer=node.func.id),
+                        msg,
                         type(self),
                     )
 
