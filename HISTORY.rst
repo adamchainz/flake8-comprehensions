@@ -8,7 +8,6 @@ Pending Release
 * Update Python support to 3.5-3.8.
 * Fix false positives for C404 for list comprehensions not directly creating
   tuples.
-
 * Add ``C413`` rule that checks for unnecessary use of ``list()`` or
   ``reversed()`` around ``sorted()``.
 * Add ``C414`` rule that checks for unnecessary use of the following:
