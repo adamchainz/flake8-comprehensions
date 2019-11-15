@@ -34,6 +34,10 @@ class ComprehensionChecker:
         "C410": "C410 Unnecessary {type} passed to list() - ",
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
         "C412": "C412 Unnecessary list comprehension - 'in' can take a generator.",
+        "C413": "C413 Unnecessary {outer} call around {inner}(){remediation}.",
+        "C414": "C414 Unnecessary {inner} call within {outer}().",
+        "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
+        "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
     }
 
     def run(self):
@@ -178,6 +182,92 @@ class ComprehensionChecker:
                         self.messages["C408"].format(type=node.func.id),
                         type(self),
                     )
+
+                elif (
+                    node.func.id in {"list", "reversed"}
+                    and num_positional_args > 0
+                    and isinstance(node.args[0], ast.Call)
+                    and isinstance(node.args[0].func, ast.Name)
+                    and node.args[0].func.id == "sorted"
+                ):
+                    remediation = ""
+                    if node.func.id == "reversed":
+                        reverse_flag_value = False
+                        for keyword in node.args[0].keywords:
+                            if keyword.arg != "reverse":
+                                continue
+                            if isinstance(keyword.value, ast.NameConstant):
+                                reverse_flag_value = keyword.value.value
+                            elif isinstance(keyword.value, ast.Num):
+                                reverse_flag_value = bool(keyword.value.n)
+                            else:
+                                # Complex value
+                                reverse_flag_value = None
+
+                        if reverse_flag_value is None:
+                            remediation = " - toggle reverse argument to sorted()"
+                        else:
+                            remediation = " - use sorted(..., reverse={!r})".format(
+                                not reverse_flag_value
+                            )
+
+                    msg = self.messages["C413"].format(
+                        inner=node.args[0].func.id,
+                        outer=node.func.id,
+                        remediation=remediation,
+                    )
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        msg,
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args > 0
+                    and isinstance(node.args[0], ast.Call)
+                    and isinstance(node.args[0].func, ast.Name)
+                    and (
+                        (
+                            node.func.id in {"set", "sorted"}
+                            and node.args[0].func.id
+                            in {"list", "reversed", "sorted", "tuple"}
+                        )
+                        or (
+                            node.func.id in {"list", "tuple"}
+                            and node.args[0].func.id in {"list", "tuple"}
+                        )
+                        or (node.func.id == "set" and node.args[0].func.id == "set")
+                    )
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C414"].format(
+                            inner=node.args[0].func.id, outer=node.func.id
+                        ),
+                        type(self),
+                    )
+
+                elif (
+                    node.func.id in {"reversed", "set", "sorted"}
+                    and num_positional_args > 0
+                    and isinstance(node.args[0], ast.Subscript)
+                    and isinstance(node.args[0].slice, ast.Slice)
+                    and node.args[0].slice.lower is None
+                    and node.args[0].slice.upper is None
+                    and isinstance(node.args[0].slice.step, ast.UnaryOp)
+                    and isinstance(node.args[0].slice.step.op, ast.USub)
+                    and isinstance(node.args[0].slice.step.operand, ast.Num)
+                    and node.args[0].slice.step.operand.n == 1
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C415"].format(func=node.func.id),
+                        type(self),
+                    )
+
             elif isinstance(node, ast.Compare):
                 if (
                     len(node.ops) == 1
@@ -189,6 +279,38 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         self.messages["C412"],
+                        type(self),
+                    )
+
+            elif isinstance(node, (ast.ListComp, ast.SetComp)):
+                if (
+                    len(node.generators) == 1
+                    and not node.generators[0].ifs
+                    and (
+                        (
+                            isinstance(node.elt, ast.Name)
+                            and isinstance(node.generators[0].target, ast.Name)
+                            and node.elt.id == node.generators[0].target.id
+                        )
+                        or (
+                            isinstance(node.elt, ast.Tuple)
+                            and isinstance(node.generators[0].target, ast.Tuple)
+                            and all(
+                                isinstance(a, ast.Name)
+                                and isinstance(b, ast.Name)
+                                and a.id == b.id
+                                for a, b in zip(
+                                    node.elt.elts, node.generators[0].target.elts
+                                )
+                            )
+                        )
+                    )
+                ):
+                    lookup = {ast.ListComp: "list", ast.SetComp: "set"}
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C416"].format(type=lookup[node.__class__]),
                         type(self),
                     )
 

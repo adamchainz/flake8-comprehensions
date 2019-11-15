@@ -53,6 +53,11 @@ C409 Unnecessary (list/tuple) passed to tuple() - (remove the outer call to tupl
 C410 Unnecessary (list/tuple) passed to list() - (remove the outer call to list()/rewrite as a list literal).
 C411 Unnecessary list call - remove the outer call to list().
 C412 Unnecessary list comprehension - 'in' can take a generator.
+C413 Unnecessary list call around sorted().
+C413 Unnecessary reversed call around sorted() - (use sorted(..., reverse=(True/False))/toggle reverse argument to sorted()).
+C414 Unnecessary (list/reversed/set/sorted/tuple) call within list/set/sorted/tuple().
+C415 Unnecessary subscript reversal of iterable within reversed/set/sorted().
+C416 Unnecessary (list/set) comprehension - rewrite using list/set().
 ==== ====
 
 Examples
@@ -144,3 +149,60 @@ It's unnecessary to pass a list comprehension to 'in' that can take a
 generator instead. For example:
 
 * Rewrite ``y in [f(x) for x in foo]`` as ``y in (f(x) for x in foo)``
+
+C413: Unnecessary list/reversed call around sorted().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to use ``list()`` around ``sorted()`` as it already returns a
+list. It is also suboptimal to use ``reversed()`` around ``sorted()`` as the
+latter has a ``reverse`` argument. For example:
+
+* Rewrite ``list(sorted([2, 3, 1]))`` as ``sorted([2, 3, 1])``
+* Rewrite ``reversed(sorted([2, 3, 1]))`` as ``sorted([2, 3, 1], reverse=True)``
+* Rewrite ``reversed(sorted([2, 3, 1], reverse=True))`` as ``sorted([2, 3, 1])``
+
+C414: Unnecessary (list/reversed/set/sorted/tuple) call within list/set/sorted/tuple().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to change the type of the iterable or change the order of
+elements within certain other function calls that will themselves define the
+order of the iterable or the type that is output. For example:
+
+* Rewrite ``list(list(iterable))`` as ``list(iterable)``
+* Rewrite ``list(tuple(iterable))`` as ``list(iterable)``
+* Rewrite ``tuple(list(iterable))`` as ``tuple(iterable)``
+* Rewrite ``tuple(tuple(iterable))`` as ``tuple(iterable)``
+* Rewrite ``set(set(iterable))`` as ``set(iterable)``
+* Rewrite ``set(list(iterable))`` as ``set(iterable)``
+* Rewrite ``set(tuple(iterable))`` as ``set(iterable)``
+* Rewrite ``set(sorted(iterable))`` as ``set(iterable)``
+* Rewrite ``set(reversed(iterable))`` as ``set(iterable)``
+* Rewrite ``sorted(list(iterable))`` as ``sorted(iterable)``
+* Rewrite ``sorted(tuple(iterable))`` as ``sorted(iterable)``
+* Rewrite ``sorted(sorted(iterable))`` as ``sorted(iterable)``
+* Rewrite ``sorted(reversed(iterable))`` as ``sorted(iterable)``
+
+C415: Unnecessary subscript reversal of iterable within reversed/set/sorted().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to reverse the order of an iterable using a ``[::-1]`` before
+passing it into ``set()`` which will randomize the order, ``sorted()`` which
+will return a new sorted list, or ``reversed()`` which will effectively return
+the original iterable. For example:
+
+* Rewrite ``set(iterable[::-1])`` as ``set(iterable)``
+* Rewrite ``sorted(iterable[::-1])`` as ``sorted(iterable, reverse=True)``
+* Rewrite ``reversed(iterable[::-1])`` as ``iterable``
+
+C416: Unnecessary (list/set) comprehension - rewrite using list/set().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to use a list comprehension if the elements are unchanged. The
+iterable should be wrapped in ``list()`` or ``set()`` instead. For example:
+
+* Rewrite ``[x for x in iterable]`` as ``list(iterable)``
+* Rewrite ``[(x, y) for x, y in iterable]`` as ``list(iterable)``
+* Rewrite ``[(x, y) for (x, y) in iterable]`` as ``list(iterable)``
+* Rewrite ``{x for x in iterable}`` as ``set(iterable)``
+* Rewrite ``{(x, y) for x, y in iterable}`` as ``set(iterable)``
+* Rewrite ``{(x, y) for (x, y) in iterable}`` as ``set(iterable)``

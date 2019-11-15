@@ -18,7 +18,7 @@ def test_version(flake8dir):
 def test_C400_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = [x for x in range(10)]
+        foo = [x + 1 for x in range(10)]
     """
     )
     result = flake8dir.run_flake8()
@@ -28,7 +28,7 @@ def test_C400_pass_1(flake8dir):
 def test_C400_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = list(x for x in range(10))
+        foo = list(x + 1 for x in range(10))
     """
     )
     result = flake8dir.run_flake8()
@@ -61,7 +61,7 @@ def test_C400_fail_2(flake8dir):
 def test_C401_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = {x for x in range(10)}
+        foo = {x + 1 for x in range(10)}
     """
     )
     result = flake8dir.run_flake8()
@@ -71,7 +71,7 @@ def test_C401_pass_1(flake8dir):
 def test_C401_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = set(x for x in range(10))
+        foo = set(x + 1 for x in range(10))
     """
     )
     result = flake8dir.run_flake8()
@@ -168,7 +168,7 @@ def test_C402_fail_2(flake8dir):
 def test_C403_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = {x for x in range(10)}
+        foo = {x + 1 for x in range(10)}
     """
     )
     result = flake8dir.run_flake8()
@@ -178,7 +178,7 @@ def test_C403_pass_1(flake8dir):
 def test_C403_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = set([x for x in range(10)])
+        foo = set([x + 1 for x in range(10)])
     """
     )
     result = flake8dir.run_flake8()
@@ -349,7 +349,7 @@ def test_C406_fail_4(flake8dir):
 def test_C407_sum_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = sum(x for x in range(10))
+        foo = sum(x + 1 for x in range(10))
     """
     )
     result = flake8dir.run_flake8()
@@ -359,7 +359,7 @@ def test_C407_sum_pass_1(flake8dir):
 def test_C407_sum_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = sum([x for x in range(10)])
+        foo = sum([x + 1 for x in range(10)])
     """
     )
     result = flake8dir.run_flake8()
@@ -370,27 +370,27 @@ def test_C407_sum_fail_1(flake8dir):
 
 
 def test_C407_max_pass_1(flake8dir):
-    flake8dir.make_example_py("max(x for x in range(10))")
+    flake8dir.make_example_py("max(x + 1 for x in range(10))")
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
 def test_C407_max_pass_2(flake8dir):
-    flake8dir.make_example_py("max((x for x in range(10)), key=lambda x: x * 2)")
+    flake8dir.make_example_py("max((x + 1 for x in range(10)), key=lambda x: x * 2)")
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
 def test_C407_max_pass_3(flake8dir):
     flake8dir.make_example_py(
-        "max((x for x in range(10)), default=1, key=lambda x: x * 2)"
+        "max((x + 1 for x in range(10)), default=1, key=lambda x: x * 2)"
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
 def test_C407_max_fail_1(flake8dir):
-    flake8dir.make_example_py("max([x for x in range(10)])")
+    flake8dir.make_example_py("max([x + 1 for x in range(10)])")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
@@ -399,7 +399,7 @@ def test_C407_max_fail_1(flake8dir):
 
 
 def test_C407_max_fail_2(flake8dir):
-    flake8dir.make_example_py("max([x for x in range(10)], default=1)")
+    flake8dir.make_example_py("max([x + 1 for x in range(10)], default=1)")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
@@ -426,7 +426,7 @@ def test_C407_enumerate_pass_3(flake8dir):
 
 
 def test_C407_enumerate_fail_1(flake8dir):
-    flake8dir.make_example_py("enumerate([x for x in range(10)])")
+    flake8dir.make_example_py("enumerate([x + 1 for x in range(10)])")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'enumerate' "
@@ -435,7 +435,7 @@ def test_C407_enumerate_fail_1(flake8dir):
 
 
 def test_C407_enumerate_fail_2(flake8dir):
-    flake8dir.make_example_py("enumerate([x for x in range(10)], 1)")
+    flake8dir.make_example_py("enumerate([x + 1 for x in range(10)], 1)")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'enumerate' "
@@ -456,7 +456,7 @@ def test_C407_tuple_pass_1(flake8dir):
 def test_C407_tuple_pass_2(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = tuple(x for x in range(10))
+        foo = tuple(x + 1 for x in range(10))
     """
     )
     result = flake8dir.run_flake8()
@@ -466,7 +466,7 @@ def test_C407_tuple_pass_2(flake8dir):
 def test_C407_tuple_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        foo = tuple([x for x in range(10)])
+        foo = tuple([x + 1 for x in range(10)])
     """
     )
     result = flake8dir.run_flake8()
@@ -480,7 +480,7 @@ def test_it_does_not_crash_on_attribute_functions(flake8dir):
     flake8dir.make_example_py(
         """
         import foo
-        bar = foo.baz(x for x in range(10))
+        bar = foo.baz(x + 1 for x in range(10))
     """
     )
     result = flake8dir.run_flake8()
@@ -704,7 +704,7 @@ def test_C410_fail_4(flake8dir):
 def test_C411_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
-        [x for x in range(10)]
+        [x + 1 for x in range(10)]
     """
     )
     result = flake8dir.run_flake8()
@@ -714,7 +714,7 @@ def test_C411_pass_1(flake8dir):
 def test_C411_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        list([x for x in range(10)])
+        list([x + 1 for x in range(10)])
     """
     )
     result = flake8dir.run_flake8()
@@ -730,7 +730,7 @@ def test_C411_fail_1(flake8dir):
 def test_C412_pass_1(flake8dir):
     flake8dir.make_example_py(
         """
-        [] == [x for x in range(10)]
+        [] == [x + 1 for x in range(10)]
     """
     )
     result = flake8dir.run_flake8()
@@ -740,7 +740,7 @@ def test_C412_pass_1(flake8dir):
 def test_C412_pass_2(flake8dir):
     flake8dir.make_example_py(
         """
-        10 in (x for x in range(10))
+        10 in (x + 1 for x in range(10))
     """
     )
     result = flake8dir.run_flake8()
@@ -750,11 +750,208 @@ def test_C412_pass_2(flake8dir):
 def test_C412_fail_1(flake8dir):
     flake8dir.make_example_py(
         """
-        10 in [x for x in range(10)]
+        10 in [x + 1 for x in range(10)]
     """
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
         + "take a generator."
+    ]
+
+
+# C413
+
+
+def test_C413_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        sorted([2, 3, 1])
+        sorted([2, 3, 1], reverse=True)
+        sorted([2, 3, 1], reverse=False)
+        sorted([2, 3, 1], reverse=0)
+        sorted([2, 3, 1], reverse=1)
+        reversed([2, 3, 1])
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C413_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        list(sorted([2, 3, 1]))
+        reversed(sorted([2, 3, 1]))
+        reversed(sorted([2, 3, 1], reverse=False))
+        reversed(sorted([2, 3, 1], reverse=True))
+        reversed(sorted([2, 3, 1], reverse=0))
+        reversed(sorted([2, 3, 1], reverse=1))
+        reversed(sorted([2, 3, 1], reverse=bool()))
+        reversed(sorted([2, 3, 1], reverse=not True))
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C413 Unnecessary list call around sorted().",
+        "./example.py:2:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=True).",
+        "./example.py:3:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=True).",
+        "./example.py:4:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=False).",
+        "./example.py:5:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=True).",
+        "./example.py:6:1: C413 Unnecessary reversed call around sorted()"
+        + " - use sorted(..., reverse=False).",
+        "./example.py:7:1: C413 Unnecessary reversed call around sorted()"
+        + " - toggle reverse argument to sorted().",
+        "./example.py:8:1: C413 Unnecessary reversed call around sorted()"
+        + " - toggle reverse argument to sorted().",
+    ]
+
+
+# C414
+
+
+def test_C414_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        a = [2, 3, 1]
+        list(set(a))
+        tuple(set(a))
+        sorted(set(a))
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C414_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        a = [2, 3, 1]
+        list(list(a))
+        list(tuple(a))
+        tuple(list(a))
+        tuple(tuple(a))
+        set(set(a))
+        set(list(a))
+        set(tuple(a))
+        set(sorted(a))
+        set(sorted(a, reverse=True))
+        set(reversed(a))
+        sorted(list(a))
+        sorted(tuple(a))
+        sorted(sorted(a))
+        sorted(sorted(a), reverse=True)
+        sorted(sorted(a, reverse=True))
+        sorted(sorted(a, reverse=True), reverse=True)
+        sorted(reversed(a))
+        sorted(reversed(a), reverse=True)
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:2:1: C414 Unnecessary list call within list().",
+        "./example.py:3:1: C414 Unnecessary tuple call within list().",
+        "./example.py:4:1: C414 Unnecessary list call within tuple().",
+        "./example.py:5:1: C414 Unnecessary tuple call within tuple().",
+        "./example.py:6:1: C414 Unnecessary set call within set().",
+        "./example.py:7:1: C414 Unnecessary list call within set().",
+        "./example.py:8:1: C414 Unnecessary tuple call within set().",
+        "./example.py:9:1: C414 Unnecessary sorted call within set().",
+        "./example.py:10:1: C414 Unnecessary sorted call within set().",
+        "./example.py:11:1: C414 Unnecessary reversed call within set().",
+        "./example.py:12:1: C414 Unnecessary list call within sorted().",
+        "./example.py:13:1: C414 Unnecessary tuple call within sorted().",
+        "./example.py:14:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:15:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:16:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:17:1: C414 Unnecessary sorted call within sorted().",
+        "./example.py:18:1: C414 Unnecessary reversed call within sorted().",
+        "./example.py:19:1: C414 Unnecessary reversed call within sorted().",
+    ]
+
+
+# C415
+
+
+def test_C415_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        set([2, 3, 1][::1])
+        sorted([2, 3, 1][::1])
+        reversed([2, 3, 1][::1])
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C415_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        set([2, 3, 1][::-1])
+        sorted([2, 3, 1][::-1])
+        sorted([2, 3, 1][::-1], reverse=True)
+        reversed([2, 3, 1][::-1])
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C415 Unnecessary subscript reversal of iterable "
+        + "within set().",
+        "./example.py:2:1: C415 Unnecessary subscript reversal of iterable "
+        + "within sorted().",
+        "./example.py:3:1: C415 Unnecessary subscript reversal of iterable "
+        + "within sorted().",
+        "./example.py:4:1: C415 Unnecessary subscript reversal of iterable "
+        + "within reversed().",
+    ]
+
+
+# C416
+
+
+def test_C416_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        [str(x) for x in range(5)]
+        [x + 1 for x in range(5)]
+        [x for x in range(5) if x % 2]
+        {str(x) for x in range(5)}
+        {x + 1 for x in range(5)}
+        {x for x in range(5) if x % 2}
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C416_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        """
+        [x for x in range(5)]
+        [(x, y) for x, y in zip('abc', '123')]
+        [(x, y) for (x, y) in zip('abc', '123')]
+        {x for x in range(5)}
+        {(x, y) for x, y in zip('abc', '123')}
+        {(x, y) for (x, y) in zip('abc', '123')}
+    """
+    )
+    result = flake8dir.run_flake8()
+    # Column offset for list comprehensions was incorrect in Python < 3.8.
+    # See https://bugs.python.org/issue31241 for details.
+    col_offset = 1 if sys.version_info >= (3, 8) else 2
+    assert result.out_lines == [
+        "./example.py:1:%d: C416 Unnecessary list comprehension - rewrite using list()."
+        % col_offset,
+        "./example.py:2:%d: C416 Unnecessary list comprehension - rewrite using list()."
+        % col_offset,
+        "./example.py:3:%d: C416 Unnecessary list comprehension - rewrite using list()."
+        % col_offset,
+        "./example.py:4:1: C416 Unnecessary set comprehension - rewrite using set().",
+        "./example.py:5:1: C416 Unnecessary set comprehension - rewrite using set().",
+        "./example.py:6:1: C416 Unnecessary set comprehension - rewrite using set().",
     ]

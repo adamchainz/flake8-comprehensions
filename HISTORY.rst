@@ -8,6 +8,17 @@ Pending Release
 * Update Python support to 3.5-3.8.
 * Fix false positives for C404 for list comprehensions not directly creating
   tuples.
+* Add ``C413`` rule that checks for unnecessary use of ``list()`` or
+  ``reversed()`` around ``sorted()``.
+* Add ``C414`` rule that checks for unnecessary use of the following:
+    * ``list()``, ``reversed()``, ``sorted()``, or ``tuple()``  within ``set``
+      or ``sorted()``
+    * ``list()`` or ``tuple()``  within ``list()`` or ``tuple()``
+    * ``set()``  within ``set``
+* Add ``C415`` rule that checks for unnecessary reversal of an iterable via
+  subscript within ``reversed()``, ``set()``, or ``sorted()``.
+* Add ``C416`` rule that checks for unnecessary list or set comprehensions that
+  can be rewritten using ``list()`` or ``set()``.
 
 3.0.1 (2019-10-28)
 ------------------
