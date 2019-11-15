@@ -2,8 +2,8 @@
 History
 =======
 
-Pending Release
----------------
+3.1.0 (2019-11-15)
+------------------
 
 * Update Python support to 3.5-3.8.
 * Fix false positives for C404 for list comprehensions not directly creating
