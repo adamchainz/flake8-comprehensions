@@ -324,7 +324,7 @@ def has_keyword_args(call_node):
     return any(k.arg is None for k in call_node.keywords)
 
 
-if sys.version_info >= (3, 6):
+if sys.version_info >= (3, 7):
 
     def is_async_generator(node):
         return node.is_async
