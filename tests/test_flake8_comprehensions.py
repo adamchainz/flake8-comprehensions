@@ -1,9 +1,14 @@
 import sys
 
+import pytest
+
 if sys.version_info >= (3, 8):
     from importlib.metadata import version
 else:
     from importlib_metadata import version
+
+
+python_3_7_plus = pytest.mark.skipif(sys.version_info < (3, 7), reason="Python 3.7+")
 
 
 def test_version(flake8dir):
@@ -925,6 +930,20 @@ def test_C416_pass_1(flake8dir):
         {x for x in range(5) if x % 2}
     """
     )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+@python_3_7_plus
+def test_C416_pass_2_async_list(flake8dir):
+    flake8dir.make_example_py("[x async for x in range(5)]")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+@python_3_7_plus
+def test_C416_pass_2_async_set(flake8dir):
+    flake8dir.make_example_py("{x async for x in range(5)}")
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 

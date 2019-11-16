@@ -2,6 +2,11 @@
 History
 =======
 
+Pending
+-------
+
+* Fix false positives in ``C416`` rule for asynchronous comprehensions.
+
 3.1.0 (2019-11-15)
 ------------------
 
