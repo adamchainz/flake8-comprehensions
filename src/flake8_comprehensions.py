@@ -296,6 +296,7 @@ class ComprehensionChecker:
                         or (
                             isinstance(node.elt, ast.Tuple)
                             and isinstance(node.generators[0].target, ast.Tuple)
+                            and len(node.elt.elts) == len(node.generators[0].target.elts)
                             and all(
                                 isinstance(a, ast.Name)
                                 and isinstance(b, ast.Name)

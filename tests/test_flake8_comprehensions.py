@@ -942,8 +942,14 @@ def test_C416_pass_2_async_list(flake8dir):
 
 
 @python_3_7_plus
-def test_C416_pass_2_async_set(flake8dir):
+def test_C416_pass_3_async_set(flake8dir):
     flake8dir.make_example_py("{x async for x in range(5)}")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C416_pass_4_tuples(flake8dir):
+    flake8dir.make_example_py("[(x, y, 1) for x, y in []]")
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
