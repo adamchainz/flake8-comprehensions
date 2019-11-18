@@ -296,6 +296,10 @@ class ComprehensionChecker:
                         or (
                             isinstance(node.elt, ast.Tuple)
                             and isinstance(node.generators[0].target, ast.Tuple)
+                            and (
+                                len(node.elt.elts)
+                                == len(node.generators[0].target.elts)
+                            )
                             and all(
                                 isinstance(a, ast.Name)
                                 and isinstance(b, ast.Name)
@@ -328,6 +332,7 @@ if sys.version_info >= (3, 7):
 
     def is_async_generator(node):
         return node.is_async
+
 
 else:
 

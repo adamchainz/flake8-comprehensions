@@ -2,6 +2,12 @@
 History
 =======
 
+Pending
+-------
+
+* Fix false positives in ``C416`` rule for list comprehensions returning
+  tuples.
+
 3.1.1 (2019-11-16)
 ------------------
 
