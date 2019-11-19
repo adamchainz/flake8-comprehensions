@@ -8,7 +8,7 @@ else:
     from importlib_metadata import version
 
 
-python_3_7_plus = pytest.mark.skipif(sys.version_info < (3, 7), reason="Python 3.7+")
+python_3_6_plus = pytest.mark.skipif(sys.version_info < (3, 6), reason="Python 3.6+")
 
 
 def test_version(flake8dir):
@@ -934,16 +934,22 @@ def test_C416_pass_1(flake8dir):
     assert result.out_lines == []
 
 
-@python_3_7_plus
+@python_3_6_plus
 def test_C416_pass_2_async_list(flake8dir):
-    flake8dir.make_example_py("[x async for x in range(5)]")
+    flake8dir.make_example_py("""\
+        async def foo():
+            [x async for x in range(5)]
+    """)
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
-@python_3_7_plus
+@python_3_6_plus
 def test_C416_pass_3_async_set(flake8dir):
-    flake8dir.make_example_py("{x async for x in range(5)}")
+    flake8dir.make_example_py("""\
+        async def foo():
+            return {x async for x in range(5)}
+    """)
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
