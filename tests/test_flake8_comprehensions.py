@@ -936,20 +936,24 @@ def test_C416_pass_1(flake8dir):
 
 @python_3_6_plus
 def test_C416_pass_2_async_list(flake8dir):
-    flake8dir.make_example_py("""\
+    flake8dir.make_example_py(
+        """\
         async def foo():
             [x async for x in range(5)]
-    """)
+    """
+    )
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
 
 @python_3_6_plus
 def test_C416_pass_3_async_set(flake8dir):
-    flake8dir.make_example_py("""\
+    flake8dir.make_example_py(
+        """\
         async def foo():
             return {x async for x in range(5)}
-    """)
+    """
+    )
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
