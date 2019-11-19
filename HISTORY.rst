@@ -2,8 +2,8 @@
 History
 =======
 
-Pending
--------
+3.1.3 (2019-11-19)
+------------------
 
 * Ensure the fix for false positives in ``C416`` rule for asynchronous
   comprehensions runs on Python 3.6 too.
