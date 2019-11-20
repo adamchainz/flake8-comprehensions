@@ -2,6 +2,9 @@
 History
 =======
 
+3.1.4 (2019-11-20)
+------------------
+
 * Remove the tuple/unpacking check from C416 to prevent false positives where
   the type of the iterable is changed from some iterable to a tuple.
 
