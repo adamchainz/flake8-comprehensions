@@ -964,17 +964,22 @@ def test_C416_pass_4_tuples(flake8dir):
     assert result.out_lines == []
 
 
-def test_C416_fail_1(flake8dir):
+def test_C416_fail_5_unpacking(flake8dir):
+    # We can't assume unpacking came from tuples, so these examples should pass
     flake8dir.make_example_py(
         """
-        [x for x in range(5)]
         [(x, y) for x, y in zip('abc', '123')]
         [(x, y) for (x, y) in zip('abc', '123')]
-        {x for x in range(5)}
         {(x, y) for x, y in zip('abc', '123')}
         {(x, y) for (x, y) in zip('abc', '123')}
     """
     )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C416_fail_1_list(flake8dir):
+    flake8dir.make_example_py("[x for x in range(5)]")
     result = flake8dir.run_flake8()
     # Column offset for list comprehensions was incorrect in Python < 3.8.
     # See https://bugs.python.org/issue31241 for details.
@@ -982,11 +987,12 @@ def test_C416_fail_1(flake8dir):
     assert result.out_lines == [
         "./example.py:1:%d: C416 Unnecessary list comprehension - rewrite using list()."
         % col_offset,
-        "./example.py:2:%d: C416 Unnecessary list comprehension - rewrite using list()."
-        % col_offset,
-        "./example.py:3:%d: C416 Unnecessary list comprehension - rewrite using list()."
-        % col_offset,
-        "./example.py:4:1: C416 Unnecessary set comprehension - rewrite using set().",
-        "./example.py:5:1: C416 Unnecessary set comprehension - rewrite using set().",
-        "./example.py:6:1: C416 Unnecessary set comprehension - rewrite using set().",
+    ]
+
+
+def test_C416_fail_2_set(flake8dir):
+    flake8dir.make_example_py("{x for x in range(5)}")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C416 Unnecessary set comprehension - rewrite using set().",
     ]
