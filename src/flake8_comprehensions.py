@@ -288,27 +288,9 @@ class ComprehensionChecker:
                     and not node.generators[0].ifs
                     and not is_async_generator(node.generators[0])
                     and (
-                        (
-                            isinstance(node.elt, ast.Name)
-                            and isinstance(node.generators[0].target, ast.Name)
-                            and node.elt.id == node.generators[0].target.id
-                        )
-                        or (
-                            isinstance(node.elt, ast.Tuple)
-                            and isinstance(node.generators[0].target, ast.Tuple)
-                            and (
-                                len(node.elt.elts)
-                                == len(node.generators[0].target.elts)
-                            )
-                            and all(
-                                isinstance(a, ast.Name)
-                                and isinstance(b, ast.Name)
-                                and a.id == b.id
-                                for a, b in zip(
-                                    node.elt.elts, node.generators[0].target.elts
-                                )
-                            )
-                        )
+                        isinstance(node.elt, ast.Name)
+                        and isinstance(node.generators[0].target, ast.Name)
+                        and node.elt.id == node.generators[0].target.id
                     )
                 ):
                     lookup = {ast.ListComp: "list", ast.SetComp: "set"}

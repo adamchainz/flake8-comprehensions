@@ -201,8 +201,4 @@ It's unnecessary to use a list comprehension if the elements are unchanged. The
 iterable should be wrapped in ``list()`` or ``set()`` instead. For example:
 
 * Rewrite ``[x for x in iterable]`` as ``list(iterable)``
-* Rewrite ``[(x, y) for x, y in iterable]`` as ``list(iterable)``
-* Rewrite ``[(x, y) for (x, y) in iterable]`` as ``list(iterable)``
 * Rewrite ``{x for x in iterable}`` as ``set(iterable)``
-* Rewrite ``{(x, y) for x, y in iterable}`` as ``set(iterable)``
-* Rewrite ``{(x, y) for (x, y) in iterable}`` as ``set(iterable)``
