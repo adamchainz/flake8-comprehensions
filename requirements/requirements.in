@@ -11,4 +11,5 @@ Pygments
 pytest
 pytest-flake8dir
 pytest-randomly
+secretstorage # required for twine on linux
 twine
