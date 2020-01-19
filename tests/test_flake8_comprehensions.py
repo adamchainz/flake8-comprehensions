@@ -1,6 +1,9 @@
+import os
 import sys
 
 import pytest
+
+from flake8_comprehensions import ComprehensionChecker
 
 if sys.version_info >= (3, 8):
     from importlib.metadata import version
@@ -15,6 +18,15 @@ def test_version(flake8dir):
     result = flake8dir.run_flake8(["--version"])
     version_string = "flake8-comprehensions: " + version("flake8-comprehensions")
     assert version_string in result.out_lines[0]
+
+
+def make_message(code, line, col, suffix=None, **kwds):
+    msg = ComprehensionChecker.messages[code]
+    if suffix is not None:
+        msg = msg.replace("{suffix}", ComprehensionChecker.suffixes.get(suffix, ""))
+    if kwds:
+        msg = msg.format(**kwds)
+    return ".{}example.py:{}:{}: {}".format(os.path.sep, line, col, msg)
 
 
 # C400
@@ -37,10 +49,7 @@ def test_C400_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C400 Unnecessary generator - rewrite as a list "
-        + "comprehension."
-    ]
+    assert result.out_lines == [make_message("C400", 1, 7)]
 
 
 def test_C400_fail_2(flake8dir):
@@ -54,10 +63,7 @@ def test_C400_fail_2(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:10: C400 Unnecessary generator - rewrite as a list "
-        + "comprehension."
-    ]
+    assert result.out_lines == [make_message("C400", 1, 10)]
 
 
 # C401
@@ -80,10 +86,7 @@ def test_C401_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C401 Unnecessary generator - rewrite as a set "
-        + "comprehension."
-    ]
+    assert result.out_lines == [make_message("C401", 1, 7)]
 
 
 def test_C401_fail_2(flake8dir):
@@ -96,10 +99,7 @@ def test_C401_fail_2(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:10: C401 Unnecessary generator - rewrite as a set "
-        + "comprehension."
-    ]
+    assert result.out_lines == [make_message("C401", 1, 10)]
 
 
 # C402
@@ -144,10 +144,7 @@ def test_C402_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C402 Unnecessary generator - rewrite as a dict "
-        + "comprehension."
-    ]
+    assert result.out_lines == [make_message("C402", 1, 7)]
 
 
 def test_C402_fail_2(flake8dir):
@@ -161,10 +158,7 @@ def test_C402_fail_2(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:10: C402 Unnecessary generator - rewrite as a dict "
-        + "comprehension."
-    ]
+    assert result.out_lines == [make_message("C402", 1, 10)]
 
 
 # C403
@@ -187,10 +181,7 @@ def test_C403_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C403 Unnecessary list comprehension - rewrite as a "
-        + "set comprehension."
-    ]
+    assert result.out_lines == [make_message("C403", 1, 7)]
 
 
 # C404
@@ -212,10 +203,7 @@ def test_C404_pass_2(flake8dir):
 def test_C404_fail_1(flake8dir):
     flake8dir.make_example_py("foo = dict([(x, x) for x in range(10)])")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C404 Unnecessary list comprehension - rewrite as a "
-        + "dict comprehension."
-    ]
+    assert result.out_lines == [make_message("C404", 1, 7)]
 
 
 # C405
@@ -239,8 +227,7 @@ def test_C405_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C405 Unnecessary list literal - rewrite as a set "
-        + "literal."
+        make_message("C405", 1, 7, type="list", func="set", suffix="rw")
     ]
 
 
@@ -252,8 +239,7 @@ def test_C405_fail_2(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C405 Unnecessary list literal - rewrite as a set "
-        + "literal."
+        make_message("C405", 1, 7, type="list", func="set", suffix="rw")
     ]
 
 
@@ -265,8 +251,7 @@ def test_C405_fail_3(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C405 Unnecessary tuple literal - rewrite as a set "
-        + "literal."
+        make_message("C405", 1, 7, type="tuple", func="set", suffix="rw")
     ]
 
 
@@ -278,8 +263,7 @@ def test_C405_fail_4(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C405 Unnecessary tuple literal - rewrite as a set "
-        + "literal."
+        make_message("C405", 1, 7, type="tuple", func="set", suffix="rw")
     ]
 
 
@@ -304,8 +288,7 @@ def test_C406_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C406 Unnecessary list literal - rewrite as a dict "
-        + "literal."
+        make_message("C406", 1, 7, type="list", func="dict", suffix="rw")
     ]
 
 
@@ -317,8 +300,7 @@ def test_C406_fail_2(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C406 Unnecessary list literal - rewrite as a dict "
-        + "literal."
+        make_message("C406", 1, 7, type="list", func="dict", suffix="rw")
     ]
 
 
@@ -330,8 +312,7 @@ def test_C406_fail_3(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C406 Unnecessary tuple literal - rewrite as a dict "
-        + "literal."
+        make_message("C406", 1, 7, type="tuple", func="dict", suffix="rw")
     ]
 
 
@@ -343,8 +324,7 @@ def test_C406_fail_4(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C406 Unnecessary tuple literal - rewrite as a dict "
-        + "literal."
+        make_message("C406", 1, 7, type="tuple", func="dict", suffix="rw")
     ]
 
 
@@ -368,10 +348,7 @@ def test_C407_sum_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C407 Unnecessary list comprehension - 'sum' can take "
-        + "a generator."
-    ]
+    assert result.out_lines == [make_message("C407", 1, 7, func="sum")]
 
 
 def test_C407_max_pass_1(flake8dir):
@@ -397,19 +374,13 @@ def test_C407_max_pass_3(flake8dir):
 def test_C407_max_fail_1(flake8dir):
     flake8dir.make_example_py("max([x + 1 for x in range(10)])")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
-        + "a generator."
-    ]
+    assert result.out_lines == [make_message("C407", 1, 1, func="max")]
 
 
 def test_C407_max_fail_2(flake8dir):
     flake8dir.make_example_py("max([x + 1 for x in range(10)], default=1)")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
-        + "a generator."
-    ]
+    assert result.out_lines == [make_message("C407", 1, 1, func="max")]
 
 
 def test_C407_enumerate_pass_1(flake8dir):
@@ -433,19 +404,13 @@ def test_C407_enumerate_pass_3(flake8dir):
 def test_C407_enumerate_fail_1(flake8dir):
     flake8dir.make_example_py("enumerate([x + 1 for x in range(10)])")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C407 Unnecessary list comprehension - 'enumerate' "
-        + "can take a generator."
-    ]
+    assert result.out_lines == [make_message("C407", 1, 1, func="enumerate")]
 
 
 def test_C407_enumerate_fail_2(flake8dir):
     flake8dir.make_example_py("enumerate([x + 1 for x in range(10)], 1)")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C407 Unnecessary list comprehension - 'enumerate' "
-        + "can take a generator."
-    ]
+    assert result.out_lines == [make_message("C407", 1, 1, func="enumerate")]
 
 
 def test_C407_tuple_pass_1(flake8dir):
@@ -475,10 +440,7 @@ def test_C407_tuple_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:7: C407 Unnecessary list comprehension - 'tuple' can "
-        + "take a generator."
-    ]
+    assert result.out_lines == [make_message("C407", 1, 7, func="tuple")]
 
 
 def test_it_does_not_crash_on_attribute_functions(flake8dir):
@@ -544,33 +506,25 @@ def test_C408_pass_6(flake8dir):
 def test_C408_fail_1(flake8dir):
     flake8dir.make_example_py("tuple()")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C408 Unnecessary tuple call - rewrite as a literal."
-    ]
+    assert result.out_lines == [make_message("C408", 1, 1, type="tuple")]
 
 
 def test_C408_fail_2(flake8dir):
     flake8dir.make_example_py("list()")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C408 Unnecessary list call - rewrite as a literal."
-    ]
+    assert result.out_lines == [make_message("C408", 1, 1, type="list")]
 
 
 def test_C408_fail_3(flake8dir):
     flake8dir.make_example_py("dict()")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
-    ]
+    assert result.out_lines == [make_message("C408", 1, 1, type="dict")]
 
 
 def test_C408_fail_4(flake8dir):
     flake8dir.make_example_py("dict(a=1)")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
-    ]
+    assert result.out_lines == [make_message("C408", 1, 1, type="dict")]
 
 
 # C409
@@ -594,8 +548,7 @@ def test_C409_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C409 Unnecessary list passed to tuple() - rewrite as "
-        + "a tuple literal."
+        make_message("C409", 1, 7, type="list", func="tuple", suffix="rw")
     ]
 
 
@@ -607,8 +560,7 @@ def test_C409_fail_2(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C409 Unnecessary list passed to tuple() - rewrite as "
-        + "a tuple literal."
+        make_message("C409", 1, 7, type="list", func="tuple", suffix="rw")
     ]
 
 
@@ -620,8 +572,7 @@ def test_C409_fail_3(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C409 Unnecessary tuple passed to tuple() - remove "
-        + "the outer call to tuple()."
+        make_message("C409", 1, 7, type="tuple", func="tuple", suffix="rm")
     ]
 
 
@@ -633,8 +584,7 @@ def test_C409_fail_4(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C409 Unnecessary tuple passed to tuple() - remove "
-        + "the outer call to tuple()."
+        make_message("C409", 1, 7, type="tuple", func="tuple", suffix="rm")
     ]
 
 
@@ -659,8 +609,7 @@ def test_C410_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C410 Unnecessary list passed to list() - remove the "
-        + "outer call to list()."
+        make_message("C410", 1, 7, type="list", func="list", suffix="rm")
     ]
 
 
@@ -672,8 +621,7 @@ def test_C410_fail_2(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C410 Unnecessary list passed to list() - remove the "
-        + "outer call to list()."
+        make_message("C410", 1, 7, type="list", func="list", suffix="rm")
     ]
 
 
@@ -685,8 +633,7 @@ def test_C410_fail_3(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C410 Unnecessary tuple passed to list() - rewrite as "
-        + "a list literal."
+        make_message("C410", 1, 7, type="tuple", func="list", suffix="rw")
     ]
 
 
@@ -698,8 +645,7 @@ def test_C410_fail_4(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:7: C410 Unnecessary tuple passed to list() - rewrite as "
-        + "a list literal."
+        make_message("C410", 1, 7, type="tuple", func="list", suffix="rw")
     ]
 
 
@@ -723,10 +669,7 @@ def test_C411_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C411 Unnecessary list call - remove the outer call "
-        + "to list()."
-    ]
+    assert result.out_lines == [make_message("C411", 1, 1)]
 
 
 # C412
@@ -759,10 +702,7 @@ def test_C412_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
-        + "take a generator."
-    ]
+    assert result.out_lines == [make_message("C412", 1, 1)]
 
 
 # C413
@@ -797,22 +737,17 @@ def test_C413_fail_1(flake8dir):
     """
     )
     result = flake8dir.run_flake8()
+
+    common = {"outer": "reversed", "inner": "sorted"}
     assert result.out_lines == [
-        "./example.py:1:1: C413 Unnecessary list call around sorted().",
-        "./example.py:2:1: C413 Unnecessary reversed call around sorted()"
-        + " - use sorted(..., reverse=True).",
-        "./example.py:3:1: C413 Unnecessary reversed call around sorted()"
-        + " - use sorted(..., reverse=True).",
-        "./example.py:4:1: C413 Unnecessary reversed call around sorted()"
-        + " - use sorted(..., reverse=False).",
-        "./example.py:5:1: C413 Unnecessary reversed call around sorted()"
-        + " - use sorted(..., reverse=True).",
-        "./example.py:6:1: C413 Unnecessary reversed call around sorted()"
-        + " - use sorted(..., reverse=False).",
-        "./example.py:7:1: C413 Unnecessary reversed call around sorted()"
-        + " - toggle reverse argument to sorted().",
-        "./example.py:8:1: C413 Unnecessary reversed call around sorted()"
-        + " - toggle reverse argument to sorted().",
+        make_message("C413", 1, 1, outer="list", inner="sorted", suffix=""),
+        make_message("C413", 2, 1, suffix="st", value=True, **common),
+        make_message("C413", 3, 1, suffix="st", value=True, **common),
+        make_message("C413", 4, 1, suffix="st", value=False, **common),
+        make_message("C413", 5, 1, suffix="st", value=True, **common),
+        make_message("C413", 6, 1, suffix="st", value=False, **common),
+        make_message("C413", 7, 1, suffix="tg", value=True, **common),
+        make_message("C413", 8, 1, suffix="tg", value=False, **common),
     ]
 
 
@@ -858,24 +793,24 @@ def test_C414_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:2:1: C414 Unnecessary list call within list().",
-        "./example.py:3:1: C414 Unnecessary tuple call within list().",
-        "./example.py:4:1: C414 Unnecessary list call within tuple().",
-        "./example.py:5:1: C414 Unnecessary tuple call within tuple().",
-        "./example.py:6:1: C414 Unnecessary set call within set().",
-        "./example.py:7:1: C414 Unnecessary list call within set().",
-        "./example.py:8:1: C414 Unnecessary tuple call within set().",
-        "./example.py:9:1: C414 Unnecessary sorted call within set().",
-        "./example.py:10:1: C414 Unnecessary sorted call within set().",
-        "./example.py:11:1: C414 Unnecessary reversed call within set().",
-        "./example.py:12:1: C414 Unnecessary list call within sorted().",
-        "./example.py:13:1: C414 Unnecessary tuple call within sorted().",
-        "./example.py:14:1: C414 Unnecessary sorted call within sorted().",
-        "./example.py:15:1: C414 Unnecessary sorted call within sorted().",
-        "./example.py:16:1: C414 Unnecessary sorted call within sorted().",
-        "./example.py:17:1: C414 Unnecessary sorted call within sorted().",
-        "./example.py:18:1: C414 Unnecessary reversed call within sorted().",
-        "./example.py:19:1: C414 Unnecessary reversed call within sorted().",
+        make_message("C414", 2, 1, inner="list", outer="list"),
+        make_message("C414", 3, 1, inner="tuple", outer="list"),
+        make_message("C414", 4, 1, inner="list", outer="tuple"),
+        make_message("C414", 5, 1, inner="tuple", outer="tuple"),
+        make_message("C414", 6, 1, inner="set", outer="set"),
+        make_message("C414", 7, 1, inner="list", outer="set"),
+        make_message("C414", 8, 1, inner="tuple", outer="set"),
+        make_message("C414", 9, 1, inner="sorted", outer="set"),
+        make_message("C414", 10, 1, inner="sorted", outer="set"),
+        make_message("C414", 11, 1, inner="reversed", outer="set"),
+        make_message("C414", 12, 1, inner="list", outer="sorted"),
+        make_message("C414", 13, 1, inner="tuple", outer="sorted"),
+        make_message("C414", 14, 1, inner="sorted", outer="sorted"),
+        make_message("C414", 15, 1, inner="sorted", outer="sorted"),
+        make_message("C414", 16, 1, inner="sorted", outer="sorted"),
+        make_message("C414", 17, 1, inner="sorted", outer="sorted"),
+        make_message("C414", 18, 1, inner="reversed", outer="sorted"),
+        make_message("C414", 19, 1, inner="reversed", outer="sorted"),
     ]
 
 
@@ -905,14 +840,10 @@ def test_C415_fail_1(flake8dir):
     )
     result = flake8dir.run_flake8()
     assert result.out_lines == [
-        "./example.py:1:1: C415 Unnecessary subscript reversal of iterable "
-        + "within set().",
-        "./example.py:2:1: C415 Unnecessary subscript reversal of iterable "
-        + "within sorted().",
-        "./example.py:3:1: C415 Unnecessary subscript reversal of iterable "
-        + "within sorted().",
-        "./example.py:4:1: C415 Unnecessary subscript reversal of iterable "
-        + "within reversed().",
+        make_message("C415", 1, 1, func="set"),
+        make_message("C415", 2, 1, func="sorted"),
+        make_message("C415", 3, 1, func="sorted"),
+        make_message("C415", 4, 1, func="reversed"),
     ]
 
 
@@ -984,15 +915,10 @@ def test_C416_fail_1_list(flake8dir):
     # Column offset for list comprehensions was incorrect in Python < 3.8.
     # See https://bugs.python.org/issue31241 for details.
     col_offset = 1 if sys.version_info >= (3, 8) else 2
-    assert result.out_lines == [
-        "./example.py:1:%d: C416 Unnecessary list comprehension - rewrite using list()."
-        % col_offset,
-    ]
+    assert result.out_lines == [make_message("C416", 1, col_offset, type="list")]
 
 
 def test_C416_fail_2_set(flake8dir):
     flake8dir.make_example_py("{x for x in range(5)}")
     result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C416 Unnecessary set comprehension - rewrite using set().",
-    ]
+    assert result.out_lines == [make_message("C416", 1, 1, type="set")]

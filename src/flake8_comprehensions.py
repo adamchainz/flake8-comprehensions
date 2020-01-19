@@ -175,6 +175,45 @@ class ComprehensionChecker:
                     )
 
                 elif (
+                    num_positional_args == 2
+                    and isinstance(node.args[1], ast.ListComp)
+                    and node.func.id == "filter"
+                ):
+                    # https://docs.python.org/3/library/functions.html#filter
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args in (2, 3)
+                    and isinstance(node.args[1], ast.ListComp)
+                    and node.func.id == "reduce"
+                ):
+                    # https://docs.python.org/3/library/functools.html#functools.reduce
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args >= 2
+                    and node.func.id == "map"
+                    and any(isinstance(a, ast.ListComp) for a in node.args[1:])
+                ):
+                    # https://docs.python.org/3/library/functions.html#map
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
                     num_positional_args == 0
                     and not has_star_args(node)
                     and not has_keyword_args(node)
@@ -302,6 +341,29 @@ class ComprehensionChecker:
                         self.messages["C416"].format(type=lookup[node.__class__]),
                         type(self),
                     )
+            elif isinstance(node, ast.Call):
+                node_qname = qualified_name(node.func)
+                if (
+                    node_qname == "functools.reduce"
+                    and len(node.args) in (2, 3)
+                    and isinstance(node.args[1], ast.ListComp)
+                ):
+                    # https://docs.python.org/3/library/functools.html#functools.reduce
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node_qname),
+                        type(self),
+                    )
+
+
+def qualified_name(node):
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute) and isinstance(node.ctx, ast.Load):
+        value = qualified_name(node.value)
+        if value:
+            return "{}.{}".format(value, node.attr)
 
 
 def has_star_args(call_node):
