@@ -100,13 +100,13 @@ For example:
 * Rewrite ``dict([(1, 2)])`` or ``dict(((1, 2),))`` as ``{1: 2}``
 * Rewrite ``dict([])`` as ``{}``
 
-C407: Unnecessary (dict/list) comprehension - '<builtin>' can take a generator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C407: Unnecessary list comprehension - '<builtin>' can take a generator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It's unnecessary to pass a list comprehension to some builtins that can take
 generators instead. For example:
 
-* Rewrite ``sum({x ** 2 for x in range(10)})`` as
+* Rewrite ``sum([x ** 2 for x in range(10)])`` as
   ``sum(x ** 2 for x in range(10))``
 * Rewrite ``all([foo.bar for foo in foos])`` as
   ``all(foo.bar for foo in foos)``
