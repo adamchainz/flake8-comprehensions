@@ -131,18 +131,12 @@ class ComprehensionChecker:
 
                 elif (
                     num_positional_args == 1
-                    and isinstance(node.args[0], ast.ListComp)
-                    and node.func.id
-                    in (
-                        "all",
-                        "any",
-                        "frozenset",
-                        "tuple",
-                        # These take 1 positional argument + some keyword arguments
-                        "max",
-                        "min",
-                        "sorted",
+                    # These take 1 positional argument + some keyword arguments
+                    and (
+                        node.func.id
+                        in ("all", "any", "frozenset", "tuple", "max", "min", "sorted",)
                     )
+                    and isinstance(node.args[0], ast.ListComp)
                 ):
 
                     yield (
@@ -154,13 +148,35 @@ class ComprehensionChecker:
 
                 elif (
                     num_positional_args in (1, 2)
+                    # These can take a second positional argument
+                    and (node.func.id in ("enumerate", "sum",))
                     and isinstance(node.args[0], ast.ListComp)
-                    and node.func.id
-                    in (
-                        # These can take a second positional argument
-                        "enumerate",
-                        "sum",
+                ):
+
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node.func.id),
+                        type(self),
                     )
+
+                elif (
+                    num_positional_args == 2
+                    and node.func.id == "filter"
+                    and isinstance(node.args[1], ast.ListComp)
+                ):
+
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C407"].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args >= 2
+                    and node.func.id == "map"
+                    and any(isinstance(arg, ast.ListComp) for arg in node.args[1:])
                 ):
 
                     yield (
