@@ -374,6 +374,19 @@ def test_C407_sum_fail_1(flake8dir):
     ]
 
 
+def test_C407_sum_fail_2(flake8dir):
+    flake8dir.make_example_py(
+        """
+        foo = sum({x + 1 for x in range(10)})
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:7: C407 Unnecessary set comprehension - 'sum' can take "
+        + "a generator."
+    ]
+
+
 def test_C407_filter_pass_1(flake8dir):
     flake8dir.make_example_py(
         "filter(lambda x: x % 2 == 0, (x + 1 for x in range(10)))"
@@ -389,6 +402,17 @@ def test_C407_filter_fail_1(flake8dir):
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'filter' can take "
+        + "a generator."
+    ]
+
+
+def test_C407_filter_fail_2(flake8dir):
+    flake8dir.make_example_py(
+        "filter(lambda x: x % 2 == 0, {x + 1 for x in range(10)})"
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary set comprehension - 'filter' can take "
         + "a generator."
     ]
 
@@ -415,6 +439,15 @@ def test_C407_map_fail_2(flake8dir):
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'map' can take "
+        + "a generator."
+    ]
+
+
+def test_C407_map_fail_3(flake8dir):
+    flake8dir.make_example_py("map(lambda x: x + 1, {x + 1 for x in range(10)})")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary set comprehension - 'map' can take "
         + "a generator."
     ]
 
@@ -453,6 +486,15 @@ def test_C407_max_fail_2(flake8dir):
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C407 Unnecessary list comprehension - 'max' can take "
+        + "a generator."
+    ]
+
+
+def test_C407_max_fail_3(flake8dir):
+    flake8dir.make_example_py("max({x + 1 for x in range(10)})")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary set comprehension - 'max' can take "
         + "a generator."
     ]
 
@@ -806,6 +848,32 @@ def test_C412_fail_1(flake8dir):
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C412 Unnecessary list comprehension - 'in' can "
+        + "take a generator."
+    ]
+
+
+def test_C412_fail_2(flake8dir):
+    flake8dir.make_example_py(
+        """
+        10 in {x + 1 for x in range(10)}
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C412 Unnecessary set comprehension - 'in' can "
+        + "take a generator."
+    ]
+
+
+def test_C412_fail_3(flake8dir):
+    flake8dir.make_example_py(
+        """
+        10 in {x: x + 1 for x in range(10)}
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C412 Unnecessary dict comprehension - 'in' can "
         + "take a generator."
     ]
 
