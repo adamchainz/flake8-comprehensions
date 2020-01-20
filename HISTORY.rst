@@ -2,10 +2,13 @@
 History
 =======
 
+3.2.2 (2020-01-20)
+------------------
+
 * Remove check for dict comprehensions in rule C407 as it would also change the
   results for certain builtins such as ``sum()``.
 
-3.2.1 (2020-01-21)
+3.2.1 (2020-01-20)
 ------------------
 
 * Remove check for set comprehensions in rule C407 as it would change the
