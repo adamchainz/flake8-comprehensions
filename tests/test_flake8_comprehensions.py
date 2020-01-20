@@ -374,6 +374,51 @@ def test_C407_sum_fail_1(flake8dir):
     ]
 
 
+def test_C407_filter_pass_1(flake8dir):
+    flake8dir.make_example_py(
+        "filter(lambda x: x % 2 == 0, (x + 1 for x in range(10)))"
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_filter_fail_1(flake8dir):
+    flake8dir.make_example_py(
+        "filter(lambda x: x % 2 == 0, [x + 1 for x in range(10)])"
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'filter' can take "
+        + "a generator."
+    ]
+
+
+def test_C407_map_pass_1(flake8dir):
+    flake8dir.make_example_py("map(lambda x: x + 1, (x + 1 for x in range(10)))")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C407_map_fail_1(flake8dir):
+    flake8dir.make_example_py("map(lambda x: x + 1, [x + 1 for x in range(10)])")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'map' can take "
+        + "a generator."
+    ]
+
+
+def test_C407_map_fail_2(flake8dir):
+    flake8dir.make_example_py(
+        "map(lambda x: x + 1, range(12), [x + 1 for x in range(10)])"
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C407 Unnecessary list comprehension - 'map' can take "
+        + "a generator."
+    ]
+
+
 def test_C407_max_pass_1(flake8dir):
     flake8dir.make_example_py("max(x + 1 for x in range(10))")
     result = flake8dir.run_flake8()

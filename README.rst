@@ -110,13 +110,17 @@ generators instead. For example:
   ``sum(x ** 2 for x in range(10))``
 * Rewrite ``all([foo.bar for foo in foos])`` as
   ``all(foo.bar for foo in foos)``
+* Rewrite ``filter(lambda x: x % 2 == 0, [x ** 3 for x in range(10)])`` as
+  ``filter(lambda x: x % 2 == 0, (x ** 3 for x in range(10)))``
 
 The list of builtins that are checked for are:
 
 * ``all``
 * ``any``
 * ``enumerate``
+* ``filter``
 * ``frozenset``
+* ``map``
 * ``max``
 * ``min``
 * ``sorted``
