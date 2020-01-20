@@ -2,6 +2,9 @@
 History
 =======
 
+3.2.1 (2020-01-21)
+------------------
+
 * Remove check for set comprehensions in rule C407 as it would change the
   results for certain builtins such as ``sum()``.
 
