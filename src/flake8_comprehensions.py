@@ -26,18 +26,24 @@ class ComprehensionChecker:
         "C404": (
             "C404 Unnecessary list comprehension - rewrite as a dict comprehension."
         ),
-        "C405": "C405 Unnecessary {type} literal - ",
-        "C406": "C406 Unnecessary {type} literal - ",
+        "C405": "C405 Unnecessary {type} literal{suffix}.",
+        "C406": "C406 Unnecessary {type} literal{suffix}.",
         "C407": "C407 Unnecessary list comprehension - '{func}' can take a generator.",
         "C408": "C408 Unnecessary {type} call - rewrite as a literal.",
-        "C409": "C409 Unnecessary {type} passed to tuple() - ",
-        "C410": "C410 Unnecessary {type} passed to list() - ",
+        "C409": "C409 Unnecessary {type} passed to tuple(){suffix}.",
+        "C410": "C410 Unnecessary {type} passed to list(){suffix}.",
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
         "C412": "C412 Unnecessary list comprehension - 'in' can take a generator.",
-        "C413": "C413 Unnecessary {outer} call around {inner}(){remediation}.",
+        "C413": "C413 Unnecessary {outer} call around {inner}(){suffix}.",
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
+    }
+    suffixes = {
+        "rm": " - remove the outer call to {func}()",
+        "rw": " - rewrite as a {func} literal",
+        "tg": " - toggle reverse argument to sorted()",
+        "st": " - use sorted(..., reverse={value!r})",
     }
 
     def run(self):
@@ -95,14 +101,13 @@ class ComprehensionChecker:
                     or isinstance(node.args[0], ast.List)
                     and node.func.id == "list"
                 ):
-                    suffix = "remove the outer call to {func}()."
                     msg_key = {"tuple": "C409", "list": "C410"}[node.func.id]
-                    msg = self.messages[msg_key] + suffix
                     yield (
                         node.lineno,
                         node.col_offset,
-                        msg.format(
-                            type=type(node.args[0]).__name__.lower(), func=node.func.id
+                        self.messages[msg_key].format(
+                            type=type(node.args[0]).__name__.lower(),
+                            suffix=self.suffixes["rm"].format(func=node.func.id),
                         ),
                         type(self),
                     )
@@ -112,19 +117,18 @@ class ComprehensionChecker:
                     and isinstance(node.args[0], (ast.Tuple, ast.List))
                     and node.func.id in ("tuple", "list", "set", "dict")
                 ):
-                    suffix = "rewrite as a {func} literal."
                     msg_key = {
                         "tuple": "C409",
                         "list": "C410",
                         "set": "C405",
                         "dict": "C406",
                     }[node.func.id]
-                    msg = self.messages[msg_key] + suffix
                     yield (
                         node.lineno,
                         node.col_offset,
-                        msg.format(
-                            type=type(node.args[0]).__name__.lower(), func=node.func.id
+                        self.messages[msg_key].format(
+                            type=type(node.args[0]).__name__.lower(),
+                            suffix=self.suffixes["rw"].format(func=node.func.id),
                         ),
                         type(self),
                     )
@@ -190,7 +194,7 @@ class ComprehensionChecker:
                     and isinstance(node.args[0].func, ast.Name)
                     and node.args[0].func.id == "sorted"
                 ):
-                    remediation = ""
+                    suffix = ""
                     if node.func.id == "reversed":
                         reverse_flag_value = False
                         for keyword in node.args[0].keywords:
@@ -205,16 +209,14 @@ class ComprehensionChecker:
                                 reverse_flag_value = None
 
                         if reverse_flag_value is None:
-                            remediation = " - toggle reverse argument to sorted()"
+                            suffix = self.suffixes["tg"]
                         else:
-                            remediation = " - use sorted(..., reverse={!r})".format(
-                                not reverse_flag_value
+                            suffix = self.suffixes["st"].format(
+                                value=not reverse_flag_value
                             )
 
                     msg = self.messages["C413"].format(
-                        inner=node.args[0].func.id,
-                        outer=node.func.id,
-                        remediation=remediation,
+                        inner=node.args[0].func.id, outer=node.func.id, suffix=suffix
                     )
                     yield (
                         node.lineno,
