@@ -138,9 +138,7 @@ class ComprehensionChecker:
                         node.func.id
                         in ("all", "any", "frozenset", "tuple", "max", "min", "sorted",)
                     )
-                    and isinstance(
-                        node.args[0], (ast.DictComp, ast.ListComp, ast.SetComp)
-                    )
+                    and isinstance(node.args[0], (ast.DictComp, ast.ListComp))
                 ):
 
                     yield (
@@ -156,9 +154,7 @@ class ComprehensionChecker:
                     num_positional_args in (1, 2)
                     # These can take a second positional argument
                     and (node.func.id in ("enumerate", "sum",))
-                    and isinstance(
-                        node.args[0], (ast.DictComp, ast.ListComp, ast.SetComp)
-                    )
+                    and isinstance(node.args[0], (ast.DictComp, ast.ListComp))
                 ):
 
                     yield (
@@ -173,9 +169,7 @@ class ComprehensionChecker:
                 elif (
                     num_positional_args == 2
                     and node.func.id == "filter"
-                    and isinstance(
-                        node.args[1], (ast.DictComp, ast.ListComp, ast.SetComp)
-                    )
+                    and isinstance(node.args[1], (ast.DictComp, ast.ListComp))
                 ):
 
                     yield (
@@ -189,7 +183,7 @@ class ComprehensionChecker:
 
                 elif num_positional_args >= 2 and node.func.id == "map":
                     for arg in node.args[1:]:
-                        if isinstance(arg, (ast.DictComp, ast.ListComp, ast.SetComp)):
+                        if isinstance(arg, (ast.DictComp, ast.ListComp)):
                             yield (
                                 node.lineno,
                                 node.col_offset,
