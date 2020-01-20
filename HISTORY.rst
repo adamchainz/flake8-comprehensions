@@ -2,6 +2,9 @@
 History
 =======
 
+3.2.0 (2020-01-20)
+------------------
+
 * Add ``filter`` and ``map`` to rule C407.
 * Check for dict and set comprehensions in rules C407 and C412.
 
