@@ -1,4 +1,6 @@
+Pygments
 black ; python_version == '3.8.*'
+check-manifest ; python_version == '3.8.*'
 docutils
 flake8
 flake8-bugbear
@@ -7,7 +9,6 @@ importlib-metadata ; python_version < "3.8"
 isort
 multilint
 pathlib
-Pygments
 pytest
 pytest-flake8dir
 pytest-randomly
