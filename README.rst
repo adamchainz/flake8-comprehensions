@@ -21,7 +21,7 @@ Install from ``pip`` with:
 
 .. code-block:: sh
 
-     pip install flake8-comprehensions
+     python -m pip install flake8-comprehensions
 
 Python 3.5 to 3.8 supported.
 
