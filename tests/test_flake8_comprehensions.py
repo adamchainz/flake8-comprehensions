@@ -1,3 +1,4 @@
+import re
 import sys
 
 import pytest
@@ -13,9 +14,9 @@ python_3_6_plus = pytest.mark.skipif(sys.version_info < (3, 6), reason="Python 3
 
 def test_version(flake8dir):
     result = flake8dir.run_flake8(["--version"])
-    version_string = "flake8-comprehensions: " + version("flake8-comprehensions")
+    version_regex = r"flake8-comprehensions:( )*" + version("flake8-comprehensions")
     unwrapped = "".join(result.out_lines)
-    assert version_string in unwrapped
+    assert re.search(version_regex, unwrapped)
 
 
 # C400
