@@ -618,6 +618,12 @@ def test_C408_pass_6(flake8dir):
     assert result.out_lines == []
 
 
+def test_C408_pass_7(flake8dir):
+    flake8dir.make_example_py("dict(a=1)")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
 def test_C408_fail_1(flake8dir):
     flake8dir.make_example_py("tuple()")
     result = flake8dir.run_flake8()
@@ -636,14 +642,6 @@ def test_C408_fail_2(flake8dir):
 
 def test_C408_fail_3(flake8dir):
     flake8dir.make_example_py("dict()")
-    result = flake8dir.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
-    ]
-
-
-def test_C408_fail_4(flake8dir):
-    flake8dir.make_example_py("dict(a=1)")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
