@@ -2,6 +2,9 @@
 History
 =======
 
+3.2.3 (2020-06-06)
+------------------
+
 * Made ``C408`` only apply when no arguments are passed to
   ``dict``/``list``/``tuple``.
 
