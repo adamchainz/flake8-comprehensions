@@ -1,16 +1,16 @@
-Pygments
 black ; python_version == '3.8.*'
 check-manifest ; python_version == '3.8.*'
-docutils
-flake8
-flake8-bugbear
-flake8-tidy-imports
+docutils ; python_version == '3.8.*'
+flake8 ; python_version == '3.8.*'
+flake8-bugbear ; python_version == '3.8.*'
+flake8-tidy-imports ; python_version == '3.8.*'
 importlib-metadata ; python_version < "3.8"
-isort
-multilint
+isort ; python_version == '3.8.*'
+multilint ; python_version == '3.8.*'
 pathlib
+pygments ; python_version == '3.8.*'
 pytest
 pytest-flake8dir
 pytest-randomly
-secretstorage # required for twine on linux
-twine
+secretstorage ; python_version == '3.8.*' # required for twine on linux
+twine ; python_version == '3.8.*'
