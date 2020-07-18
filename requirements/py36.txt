@@ -52,9 +52,9 @@ pytest-flake8dir==2.2.0 \
     --hash=sha256:783e02b1b0685800c35dc19ddf09f4d078efbeb99d507950b35685c591aeb443 \
     --hash=sha256:93b83f417d4022cc0e53e2e4ccfc1b971eb557113b7765580f3445ed2844150d \
     # via -r requirements.in
-pytest-randomly==3.4.0 \
-    --hash=sha256:4e02887ba52f021cc8d5429e91e93be2b5df4adf38bf1715c7c153968b260b59 \
-    --hash=sha256:e44a69623237e47cc4ee77da9c04c6b505ed1a7b00656dc1409f8344c707b87b \
+pytest-randomly==3.4.1 \
+    --hash=sha256:2c4df1390db72a33a4f44fac0c780e7883cd5968238efa2a2bdbdd54e3fc6681 \
+    --hash=sha256:5fd0dbeeb218a7ce029690a8100453cd8d6a7972cf9d8e657690352692e92c69 \
     # via -r requirements.in
 pytest==5.4.3 \
     --hash=sha256:5c0db86b698e8f170ba4582a492248919255fcd4c79b1ee64ace34301fb589a1 \
