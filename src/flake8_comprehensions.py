@@ -134,7 +134,15 @@ class ComprehensionChecker:
                     # These take 1 positional argument + some keyword arguments
                     and (
                         node.func.id
-                        in ("all", "any", "frozenset", "tuple", "max", "min", "sorted",)
+                        in (
+                            "all",
+                            "any",
+                            "frozenset",
+                            "tuple",
+                            "max",
+                            "min",
+                            "sorted",
+                        )
                     )
                     and isinstance(node.args[0], ast.ListComp)
                 ):
@@ -149,7 +157,13 @@ class ComprehensionChecker:
                 elif (
                     num_positional_args in (1, 2)
                     # These can take a second positional argument
-                    and (node.func.id in ("enumerate", "sum",))
+                    and (
+                        node.func.id
+                        in (
+                            "enumerate",
+                            "sum",
+                        )
+                    )
                     and isinstance(node.args[0], ast.ListComp)
                 ):
 
