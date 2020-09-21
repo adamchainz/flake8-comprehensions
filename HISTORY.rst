@@ -2,6 +2,8 @@
 History
 =======
 
+* Move license from ISC to MIT License.
+
 3.2.3 (2020-06-06)
 ------------------
 
