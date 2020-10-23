@@ -2,6 +2,9 @@
 History
 =======
 
+3.3.0 (2020-06-06)
+------------------
+
 * Support Python 3.9.
 * Move license from ISC to MIT License.
 * Partially reverted the change to ``C408`` to make it apply again to when
