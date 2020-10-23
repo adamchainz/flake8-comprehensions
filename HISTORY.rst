@@ -4,6 +4,9 @@ History
 
 * Support Python 3.9.
 * Move license from ISC to MIT License.
+* Partially reverted the change to ``C408`` to make it apply again to when
+  ``dict`` is called with keyword arguments, e.g. ``dict(a=1, b=2)`` will be
+  flagged to be rewritten in the literal form ``{"a": 1, "b": 2}``
 
 3.2.3 (2020-06-06)
 ------------------

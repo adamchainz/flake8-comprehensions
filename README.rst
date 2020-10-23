@@ -140,12 +140,12 @@ The list of builtins that are checked for are:
 C408: Unnecessary (dict/list/tuple) call - rewrite as a literal.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It's slower to call these types than to construct them with literals, e.g.
-``dict()`` is slower than ``{}``, because the name ``dict`` must be looked up
-in the global scope in case it has been rebound, and it includes the overhead
-of a function call. Same for the other two builtin types here. For example:
+It's slower to call e.g. ``dict()`` than using the empty literal, because the
+name ``dict`` must be looked up in the global scope in case it has been
+rebound. Same for the other two basic types here. For example:
 
 * Rewrite ``dict()`` as ``{}``
+* Rewrite ``dict(a=1, b=2)`` as ``{}``
 * Rewrite ``list()`` as ``[]``
 * Rewrite ``tuple()`` as ``()``
 
