@@ -599,8 +599,8 @@ def test_C408_pass_4(flake8dir):
 def test_C408_pass_5(flake8dir):
     flake8dir.make_example_py(
         """\
-        foo = {}
-        dict(bar=1, **foo)
+        foo = [('foo', 2)]
+        dict(foo)
     """
     )
     result = flake8dir.run_flake8()
@@ -610,8 +610,8 @@ def test_C408_pass_5(flake8dir):
 def test_C408_pass_6(flake8dir):
     flake8dir.make_example_py(
         """\
-        foo = [1, 2]
-        list(*foo)
+        foo = {}
+        dict(bar=1, **foo)
     """
     )
     result = flake8dir.run_flake8()
@@ -619,7 +619,23 @@ def test_C408_pass_6(flake8dir):
 
 
 def test_C408_pass_7(flake8dir):
-    flake8dir.make_example_py("dict(a=1)")
+    flake8dir.make_example_py(
+        """\
+        foo = [1, 2]
+        list(foo)
+    """
+    )
+    result = flake8dir.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C408_pass_8(flake8dir):
+    flake8dir.make_example_py(
+        """\
+        foo = [1, 2]
+        list(*foo)
+    """
+    )
     result = flake8dir.run_flake8()
     assert result.out_lines == []
 
@@ -642,6 +658,14 @@ def test_C408_fail_2(flake8dir):
 
 def test_C408_fail_3(flake8dir):
     flake8dir.make_example_py("dict()")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
+    ]
+
+
+def test_C408_fail_4(flake8dir):
+    flake8dir.make_example_py("dict(a=1)")
     result = flake8dir.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C408 Unnecessary dict call - rewrite as a literal."
