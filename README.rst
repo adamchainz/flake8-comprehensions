@@ -145,7 +145,7 @@ name ``dict`` must be looked up in the global scope in case it has been
 rebound. Same for the other two basic types here. For example:
 
 * Rewrite ``dict()`` as ``{}``
-* Rewrite ``dict(a=1, b=2)`` as ``{}``
+* Rewrite ``dict(a=1, b=2)`` as ``{"a": 1, "b": 2}``
 * Rewrite ``list()`` as ``[]``
 * Rewrite ``tuple()`` as ``()``
 
