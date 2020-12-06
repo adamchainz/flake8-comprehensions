@@ -332,7 +332,7 @@ class ComprehensionChecker:
                 if (
                     len(node.generators) == 1
                     and not node.generators[0].ifs
-                    and not is_async_generator(node.generators[0])
+                    and not node.generators[0].is_async
                     and (
                         isinstance(node.elt, ast.Name)
                         and isinstance(node.generators[0].target, ast.Name)
@@ -361,15 +361,3 @@ comp_type = {
     ast.ListComp: "list",
     ast.SetComp: "set",
 }
-
-
-if sys.version_info >= (3, 6):
-
-    def is_async_generator(node):
-        return node.is_async
-
-
-else:
-
-    def is_async_generator(node):
-        return False
