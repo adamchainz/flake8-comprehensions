@@ -1,5 +1,6 @@
 import re
 import sys
+import textwrap
 
 import pytest
 
@@ -7,6 +8,19 @@ if sys.version_info >= (3, 8):
     from importlib.metadata import version
 else:
     from importlib_metadata import version
+
+
+@pytest.fixture
+def flake8dir(flake8dir):
+    flake8dir.make_setup_cfg(
+        textwrap.dedent(
+            """\
+            [flake8]
+            select = C4
+            """
+        )
+    )
+    yield flake8dir
 
 
 python_3_6_plus = pytest.mark.skipif(sys.version_info < (3, 6), reason="Python 3.6+")
