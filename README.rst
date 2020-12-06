@@ -68,6 +68,7 @@ C413 Unnecessary reversed call around sorted() - (use sorted(..., reverse=(True/
 C414 Unnecessary (list/reversed/set/sorted/tuple) call within list/set/sorted/tuple().
 C415 Unnecessary subscript reversal of iterable within reversed/set/sorted().
 C416 Unnecessary (list/set) comprehension - rewrite using list/set().
+C417 Unnecessary list call in an iteration - remove the call to list().
 ==== ====
 
 Examples
@@ -218,3 +219,12 @@ iterable should be wrapped in ``list()`` or ``set()`` instead. For example:
 
 * Rewrite ``[x for x in iterable]`` as ``list(iterable)``
 * Rewrite ``{x for x in iterable}`` as ``set(iterable)``
+
+C416: Unnecessary (list/set) comprehension - rewrite using list/set().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's unnecessary to call list on an iterable just before if it will only be iterated on.
+The iterable should be iterated on directly instead to keep the lazy evaluation. For example:
+
+* Rewrite ``(x * x for x in list(range(n)))`` as ``(x * x for x in range(n))``
+* Rewrite ``for x in list(iterable): do_something(x)`` as ``for x in iterable: do_something(x)``

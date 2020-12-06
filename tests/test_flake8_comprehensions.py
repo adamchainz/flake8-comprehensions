@@ -1130,3 +1130,21 @@ def test_C416_fail_2_set(flake8dir):
     assert result.out_lines == [
         "./example.py:1:1: C416 Unnecessary set comprehension - rewrite using set().",
     ]
+
+
+def test_C417_fail_1_statement(flake8dir):
+    flake8dir.make_example_py("for i in list(range(8)): print(i)")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:10: C417 Unnecessary list call in an iteration"
+        " - remove the call to list().",
+    ]
+
+
+def test_C417_fail_2_expression(flake8dir):
+    flake8dir.make_example_py("[i * i for i in list(range(8))]")
+    result = flake8dir.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:17: C417 Unnecessary list call in an iteration"
+        " - remove the call to list().",
+    ]

@@ -38,6 +38,9 @@ class ComprehensionChecker:
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
+        "C417": (
+            "C417 Unnecessary list call in an iteration - remove the call to list()."
+        ),
     }
 
     def run(self):
@@ -328,9 +331,26 @@ class ComprehensionChecker:
                         type(self),
                     )
 
-            elif isinstance(node, (ast.ListComp, ast.SetComp)):
+            elif isinstance(
+                node, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)
+            ):
+
+                it = next(
+                    (gen.iter for gen in node.generators if is_list_call(gen.iter)),
+                    None,
+                )
+
+                if it is not None:
+                    yield (
+                        it.lineno,
+                        it.col_offset,
+                        self.messages["C417"],
+                        type(self),
+                    )
+
                 if (
-                    len(node.generators) == 1
+                    isinstance(node, (ast.ListComp, ast.SetComp))
+                    and len(node.generators) == 1
                     and not node.generators[0].ifs
                     and not node.generators[0].is_async
                     and (
@@ -347,6 +367,14 @@ class ComprehensionChecker:
                         type(self),
                     )
 
+            elif isinstance(node, ast.For) and is_list_call(node.iter):
+                yield (
+                    node.iter.lineno,
+                    node.iter.col_offset,
+                    self.messages["C417"],
+                    type(self),
+                )
+
 
 def has_star_args(call_node):
     return any(isinstance(a, ast.Starred) for a in call_node.args)
@@ -354,6 +382,14 @@ def has_star_args(call_node):
 
 def has_double_star_args(call_node):
     return any(k.arg is None for k in call_node.keywords)
+
+
+def is_list_call(expr_node):
+    return (
+        isinstance(expr_node, ast.Call)
+        and isinstance(expr_node.func, ast.Name)
+        and expr_node.func.id == "list"
+    )
 
 
 comp_type = {
