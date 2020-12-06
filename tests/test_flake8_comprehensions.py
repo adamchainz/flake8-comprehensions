@@ -23,9 +23,6 @@ def flake8dir(flake8dir):
     yield flake8dir
 
 
-python_3_6_plus = pytest.mark.skipif(sys.version_info < (3, 6), reason="Python 3.6+")
-
-
 def test_version(flake8dir):
     result = flake8dir.run_flake8(["--version"])
     version_regex = r"flake8-comprehensions:( )*" + version("flake8-comprehensions")
@@ -1073,7 +1070,6 @@ def test_C416_pass_1(flake8dir):
     assert result.out_lines == []
 
 
-@python_3_6_plus
 def test_C416_pass_2_async_list(flake8dir):
     flake8dir.make_example_py(
         """\
@@ -1085,7 +1081,6 @@ def test_C416_pass_2_async_list(flake8dir):
     assert result.out_lines == []
 
 
-@python_3_6_plus
 def test_C416_pass_3_async_set(flake8dir):
     flake8dir.make_example_py(
         """\
