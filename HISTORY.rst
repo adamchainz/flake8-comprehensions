@@ -2,6 +2,9 @@
 History
 =======
 
+3.3.1 (2020-12-19)
+------------------
+
 * Drop Python 3.5 support.
 * Improved installation instructions in README.
 
