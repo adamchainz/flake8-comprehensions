@@ -15,27 +15,36 @@ flake8-comprehensions
    :target: https://github.com/pre-commit/pre-commit
    :alt: pre-commit
 
-A `flake8 <https://flake8.readthedocs.io/en/latest/index.html>`_ plugin that
-helps you write better list/set/dict comprehensions.
+A `flake8 <https://flake8.readthedocs.io/en/latest/index.html>`_ plugin that helps you write better list/set/dict comprehensions.
+
+Requirements
+============
+
+Python 3.6 to 3.9 supported.
 
 Installation
-------------
+============
 
-Install from ``pip`` with:
+First, install with ``pip``:
 
 .. code-block:: sh
 
      python -m pip install flake8-comprehensions
 
-Python 3.6 to 3.9 supported.
-
-When installed it will automatically be run as part of ``flake8``; you can
-check it is being picked up with:
+Second, check that ``flake8`` lists the plugin in its version line:
 
 .. code-block:: sh
 
     $ flake8 --version
     3.7.8 (flake8-comprehensions: 3.0.0, mccabe: 0.6.1, pycodestyle: 2.5.0, pyflakes: 2.1.1) CPython 3.8.0 on Linux
+
+Third, add the ``C4`` prefix to your `select list <https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select>`__.
+For example, if you have your configuration in ``setup.cfg``:
+
+.. code-block:: ini
+
+    [flake8]
+    select = E,F,W,C4
 
 ----
 
@@ -45,83 +54,49 @@ Check out my book `Speed Up Your Django Tests <https://gumroad.com/l/suydt>`__ w
 ----
 
 Rules
------
+=====
 
-==== ====
-Code Rule
-==== ====
-C400 Unnecessary generator - rewrite as a list comprehension.
-C401 Unnecessary generator - rewrite as a set comprehension.
-C402 Unnecessary generator - rewrite as a dict comprehension.
-C403 Unnecessary list comprehension - rewrite as a set comprehension.
-C404 Unnecessary list comprehension - rewrite as a dict comprehension.
-C405 Unnecessary (list/tuple) literal - rewrite as a set literal.
-C406 Unnecessary (list/tuple) literal - rewrite as a dict literal.
-C407 Unnecessary (dict/list) comprehension - '<builtin>' can take a generator.
-C408 Unnecessary (dict/list/tuple) call - rewrite as a literal.
-C409 Unnecessary (list/tuple) passed to tuple() - (remove the outer call to tuple()/rewrite as a tuple literal).
-C410 Unnecessary (list/tuple) passed to list() - (remove the outer call to list()/rewrite as a list literal).
-C411 Unnecessary list call - remove the outer call to list().
-C412 Unnecessary (dict/list/set) comprehension - 'in' can take a generator.
-C413 Unnecessary list call around sorted().
-C413 Unnecessary reversed call around sorted() - (use sorted(..., reverse=(True/False))/toggle reverse argument to sorted()).
-C414 Unnecessary (list/reversed/set/sorted/tuple) call within list/set/sorted/tuple().
-C415 Unnecessary subscript reversal of iterable within reversed/set/sorted().
-C416 Unnecessary (list/set) comprehension - rewrite using list/set().
-==== ====
+C400-402: Unnecessary generator - rewrite as a ``<list/set/dict>`` comprehension.
+---------------------------------------------------------------------------------
 
-Examples
---------
-
-C400-402: Unnecessary generator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-It's unnecessary to use ``list``, ``set``, or ``dict`` around a generator
-expression, since there are equivalent comprehensions for these types. For
-example:
+It's unnecessary to use ``list``, ``set``, or ``dict`` around a generator expression, since there are equivalent comprehensions for these types.
+For example:
 
 * Rewrite ``list(f(x) for x in foo)`` as ``[f(x) for x in foo]``
 * Rewrite ``set(f(x) for x in foo)`` as ``{f(x) for x in foo}``
 * Rewrite ``dict((x, f(x)) for x in foo)`` as ``{x: f(x) for x in foo}``
 
-C403-404: Unnecessary list comprehension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C403-404: Unnecessary list comprehension - rewrite as a ``<set/dict>`` comprehension.
+-------------------------------------------------------------------------------------
 
-It's unnecessary to use a list comprehension inside a call to ``set`` or
-``dict``, since there are equivalent comprehensions for these types. For
-example:
+It's unnecessary to use a list comprehension inside a call to ``set`` or ``dict``, since there are equivalent comprehensions for these types.
+For example:
 
 * Rewrite ``set([f(x) for x in foo])`` as ``{f(x) for x in foo}``
 * Rewrite ``dict([(x, f(x)) for x in foo])`` as ``{x: f(x) for x in foo}``
 
-C405-406,C409-410: Unnecessary list/tuple literal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C405-406: Unnecessary ``<list/tuple>`` literal - rewrite as a ``<set/dict>`` literal.
+-------------------------------------------------------------------------------------
 
-It's unnecessary to use a list or tuple literal within a call to ``tuple``,
-``list``, ``set``, or ``dict`` since there is literal syntax for these types.
+It's unnecessary to use a list or tuple literal within a call to ``set`` or ``dict``.
 For example:
 
-* Rewrite ``tuple([1, 2])`` or ``tuple((1, 2))`` as ``(1, 2)``
-* Rewrite ``tuple([])`` as ``()``
-* Rewrite ``list([1, 2])`` or ``list((1, 2))`` as ``[1, 2]``
-* Rewrite ``list([])`` as ``[]``
-* Rewrite ``set([1, 2])`` or ``set((1, 2))`` as ``{1, 2}``
+* Rewrite ``set([1, 2])`` as ``{1, 2}``
+* Rewrite  ``set((1, 2))`` as ``{1, 2}``
 * Rewrite ``set([])`` as ``set()``
-* Rewrite ``dict([(1, 2)])`` or ``dict(((1, 2),))`` as ``{1: 2}``
+* Rewrite ``dict([(1, 2)])`` as ``{1: 2}``
+* Rewrite ``dict(((1, 2),))`` as ``{1: 2}``
 * Rewrite ``dict([])`` as ``{}``
 
-C407: Unnecessary list comprehension - '<builtin>' can take a generator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C407: Unnecessary ``<dict/list>`` comprehension - ``<builtin>`` can take a generator
+------------------------------------------------------------------------------------
 
-It's unnecessary to pass a list comprehension to some builtins that can take
-generators instead. For example:
+It's unnecessary to pass a list comprehension to some builtins that can take generators instead.
+For example:
 
-* Rewrite ``sum([x ** 2 for x in range(10)])`` as
-  ``sum(x ** 2 for x in range(10))``
-* Rewrite ``all([foo.bar for foo in foos])`` as
-  ``all(foo.bar for foo in foos)``
-* Rewrite ``filter(lambda x: x % 2 == 0, [x ** 3 for x in range(10)])`` as
-  ``filter(lambda x: x % 2 == 0, (x ** 3 for x in range(10)))``
+* Rewrite ``sum([x ** 2 for x in range(10)])`` as ``sum(x ** 2 for x in range(10))``
+* Rewrite ``all([foo.bar for foo in foos])`` as ``all(foo.bar for foo in foos)``
+* Rewrite ``filter(lambda x: x % 2 == 0, [x ** 3 for x in range(10)])`` as ``filter(lambda x: x % 2 == 0, (x ** 3 for x in range(10)))``
 
 The list of builtins that are checked for are:
 
@@ -137,52 +112,64 @@ The list of builtins that are checked for are:
 * ``sum``
 * ``tuple``
 
-C408: Unnecessary (dict/list/tuple) call - rewrite as a literal.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C408: Unnecessary ``<dict/list/tuple>`` call - rewrite as a literal.
+--------------------------------------------------------------------
 
-It's slower to call e.g. ``dict()`` than using the empty literal, because the
-name ``dict`` must be looked up in the global scope in case it has been
-rebound. Same for the other two basic types here. For example:
+It's slower to call e.g. ``dict()`` than using the empty literal, because the name ``dict`` must be looked up in the global scope in case it has been rebound.
+Same for the other two basic types here.
+For example:
 
 * Rewrite ``dict()`` as ``{}``
 * Rewrite ``dict(a=1, b=2)`` as ``{"a": 1, "b": 2}``
 * Rewrite ``list()`` as ``[]``
 * Rewrite ``tuple()`` as ``()``
 
-C411: Unnecessary list call - remove the outer call to list().
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C409-410: Unnecessary ``<list/tuple>`` passed to ``<list/tuple>``\() - (remove the outer call to ``<list/tuple>``()/rewrite as a ``<list/tuple>`` literal).
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-It's unnecessary to use a ``list`` around list comprehension, since it is
-equivalent without it. For example:
+It's unnecessary to use a list or tuple literal within a call to ``list`` or ``tuple``, since there is literal syntax for these types.
+For example:
+
+* Rewrite ``tuple([1, 2])`` as ``(1, 2)``
+* Rewrite ``tuple((1, 2))`` as ``(1, 2)``
+* Rewrite ``tuple([])`` as ``()``
+* Rewrite ``list([1, 2])`` as ``[1, 2]``
+* Rewrite ``list((1, 2))`` as ``[1, 2]``
+* Rewrite ``list([])`` as ``[]``
+
+C411: Unnecessary list call - remove the outer call to list().
+--------------------------------------------------------------
+
+It's unnecessary to use a ``list`` around a list comprehension, since it is equivalent without it.
+For example:
 
 * Rewrite ``list([f(x) for x in foo])`` as ``[f(x) for x in foo]``
 
-C412: Unnecessary (dict/list/set) comprehension - 'in' can take a generator.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C412: Unnecessary ``<dict/list/set>`` comprehension - 'in' can take a generator.
+--------------------------------------------------------------------------------
 
-It's unnecessary to pass a dict/list/set comprehension to 'in' that can take a
-generator instead. For example:
+It's unnecessary to pass a ``dict``/``list``/``set`` comprehension to 'in', as it can take a generator instead.
+For example:
 
 * Rewrite ``y in [f(x) for x in foo]`` as ``y in (f(x) for x in foo)``
 * Rewrite ``y in {x ** 2 for x in foo}`` as ``y in (x ** 2 for x in foo)``
 
-C413: Unnecessary list/reversed call around sorted().
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C413: Unnecessary ``<list/reversed>`` call around sorted().
+-----------------------------------------------------------
 
-It's unnecessary to use ``list()`` around ``sorted()`` as it already returns a
-list. It is also suboptimal to use ``reversed()`` around ``sorted()`` as the
-latter has a ``reverse`` argument. For example:
+It's unnecessary to use ``list()`` around ``sorted()`` as it already returns a list.
+It is also unnecessary to use ``reversed()`` around ``sorted()`` as the latter has a ``reverse`` argument.
+For example:
 
 * Rewrite ``list(sorted([2, 3, 1]))`` as ``sorted([2, 3, 1])``
 * Rewrite ``reversed(sorted([2, 3, 1]))`` as ``sorted([2, 3, 1], reverse=True)``
 * Rewrite ``reversed(sorted([2, 3, 1], reverse=True))`` as ``sorted([2, 3, 1])``
 
-C414: Unnecessary (list/reversed/set/sorted/tuple) call within list/set/sorted/tuple().
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C414: Unnecessary ``<list/reversed/set/sorted/tuple>`` call within ``<list/set/sorted/tuple>``\().
+--------------------------------------------------------------------------------------------------
 
-It's unnecessary to change the type of the iterable or change the order of
-elements within certain other function calls that will themselves define the
-order of the iterable or the type that is output. For example:
+It's unnecessary to double-cast or double-process iterables by wrapping the listed functions within ``list``/``set``/``sorted``/``tuple``.
+For example:
 
 * Rewrite ``list(list(iterable))`` as ``list(iterable)``
 * Rewrite ``list(tuple(iterable))`` as ``list(iterable)``
@@ -198,23 +185,22 @@ order of the iterable or the type that is output. For example:
 * Rewrite ``sorted(sorted(iterable))`` as ``sorted(iterable)``
 * Rewrite ``sorted(reversed(iterable))`` as ``sorted(iterable)``
 
-C415: Unnecessary subscript reversal of iterable within reversed/set/sorted().
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C415: Unnecessary subscript reversal of iterable within ``<reversed/set/sorted>``\().
+-------------------------------------------------------------------------------------
 
-It's unnecessary to reverse the order of an iterable using a ``[::-1]`` before
-passing it into ``set()`` which will randomize the order, ``sorted()`` which
-will return a new sorted list, or ``reversed()`` which will effectively return
-the original iterable. For example:
+It's unnecessary to reverse the order of an iterable when passing it into one of the listed functions will change the order again.
+For example:
 
 * Rewrite ``set(iterable[::-1])`` as ``set(iterable)``
 * Rewrite ``sorted(iterable[::-1])`` as ``sorted(iterable, reverse=True)``
 * Rewrite ``reversed(iterable[::-1])`` as ``iterable``
 
-C416: Unnecessary (list/set) comprehension - rewrite using list/set().
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C416: Unnecessary ``<list/set>`` comprehension - rewrite using ``<list/set>``\().
+---------------------------------------------------------------------------------
 
-It's unnecessary to use a list comprehension if the elements are unchanged. The
-iterable should be wrapped in ``list()`` or ``set()`` instead. For example:
+It's unnecessary to use a list comprehension if the elements are unchanged.
+The iterable should be wrapped in ``list()`` or ``set()`` instead.
+For example:
 
 * Rewrite ``[x for x in iterable]`` as ``list(iterable)``
 * Rewrite ``{x for x in iterable}`` as ``set(iterable)``
