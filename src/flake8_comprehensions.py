@@ -15,6 +15,8 @@ class ComprehensionChecker:
     name = "flake8-comprehensions"
     version = version("flake8-comprehensions")
 
+    __slots__ = ("tree",)
+
     def __init__(self, tree, *args, **kwargs):
         self.tree = tree
 
