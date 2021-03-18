@@ -2,6 +2,9 @@
 History
 =======
 
+3.4.0 (2021-03-18)
+------------------
+
 * Remove rules C407 (Unnecessary ``<dict/list>`` comprehension - ``<builtin>``
   can take a generator) and C412 (Unnecessary ``<dict/list/set>`` comprehension
   - 'in' can take a generator). Both rules recommended increasing laziness,
