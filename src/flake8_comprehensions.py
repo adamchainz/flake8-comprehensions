@@ -30,12 +30,10 @@ class ComprehensionChecker:
         ),
         "C405": "C405 Unnecessary {type} literal - ",
         "C406": "C406 Unnecessary {type} literal - ",
-        "C407": "C407 Unnecessary list comprehension - '{func}' can take a generator.",
         "C408": "C408 Unnecessary {type} call - rewrite as a literal.",
         "C409": "C409 Unnecessary {type} passed to tuple() - ",
         "C410": "C410 Unnecessary {type} passed to list() - ",
         "C411": "C411 Unnecessary list call - remove the outer call to list().",
-        "C412": "C412 Unnecessary {type} comprehension - 'in' can take a generator.",
         "C413": "C413 Unnecessary {outer} call around {inner}(){remediation}.",
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
@@ -129,76 +127,6 @@ class ComprehensionChecker:
                         msg.format(
                             type=type(node.args[0]).__name__.lower(), func=node.func.id
                         ),
-                        type(self),
-                    )
-
-                elif (
-                    num_positional_args == 1
-                    # These take 1 positional argument + some keyword arguments
-                    and (
-                        node.func.id
-                        in (
-                            "all",
-                            "any",
-                            "frozenset",
-                            "tuple",
-                            "max",
-                            "min",
-                            "sorted",
-                        )
-                    )
-                    and isinstance(node.args[0], ast.ListComp)
-                ):
-
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C407"].format(func=node.func.id),
-                        type(self),
-                    )
-
-                elif (
-                    num_positional_args in (1, 2)
-                    # These can take a second positional argument
-                    and (
-                        node.func.id
-                        in (
-                            "enumerate",
-                            "sum",
-                        )
-                    )
-                    and isinstance(node.args[0], ast.ListComp)
-                ):
-
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C407"].format(func=node.func.id),
-                        type(self),
-                    )
-
-                elif (
-                    num_positional_args == 2
-                    and node.func.id == "filter"
-                    and isinstance(node.args[1], ast.ListComp)
-                ):
-
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C407"].format(func=node.func.id),
-                        type(self),
-                    )
-
-                elif (
-                    num_positional_args >= 2
-                    and node.func.id == "map"
-                    and any(isinstance(a, ast.ListComp) for a in node.args[1:])
-                ):
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C407"].format(func=node.func.id),
                         type(self),
                     )
 
@@ -309,24 +237,6 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         self.messages["C415"].format(func=node.func.id),
-                        type(self),
-                    )
-
-            elif isinstance(node, ast.Compare):
-                if (
-                    len(node.ops) == 1
-                    and isinstance(node.ops[0], ast.In)
-                    and len(node.comparators) == 1
-                    and isinstance(
-                        node.comparators[0], (ast.DictComp, ast.ListComp, ast.SetComp)
-                    )
-                ):
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C412"].format(
-                            type=comp_type[node.comparators[0].__class__]
-                        ),
                         type(self),
                     )
 

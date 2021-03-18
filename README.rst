@@ -88,30 +88,6 @@ For example:
 * Rewrite ``dict(((1, 2),))`` as ``{1: 2}``
 * Rewrite ``dict([])`` as ``{}``
 
-C407: Unnecessary ``<dict/list>`` comprehension - ``<builtin>`` can take a generator
-------------------------------------------------------------------------------------
-
-It's unnecessary to pass a list comprehension to some builtins that can take generators instead.
-For example:
-
-* Rewrite ``sum([x ** 2 for x in range(10)])`` as ``sum(x ** 2 for x in range(10))``
-* Rewrite ``all([foo.bar for foo in foos])`` as ``all(foo.bar for foo in foos)``
-* Rewrite ``filter(lambda x: x % 2 == 0, [x ** 3 for x in range(10)])`` as ``filter(lambda x: x % 2 == 0, (x ** 3 for x in range(10)))``
-
-The list of builtins that are checked for are:
-
-* ``all``
-* ``any``
-* ``enumerate``
-* ``filter``
-* ``frozenset``
-* ``map``
-* ``max``
-* ``min``
-* ``sorted``
-* ``sum``
-* ``tuple``
-
 C408: Unnecessary ``<dict/list/tuple>`` call - rewrite as a literal.
 --------------------------------------------------------------------
 
@@ -144,15 +120,6 @@ It's unnecessary to use a ``list`` around a list comprehension, since it is equi
 For example:
 
 * Rewrite ``list([f(x) for x in foo])`` as ``[f(x) for x in foo]``
-
-C412: Unnecessary ``<dict/list/set>`` comprehension - 'in' can take a generator.
---------------------------------------------------------------------------------
-
-It's unnecessary to pass a ``dict``/``list``/``set`` comprehension to 'in', as it can take a generator instead.
-For example:
-
-* Rewrite ``y in [f(x) for x in foo]`` as ``y in (f(x) for x in foo)``
-* Rewrite ``y in {x ** 2 for x in foo}`` as ``y in (x ** 2 for x in foo)``
 
 C413: Unnecessary ``<list/reversed>`` call around sorted().
 -----------------------------------------------------------

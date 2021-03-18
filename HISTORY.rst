@@ -2,6 +2,17 @@
 History
 =======
 
+* Remove rules C407 (Unnecessary ``<dict/list>`` comprehension - ``<builtin>``
+  can take a generator) and C412 (Unnecessary ``<dict/list/set>`` comprehension
+  - 'in' can take a generator). Both rules recommended increasing laziness,
+  which is not always desirable and can lead to subtle bugs. Also, a fully
+  exhausted generator is slower than an equivalent comprehension, so the advice
+  did not always improve performance.
+
+  Thanks to David Smith, Dylan Young, and Leonidas Loucas for the report in
+  `Issue #247
+  <https://github.com/adamchainz/flake8-comprehensions/issues/247>`__.
+
 3.3.1 (2020-12-19)
 ------------------
 
