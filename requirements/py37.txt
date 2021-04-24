@@ -12,9 +12,9 @@ flake8==3.9.1 \
     --hash=sha256:1aa8990be1e689d96c745c5682b687ea49f2e05a443aff1f8251092b0014e378 \
     --hash=sha256:3b9f848952dddccf635be78098ca75010f073bfe14d2c6bda867154bea728d2a
     # via pytest-flake8dir
-importlib-metadata==4.0.0 ; python_version < "3.8" \
-    --hash=sha256:19192b88d959336bfa6bdaaaef99aeafec179eca19c47c804e555703ee5f07ef \
-    --hash=sha256:2e881981c9748d7282b374b68e759c87745c25427b67ecf0cc67fb6637a1bff9
+importlib-metadata==4.0.1 ; python_version < "3.8" \
+    --hash=sha256:8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581 \
+    --hash=sha256:d7eb1dea6d6a6086f8be21784cc9e3bcfa55872b52309bc5fad53a8ea444465d
     # via
     #   -r requirements.in
     #   flake8
