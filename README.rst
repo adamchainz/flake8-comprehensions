@@ -20,7 +20,7 @@ A `flake8 <https://flake8.readthedocs.io/en/latest/index.html>`_ plugin that hel
 Requirements
 ============
 
-Python 3.6 to 3.9 supported.
+Python 3.6 to 3.10 supported.
 
 Installation
 ============
