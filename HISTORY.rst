@@ -2,6 +2,9 @@
 History
 =======
 
+3.5.0 (2021-05-10)
+------------------
+
 * Support Python 3.10.
 
 * Stop distributing tests to reduce package size. Tests are not intended to be
