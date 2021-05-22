@@ -48,13 +48,13 @@ pyparsing==2.4.7 \
     --hash=sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1 \
     --hash=sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b
     # via packaging
-pytest-flake8dir==2.3.1 \
-    --hash=sha256:dd49f03bd4431c662bc1758e0b7ab91071ab7a8facdc091fa1d4f8b6d100f84e \
-    --hash=sha256:f3b9a0f35e9d8502e8c24622b7e61683a83ef11f73740a304b5705bfb6a30c1c
+pytest-flake8dir==2.5.0 \
+    --hash=sha256:1588fb9e146cb106a6cdc945d390ce982564c09cdf5a996dae12a985fa04cf9b \
+    --hash=sha256:4e82642da14594616b30847745834a0b063a0bd9295cc720f92512f0972e7df1
     # via -r requirements.in
-pytest-randomly==3.7.0 \
-    --hash=sha256:89a4f98aed1753c447a3927b66571a796e53cdecbf671e7318f6c57d79c7f6a3 \
-    --hash=sha256:cd68c1da7d152509f59fec725f5314437727937fad31a50028693269c9261d90
+pytest-randomly==3.8.0 \
+    --hash=sha256:d9e21a72446757129378beea00bc9a32df1fb1cfd0bbe408be1ae9685bdf1209 \
+    --hash=sha256:f5b7a09e84ee1eabcdedbb73c51d0929ae2f582bab6941dbb513bb49296d6340
     # via -r requirements.in
 pytest==6.2.4 \
     --hash=sha256:50bcad0a0b9c5a72c8e4e7c9855a3ad496ca6a881a3641b4260605450772c54b \
