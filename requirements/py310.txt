@@ -11,7 +11,7 @@ attrs==21.2.0 \
 flake8==3.9.2 \
     --hash=sha256:07528381786f2a6237b061f6e96610a4167b226cb926e2aa2b6b1d78057c576b \
     --hash=sha256:bf8fd333346d844f616e8d47905ef3a3384edae6b4e9beb0c5101e25e3110907
-    # via pytest-flake8dir
+    # via pytest-flake8-path
 iniconfig==1.1.1 \
     --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
     --hash=sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32
@@ -49,11 +49,11 @@ pytest==6.2.4 \
     --hash=sha256:91ef2131a9bd6be8f76f1f08eac5c5317221d6ad1e143ae03894b862e8976890
     # via
     #   -r requirements.in
-    #   pytest-flake8dir
+    #   pytest-flake8-path
     #   pytest-randomly
-pytest-flake8dir==2.5.0 \
-    --hash=sha256:1588fb9e146cb106a6cdc945d390ce982564c09cdf5a996dae12a985fa04cf9b \
-    --hash=sha256:4e82642da14594616b30847745834a0b063a0bd9295cc720f92512f0972e7df1
+pytest-flake8-path==1.0.0 \
+    --hash=sha256:0799e85cd9e0c90f006abcb3fc935438f285d7d31ce40ccbd324332294573138 \
+    --hash=sha256:db1aca97d5f99a5e4da6a2656984a719aa7c466c5c14d34c06cf7722ec676705
     # via -r requirements.in
 pytest-randomly==3.8.0 \
     --hash=sha256:d9e21a72446757129378beea00bc9a32df1fb1cfd0bbe408be1ae9685bdf1209 \
