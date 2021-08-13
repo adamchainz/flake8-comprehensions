@@ -1,5 +1,6 @@
 import ast
 import sys
+from typing import Any, Generator, Optional, Tuple, Type
 
 if sys.version_info >= (3, 8):
     from importlib.metadata import version
@@ -17,7 +18,7 @@ class ComprehensionChecker:
 
     __slots__ = ("tree",)
 
-    def __init__(self, tree, *args, **kwargs):
+    def __init__(self, tree: ast.Module) -> None:
         self.tree = tree
 
     messages = {
@@ -40,7 +41,7 @@ class ComprehensionChecker:
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
     }
 
-    def run(self):
+    def run(self) -> Generator[Tuple[int, int, str, Type[Any]], None, None]:
         for node in ast.walk(self.tree):
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
                 num_positional_args = len(node.args)
@@ -164,7 +165,7 @@ class ComprehensionChecker:
                 ):
                     remediation = ""
                     if node.func.id == "reversed":
-                        reverse_flag_value = False
+                        reverse_flag_value: Optional[bool] = False
                         for keyword in node.args[0].keywords:
                             if keyword.arg != "reverse":
                                 continue
@@ -260,11 +261,11 @@ class ComprehensionChecker:
                     )
 
 
-def has_star_args(call_node):
+def has_star_args(call_node: ast.Call) -> bool:
     return any(isinstance(a, ast.Starred) for a in call_node.args)
 
 
-def has_double_star_args(call_node):
+def has_double_star_args(call_node: ast.Call) -> bool:
     return any(k.arg is None for k in call_node.keywords)
 
 
