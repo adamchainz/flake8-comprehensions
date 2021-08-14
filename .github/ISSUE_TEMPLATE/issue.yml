@@ -10,6 +10,14 @@ body:
   validations:
     required: false
 - type: input
+  id: flake8_version
+  attributes:
+    label: flake8 Version
+    description: Which version of flake8 were you using?
+    placeholder: 3.9.2
+  validations:
+    required: false
+- type: input
   id: package_version
   attributes:
     label: Package Version
