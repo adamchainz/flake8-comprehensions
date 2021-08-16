@@ -18,7 +18,7 @@ class ComprehensionChecker:
 
     __slots__ = ("tree",)
 
-    def __init__(self, tree: ast.Module) -> None:
+    def __init__(self, tree: ast.AST) -> None:
         self.tree = tree
 
     messages = {
