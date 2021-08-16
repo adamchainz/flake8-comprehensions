@@ -2,6 +2,11 @@
 History
 =======
 
+* Fix type hint for ``tree`` argument.
+
+  Thanks to kasium for the report in `Issue #352
+  <https://github.com/adamchainz/flake8-comprehensions/issues/352>`__.
+
 3.6.0 (2021-08-13)
 ------------------
 
