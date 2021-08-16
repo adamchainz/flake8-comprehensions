@@ -2,6 +2,9 @@
 History
 =======
 
+3.6.1 (2021-08-16)
+------------------
+
 * Fix type hint for ``tree`` argument.
 
   Thanks to kasium for the report in `Issue #352
