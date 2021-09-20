@@ -159,7 +159,7 @@ It's unnecessary to reverse the order of an iterable when passing it into one of
 For example:
 
 * Rewrite ``set(iterable[::-1])`` as ``set(iterable)``
-* Rewrite ``sorted(iterable[::-1])`` as ``sorted(iterable, reverse=True)``
+* Rewrite ``sorted(iterable)[::-1]`` as ``sorted(iterable, reverse=True)``
 * Rewrite ``reversed(iterable[::-1])`` as ``iterable``
 
 C416: Unnecessary ``<list/set>`` comprehension - rewrite using ``<list/set>``\().
