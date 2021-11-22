@@ -31,20 +31,14 @@ First, install with ``pip``:
 
      python -m pip install flake8-comprehensions
 
-Second, check that ``flake8`` lists the plugin in its version line:
-
-.. code-block:: sh
-
-    $ flake8 --version
-    3.7.8 (flake8-comprehensions: 3.0.0, mccabe: 0.6.1, pycodestyle: 2.5.0, pyflakes: 2.1.1) CPython 3.8.0 on Linux
-
-Third, add the ``C4`` prefix to your `select list <https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select>`__.
-For example, if you have your configuration in ``setup.cfg``:
+Second, add the ``C4`` prefix to your Flake8 select list.
+For example, you can do this with `extend-select <https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-extend-select>`__ in ``setup.cfg``:
 
 .. code-block:: ini
 
     [flake8]
-    select = E,F,W,C4
+    extend-select =
+        C4
 
 ----
 
