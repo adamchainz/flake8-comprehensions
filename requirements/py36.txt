@@ -64,17 +64,17 @@ pytest-flake8-path==1.1.0 \
     --hash=sha256:7e55d16c7d26031bebff282283e02326c780e9314a1b4567f04bf0495e4d9a8f \
     --hash=sha256:d86248a3f7d7be4eb18f28fa27f31a31a43f07ce8d348c30055cfddc7339f58e
     # via -r requirements.in
-pytest-randomly==3.10.2 \
-    --hash=sha256:2c0a332c4b124e372e2473803bcc91ec87797664f4955afef2b844c0021662b1 \
-    --hash=sha256:cbd5c50b7c41491c202c71a3df33a75619d610a4f5c34aa2bd02ac30fce7cd43
+pytest-randomly==3.10.3 \
+    --hash=sha256:22154cdcff7ba44e0599596490e6b75278ca973a33812ea6a54bf14d0b042ef1 \
+    --hash=sha256:b05a7a45f54cae2b5095752c6a10cb559df84448421b0420ae492dd2fb1727ef
     # via -r requirements.in
 toml==0.10.2 \
     --hash=sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b \
     --hash=sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f
     # via pytest
-typing-extensions==4.0.0 \
-    --hash=sha256:2cdf80e4e04866a9b3689a51869016d36db0814d84b8d8a568d22781d45d27ed \
-    --hash=sha256:829704698b22e13ec9eaf959122315eabb370b0884400e9818334d8b677023d9
+typing-extensions==4.0.1 \
+    --hash=sha256:4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e \
+    --hash=sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b
     # via importlib-metadata
 zipp==3.6.0 \
     --hash=sha256:71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832 \
