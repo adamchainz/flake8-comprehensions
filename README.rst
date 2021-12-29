@@ -31,14 +31,8 @@ First, install with ``pip``:
 
      python -m pip install flake8-comprehensions
 
-Second, add the ``C4`` prefix to your Flake8 select list.
-For example, you can do this with `extend-select <https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-extend-select>`__ in ``setup.cfg``:
-
-.. code-block:: ini
-
-    [flake8]
-    extend-select =
-        C4
+Second, if you define Flake8’s ``select`` setting, add the ``C4`` prefix to it.
+Otherwise, the plugin should be active by default.
 
 ----
 
