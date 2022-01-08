@@ -37,7 +37,7 @@ Otherwise, the plugin should be active by default.
 ----
 
 **Linting a Django project?**
-Check out my book `Speed Up Your Django Tests <https://gumroad.com/l/suydt>`__ which covers loads of best practices so you can write faster, more accurate tests.
+Check out my book `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>`__ which covers Flake8 and many other code quality tools.
 
 ----
 
