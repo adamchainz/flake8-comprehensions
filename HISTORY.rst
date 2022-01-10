@@ -2,6 +2,8 @@
 History
 =======
 
+* Drop Python 3.6 support.
+
 * Remove upper bound on Flake8 version.
 
 3.7.0 (2021-10-11)
