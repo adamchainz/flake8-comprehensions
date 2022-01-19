@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import ast
 import sys
-from typing import Any, Generator, Optional, Tuple, Type
+from typing import Any, Generator
 
 if sys.version_info >= (3, 8):
     from importlib.metadata import version
@@ -41,7 +43,7 @@ class ComprehensionChecker:
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
     }
 
-    def run(self) -> Generator[Tuple[int, int, str, Type[Any]], None, None]:
+    def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
         for node in ast.walk(self.tree):
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
                 num_positional_args = len(node.args)
@@ -165,7 +167,7 @@ class ComprehensionChecker:
                 ):
                     remediation = ""
                     if node.func.id == "reversed":
-                        reverse_flag_value: Optional[bool] = False
+                        reverse_flag_value: bool | None = False
                         for keyword in node.args[0].keywords:
                             if keyword.arg != "reverse":
                                 continue
