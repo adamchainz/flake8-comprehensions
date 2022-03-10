@@ -41,9 +41,13 @@ class ComprehensionChecker:
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
+        "C417": "C417 Unnecessary use of map - use a generator expression instead.",
+        "C418": "C418 Unnecessary use of map - use a list comprehension instead.",
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
+        list_map_elements: set[ast.Call] = set()
+
         for node in ast.walk(self.tree):
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
                 num_positional_args = len(node.args)
@@ -240,6 +244,37 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         self.messages["C415"].format(func=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    node.func.id == "map"
+                    and node not in list_map_elements
+                    and len(node.args) == 2
+                    and isinstance(node.args[0], ast.Lambda)
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C417"],
+                        type(self),
+                    )
+
+                elif (
+                    node.func.id == "list"
+                    and len(node.args) == 1
+                    and isinstance(node.args[0], ast.Call)
+                    and isinstance(node.args[0].func, ast.Name)
+                    and node.args[0].func.id == "map"
+                    and isinstance(node.args[0].args[0], ast.Lambda)
+                ):
+                    # To avoid raising C417 on the map() element inside the list().
+                    map_call = node.args[0]
+                    list_map_elements.add(map_call)
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C418"],
                         type(self),
                     )
 

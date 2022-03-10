@@ -773,3 +773,33 @@ def test_C416_fail_2_set(flake8_path):
     assert result.out_lines == [
         "./example.py:1:1: C416 Unnecessary set comprehension - rewrite using set().",
     ]
+
+
+def test_C417_pass_1(flake8_path):
+    (flake8_path / "example.py").write_text(
+        dedent(
+            """\
+            map(lambda x: x * 2, iterable)
+            """
+        )
+    )
+    result = flake8_path.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C417 Unnecessary use of map - "
+        "use a generator expression instead.",
+    ]
+
+
+def test_C418_pass_1(flake8_path):
+    (flake8_path / "example.py").write_text(
+        dedent(
+            """\
+            list(map(lambda x: x * 2, iterable))
+            """
+        )
+    )
+    result = flake8_path.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C418 Unnecessary use of map - "
+        "use a list comprehension instead.",
+    ]
