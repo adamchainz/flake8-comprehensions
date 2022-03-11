@@ -775,7 +775,7 @@ def test_C416_fail_2_set(flake8_path):
     ]
 
 
-def test_C417_pass_1(flake8_path):
+def test_C417_fail_1(flake8_path):
     (flake8_path / "example.py").write_text(
         dedent(
             """\
@@ -790,7 +790,7 @@ def test_C417_pass_1(flake8_path):
     ]
 
 
-def test_C417_fail_1(flake8_path):
+def test_C417_pass_1(flake8_path):
     (flake8_path / "example.py").write_text(
         dedent(
             """\
@@ -803,7 +803,7 @@ def test_C417_fail_1(flake8_path):
     assert result.out_lines == []
 
 
-def test_C418_pass_1(flake8_path):
+def test_C418_fail_1(flake8_path):
     (flake8_path / "example.py").write_text(
         dedent(
             """\
@@ -818,7 +818,7 @@ def test_C418_pass_1(flake8_path):
     ]
 
 
-def test_C418_fail_1(flake8_path):
+def test_C418_pass_1(flake8_path):
     (flake8_path / "example.py").write_text(
         dedent(
             """\
