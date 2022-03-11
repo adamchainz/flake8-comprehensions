@@ -266,6 +266,7 @@ class ComprehensionChecker:
                     and isinstance(node.args[0], ast.Call)
                     and isinstance(node.args[0].func, ast.Name)
                     and node.args[0].func.id == "map"
+                    and len(node.args[0].args) == 2
                     and isinstance(node.args[0].args[0], ast.Lambda)
                 ):
                     # To avoid raising C417 on the map() element inside the list().
