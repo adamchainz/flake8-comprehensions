@@ -780,6 +780,9 @@ def test_C417_fail_1(flake8_path):
         dedent(
             """\
             map(lambda x: x * 2, iterable)
+            list(map(lambda x: x * 2, iterable))
+            set(map(lambda num: num % 2 == 0, nums))
+            dict(map(lambda v: (v, v ** 2), values))
             """
         )
     )
@@ -787,6 +790,12 @@ def test_C417_fail_1(flake8_path):
     assert result.out_lines == [
         "./example.py:1:1: C417 Unnecessary use of map - "
         "use a generator expression instead.",
+        "./example.py:2:1: C417 Unnecessary use of map - "
+        "use a list comprehension instead.",
+        "./example.py:3:1: C417 Unnecessary use of map - "
+        "use a set comprehension instead.",
+        "./example.py:4:1: C417 Unnecessary use of map - "
+        "use a dict comprehension instead.",
     ]
 
 
@@ -796,34 +805,10 @@ def test_C417_pass_1(flake8_path):
             """\
             map()
             map(str, numbers)
-            """
-        )
-    )
-    result = flake8_path.run_flake8()
-    assert result.out_lines == []
-
-
-def test_C418_fail_1(flake8_path):
-    (flake8_path / "example.py").write_text(
-        dedent(
-            """\
-            list(map(lambda x: x * 2, iterable))
-            """
-        )
-    )
-    result = flake8_path.run_flake8()
-    assert result.out_lines == [
-        "./example.py:1:1: C418 Unnecessary use of map - "
-        "use a list comprehension instead.",
-    ]
-
-
-def test_C418_pass_1(flake8_path):
-    (flake8_path / "example.py").write_text(
-        dedent(
-            """\
             list(map())
             list(map(str, numbers))
+            set(map(f, items))
+            dict(map(enumerate, values))
             """
         )
     )

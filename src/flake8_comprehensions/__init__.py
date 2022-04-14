@@ -41,12 +41,12 @@ class ComprehensionChecker:
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
-        "C417": "C417 Unnecessary use of map - use a generator expression instead.",
-        "C418": "C418 Unnecessary use of map - use a list comprehension instead.",
+        "C417": "C417 Unnecessary use of map - use a {comp} instead.",
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
-        list_map_elements: set[ast.Call] = set()
+        # Stores previously seen map() nodes, to avoid raising C417 on it twice.
+        visited_map_calls: set[ast.Call] = set()
 
         for node in ast.walk(self.tree):
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
@@ -249,19 +249,19 @@ class ComprehensionChecker:
 
                 elif (
                     node.func.id == "map"
-                    and node not in list_map_elements
+                    and node not in visited_map_calls
                     and len(node.args) == 2
                     and isinstance(node.args[0], ast.Lambda)
                 ):
                     yield (
                         node.lineno,
                         node.col_offset,
-                        self.messages["C417"],
+                        self.messages["C417"].format(comp="generator expression"),
                         type(self),
                     )
 
                 elif (
-                    node.func.id == "list"
+                    node.func.id in ("list", "set", "dict")
                     and len(node.args) == 1
                     and isinstance(node.args[0], ast.Call)
                     and isinstance(node.args[0].func, ast.Name)
@@ -269,13 +269,15 @@ class ComprehensionChecker:
                     and len(node.args[0].args) == 2
                     and isinstance(node.args[0].args[0], ast.Lambda)
                 ):
-                    # To avoid raising C417 on the map() element inside the list().
+                    # To avoid raising C417 on the map() call inside the list/set/dict.
                     map_call = node.args[0]
-                    list_map_elements.add(map_call)
+                    visited_map_calls.add(map_call)
+
+                    comprehension_type = f"{node.func.id} comprehension"
                     yield (
                         node.lineno,
                         node.col_offset,
-                        self.messages["C418"],
+                        self.messages["C417"].format(comp=comprehension_type),
                         type(self),
                     )
 
