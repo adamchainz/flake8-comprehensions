@@ -273,6 +273,16 @@ class ComprehensionChecker:
                     map_call = node.args[0]
                     visited_map_calls.add(map_call)
 
+                    if node.func.id == "dict":
+                        # For a dict comprehension to be able to be rewritten as
+                        # a comprehension, the lambda body should be a 2-tuple.
+                        lambda_node = node.args[0].args[0]
+                        if not (
+                            isinstance(lambda_node.body, (ast.List, ast.Tuple))
+                            and len(lambda_node.body.elts) == 2
+                        ):
+                            continue
+
                     comprehension_type = f"{node.func.id} comprehension"
                     yield (
                         node.lineno,

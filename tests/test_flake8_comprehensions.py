@@ -809,6 +809,7 @@ def test_C417_pass_1(flake8_path):
             list(map(str, numbers))
             set(map(f, items))
             dict(map(enumerate, values))
+            dict(map(lambda v: data[v], values))
             """
         )
     )
