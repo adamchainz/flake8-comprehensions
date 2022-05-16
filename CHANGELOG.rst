@@ -4,6 +4,8 @@ Changelog
 
 * Add rule C418 to check for calls passing a dict literal or dict comprehension to ``dict()``.
 
+* Add rule C419 to check for calls passing a list comprehension to ``any()``/``all()``.
+
 3.11.1 (2023-03-21)
 -------------------
 

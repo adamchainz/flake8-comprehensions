@@ -938,3 +938,41 @@ def test_C418_fail(code, failures, flake8_path):
     (flake8_path / "example.py").write_text(dedent(code))
     result = flake8_path.run_flake8()
     assert result.out_lines == failures
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "any(num == 3 for num in range(5))",
+        "all(num == 3 for num in range(5))",
+    ],
+)
+def test_C419_pass(code, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == []
+
+
+@pytest.mark.parametrize(
+    "code,failures",
+    [
+        (
+            "any([num == 3 for num in range(5)])",
+            [
+                "./example.py:1:1: C419 Unnecessary list comprehension passed "
+                + "to any() prevents short-circuiting - rewrite as a generator."
+            ],
+        ),
+        (
+            "all([num == 3 for num in range(5)])",
+            [
+                "./example.py:1:1: C419 Unnecessary list comprehension passed "
+                + "to all() prevents short-circuiting - rewrite as a generator."
+            ],
+        ),
+    ],
+)
+def test_C419_fail(code, failures, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == failures
