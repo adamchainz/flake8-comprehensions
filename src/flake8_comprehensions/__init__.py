@@ -41,9 +41,13 @@ class ComprehensionChecker:
         "C414": "C414 Unnecessary {inner} call within {outer}().",
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
+        "C417": "C417 Unnecessary use of map - use a {comp} instead.",
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
+        # Stores previously seen map() nodes, to avoid raising C417 on it twice.
+        visited_map_calls: set[ast.Call] = set()
+
         for node in ast.walk(self.tree):
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
                 num_positional_args = len(node.args)
@@ -242,6 +246,52 @@ class ComprehensionChecker:
                         self.messages["C415"].format(func=node.func.id),
                         type(self),
                     )
+
+                elif (
+                    node.func.id == "map"
+                    and node not in visited_map_calls
+                    and len(node.args) == 2
+                    and isinstance(node.args[0], ast.Lambda)
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C417"].format(comp="generator expression"),
+                        type(self),
+                    )
+
+                elif (
+                    node.func.id in ("list", "set", "dict")
+                    and len(node.args) == 1
+                    and isinstance(node.args[0], ast.Call)
+                    and isinstance(node.args[0].func, ast.Name)
+                    and node.args[0].func.id == "map"
+                    and len(node.args[0].args) == 2
+                    and isinstance(node.args[0].args[0], ast.Lambda)
+                ):
+                    # To avoid raising C417 on the map() call inside the list/set/dict.
+                    map_call = node.args[0]
+                    visited_map_calls.add(map_call)
+
+                    rewriteable = True
+                    if node.func.id == "dict":
+                        # For the generator expression to be rewriteable as a
+                        # dict comprehension, its lambda must return a 2-tuple.
+                        lambda_node = node.args[0].args[0]
+                        if (
+                            not isinstance(lambda_node.body, (ast.List, ast.Tuple))
+                            or len(lambda_node.body.elts) != 2
+                        ):
+                            rewriteable = False
+
+                    if rewriteable:
+                        comprehension_type = f"{node.func.id} comprehension"
+                        yield (
+                            node.lineno,
+                            node.col_offset,
+                            self.messages["C417"].format(comp=comprehension_type),
+                            type(self),
+                        )
 
             elif isinstance(node, (ast.ListComp, ast.SetComp)):
                 if (

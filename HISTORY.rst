@@ -2,6 +2,10 @@
 History
 =======
 
+* Add rule C417 which recommends rewriting use of ``map()`` with ``lambda`` to an equivalent generator expression or comprehension.
+
+  Thanks to Tushar Sadhwani in `PR #409 <https://github.com/adamchainz/flake8-comprehensions/pull/409>`__.
+
 3.9.0 (2022-05-11)
 ------------------
 
