@@ -775,43 +775,58 @@ def test_C416_fail_2_set(flake8_path):
     ]
 
 
-def test_C417_fail_1(flake8_path):
-    (flake8_path / "example.py").write_text(
-        dedent(
-            """\
-            map(lambda x: x * 2, iterable)
-            list(map(lambda x: x * 2, iterable))
-            set(map(lambda num: num % 2 == 0, nums))
-            dict(map(lambda v: (v, v ** 2), values))
-            """
-        )
-    )
+# C417
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "map()",
+        "map(str, numbers)",
+        "list(map())",
+        "list(map(str, numbers))",
+        "set(map(f, items))",
+        "dict(map(enumerate, values))",
+        "dict(map(lambda v: data[v], values))",
+    ],
+)
+def test_C417_pass(code, flake8_path):
+    (flake8_path / "example.py").write_text(code)
+    result = flake8_path.run_flake8()
+    assert result.out_lines == []
+
+
+def test_C417_fail_1_generator_expression(flake8_path):
+    (flake8_path / "example.py").write_text("map(lambda x: x * 2, iterable)")
     result = flake8_path.run_flake8()
     assert result.out_lines == [
         "./example.py:1:1: C417 Unnecessary use of map - "
-        "use a generator expression instead.",
-        "./example.py:2:1: C417 Unnecessary use of map - "
-        "use a list comprehension instead.",
-        "./example.py:3:1: C417 Unnecessary use of map - "
-        "use a set comprehension instead.",
-        "./example.py:4:1: C417 Unnecessary use of map - "
-        "use a dict comprehension instead.",
+        + "use a generator expression instead.",
     ]
 
 
-def test_C417_pass_1(flake8_path):
-    (flake8_path / "example.py").write_text(
-        dedent(
-            """\
-            map()
-            map(str, numbers)
-            list(map())
-            list(map(str, numbers))
-            set(map(f, items))
-            dict(map(enumerate, values))
-            dict(map(lambda v: data[v], values))
-            """
-        )
-    )
+def test_C417_fail_2_list_comprehension(flake8_path):
+    (flake8_path / "example.py").write_text("list(map(lambda x: x * 2, iterable))")
     result = flake8_path.run_flake8()
-    assert result.out_lines == []
+    assert result.out_lines == [
+        "./example.py:1:1: C417 Unnecessary use of map - "
+        + "use a list comprehension instead.",
+    ]
+
+
+def test_C417_fail_3_set_comprehension(flake8_path):
+    (flake8_path / "example.py").write_text("set(map(lambda num: num % 2 == 0, nums))")
+    result = flake8_path.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C417 Unnecessary use of map - "
+        + "use a set comprehension instead.",
+    ]
+
+
+def test_C417_fail_4_dict_comprehension(flake8_path):
+    (flake8_path / "example.py").write_text("dict(map(lambda v: (v, v ** 2), values))")
+    result = flake8_path.run_flake8()
+    assert result.out_lines == [
+        "./example.py:1:1: C417 Unnecessary use of map - "
+        "use a dict comprehension instead.",
+    ]
