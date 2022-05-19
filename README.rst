@@ -160,14 +160,11 @@ For example:
 * Rewrite ``[x for x in iterable]`` as ``list(iterable)``
 * Rewrite ``{x for x in iterable}`` as ``set(iterable)``
 
-C417: Unnecessary ``map`` usage - rewrite using a generator expression.
------------------------------------------------------------------------
+C417: Unnecessary ``map`` usage - rewrite using a generator expression/``<list/set/dict>`` comprehension.
+---------------------------------------------------------------------------------------------------------
 
-``map(f, iterable)`` has great performance when ``f`` is a built-in function,
-and it makes sense if your function already has a name. But if you need to
-introduce a lambda, it's more readable and faster to use a generator expression
-or a comprehension -- no function calls needed.
-
+``map(func, iterable)`` has great performance when ``func`` is a built-in function, and it makes sense if your function already has a name.
+But if your func is a ``lambda``, it’s faster to use a generator expression or a comprehension, as it avoids the function call overhead.
 For example:
 
 * Rewrite ``map(lambda x: x + 1, iterable)`` to ``(x + 1 for x in iterable)``
