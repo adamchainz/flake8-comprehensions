@@ -273,23 +273,25 @@ class ComprehensionChecker:
                     map_call = node.args[0]
                     visited_map_calls.add(map_call)
 
+                    rewriteable = True
                     if node.func.id == "dict":
-                        # For a dict comprehension to be able to be rewritten as
-                        # a comprehension, the lambda body should be a 2-tuple.
+                        # For the generator expression to be rewriteable as a
+                        # dict comprehension, its lambda must return a 2-tuple.
                         lambda_node = node.args[0].args[0]
-                        if not (
-                            isinstance(lambda_node.body, (ast.List, ast.Tuple))
-                            and len(lambda_node.body.elts) == 2
+                        if (
+                            not isinstance(lambda_node.body, (ast.List, ast.Tuple))
+                            or len(lambda_node.body.elts) != 2
                         ):
-                            continue
+                            rewriteable = False
 
-                    comprehension_type = f"{node.func.id} comprehension"
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C417"].format(comp=comprehension_type),
-                        type(self),
-                    )
+                    if rewriteable:
+                        comprehension_type = f"{node.func.id} comprehension"
+                        yield (
+                            node.lineno,
+                            node.col_offset,
+                            self.messages["C417"].format(comp=comprehension_type),
+                            type(self),
+                        )
 
             elif isinstance(node, (ast.ListComp, ast.SetComp)):
                 if (
