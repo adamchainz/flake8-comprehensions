@@ -51,13 +51,13 @@ pytest==7.1.2 \
     #   -r requirements.in
     #   pytest-flake8-path
     #   pytest-randomly
-pytest-flake8-path==1.2.0 \
-    --hash=sha256:74055e7f71d65f137e308f9d0b516f1de06997d988fab938edaf3a71f4d24d88 \
-    --hash=sha256:cc9252310fb42e8530447aeacd4adf087e24f90b2cca6daeebf04e33d2b492ab
+pytest-flake8-path==1.3.0 \
+    --hash=sha256:a1f6a7f045e73b3400a59ad1a874dad39636a8d6bedef6e962396f863e05a4ac \
+    --hash=sha256:a3ddf053b56dbd1981f0e74ca02041e18f4e9f82435052358ffd2c147bf5a461
     # via -r requirements.in
-pytest-randomly==3.11.0 \
-    --hash=sha256:9f013b8c1923130f3d0a286fde56e1fc52cfb3547b8eedf2765c460cee979c7f \
-    --hash=sha256:a3c680d2b8150cf766311a80a1f92da64c3dd819045cda834fbf1b0ac4891610
+pytest-randomly==3.12.0 \
+    --hash=sha256:d60c2db71ac319aee0fc6c4110a7597d611a8b94a5590918bfa8583f00caccb2 \
+    --hash=sha256:f4f2e803daf5d1ba036cc22bf4fe9dbbf99389ec56b00e5cba732fb5c1d07fdd
     # via -r requirements.in
 tomli==2.0.1 \
     --hash=sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc \
