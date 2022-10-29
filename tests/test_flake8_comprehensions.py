@@ -129,6 +129,7 @@ def test_C401_fail(code, failures, flake8_path):
         foo = [('a', 1), ('b', 2), ('c', 3)]
         dict(pair for pair in foo if pair[1] % 2 == 0)
         """,
+        # Previously a false positive:
         "dict(((x, str(x)) for x in range(10)), c=1)",
     ],
 )
@@ -205,6 +206,8 @@ def test_C403_fail(code, failures, flake8_path):
         "foo = {x: x for x in range(10)}",
         # Previously a false positive:
         "foo = dict([x.split('=') for x in ['a=1', 'b=2']])",
+        # Previously a false positive:
+        "dict([(x, x) for x in range(10)], y=2)",
     ],
 )
 def test_C404_pass(code, flake8_path):
