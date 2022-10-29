@@ -68,10 +68,11 @@ class ComprehensionChecker:
 
                 elif (
                     num_positional_args == 1
+                    and node.func.id == "dict"
+                    and len(node.keywords) == 0
                     and isinstance(node.args[0], (ast.GeneratorExp, ast.ListComp))
                     and isinstance(node.args[0].elt, ast.Tuple)
                     and len(node.args[0].elt.elts) == 2
-                    and node.func.id == "dict"
                 ):
                     if isinstance(node.args[0], ast.GeneratorExp):
                         msg = "C402"

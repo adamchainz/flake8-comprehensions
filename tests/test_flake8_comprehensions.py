@@ -129,6 +129,7 @@ def test_C401_fail(code, failures, flake8_path):
         foo = [('a', 1), ('b', 2), ('c', 3)]
         dict(pair for pair in foo if pair[1] % 2 == 0)
         """,
+        "dict(((x, str(x)) for x in range(10)), c=1)",
     ],
 )
 def test_C402_pass(code, flake8_path):
