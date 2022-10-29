@@ -2,6 +2,9 @@
 History
 =======
 
+3.10.1 (2022-10-29)
+-------------------
+
 * Fix false positive in rules C402 and C404 for ``dict()`` calls with keyword arguments.
 
   Thanks to Anders Kaseorg for the report in `Issue #457 <https://github.com/adamchainz/flake8-comprehensions/issues/457>`__.
