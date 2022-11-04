@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import ast
 import sys
-from typing import Any, Generator
+from typing import Any
+from typing import Generator
 
 if sys.version_info >= (3, 8):
     from importlib.metadata import version
