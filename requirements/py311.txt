@@ -36,9 +36,9 @@ pyflakes==3.0.1 \
     --hash=sha256:ec55bf7fe21fff7f1ad2f7da62363d749e2a470500eab1b555334b67aa1ef8cf \
     --hash=sha256:ec8b276a6b60bd80defed25add7e439881c19e64850afd9b346283d4165fd0fd
     # via flake8
-pytest==7.2.0 \
-    --hash=sha256:892f933d339f068883b6fd5a459f03d85bfcb355e4981e146d2c7616c21fef71 \
-    --hash=sha256:c4014eb40e10f11f355ad4e3c2fb2c6c6d1919c73f3b5a433de4708202cade59
+pytest==7.2.1 \
+    --hash=sha256:c7c6ca206e93355074ae32f7403e8ea12163b1163c976fee7d4d84027c162be5 \
+    --hash=sha256:d45e0952f3727241918b8fd0f376f5ff6b301cc0777c6f9a556935c92d8a7d42
     # via
     #   -r requirements.in
     #   pytest-flake8-path
