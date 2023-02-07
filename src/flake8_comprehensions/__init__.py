@@ -306,7 +306,6 @@ class ComprehensionChecker:
                         and node.elt.id == node.generators[0].target.id
                     )
                 ):
-
                     yield (
                         node.lineno,
                         node.col_offset,
