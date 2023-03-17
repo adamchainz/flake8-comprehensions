@@ -810,6 +810,20 @@ else:
                 + "rewrite using set().",
             ],
         ),
+        (
+            "{x: y for x, y in zip(range(5), range(5))}",
+            [
+                "./example.py:1:1: C416 Unnecessary dict comprehension - "
+                + "rewrite using dict().",
+            ],
+        ),
+        (
+            "{x: y for (x, y) in zip(range(5), range(5))}",
+            [
+                "./example.py:1:1: C416 Unnecessary dict comprehension - "
+                + "rewrite using dict().",
+            ],
+        ),
     ],
 )
 def test_C416_fail(code, failures, flake8_path):

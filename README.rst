@@ -150,13 +150,14 @@ For example:
 * Rewrite ``sorted(iterable)[::-1]`` as ``sorted(iterable, reverse=True)``
 * Rewrite ``reversed(iterable[::-1])`` as ``iterable``
 
-C416: Unnecessary ``<list/set>`` comprehension - rewrite using ``<list/set>``\().
+C416: Unnecessary ``<dict/list/set>`` comprehension - rewrite using ``<dict/list/set>``\().
 ---------------------------------------------------------------------------------
 
 It's unnecessary to use a list comprehension if the elements are unchanged.
-The iterable should be wrapped in ``list()`` or ``set()`` instead.
+The iterable should be wrapped in ``dict()``, ``list()``, or ``set()`` instead.
 For example:
 
+* Rewrite ``{a:b for a, b in iterable}`` as ``dict(iterable)``
 * Rewrite ``[x for x in iterable]`` as ``list(iterable)``
 * Rewrite ``{x for x in iterable}`` as ``set(iterable)``
 
