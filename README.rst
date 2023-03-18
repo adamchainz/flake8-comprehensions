@@ -151,13 +151,13 @@ For example:
 * Rewrite ``reversed(iterable[::-1])`` as ``iterable``
 
 C416: Unnecessary ``<dict/list/set>`` comprehension - rewrite using ``<dict/list/set>``\().
----------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
-It's unnecessary to use a list comprehension if the elements are unchanged.
-The iterable should be wrapped in ``dict()``, ``list()``, or ``set()`` instead.
+It's unnecessary to use a dict/list/set comprehension to build a data structure if the elements are unchanged.
+Wrap the iterable with ``dict()``, ``list()``, or ``set()`` instead.
 For example:
 
-* Rewrite ``{a:b for a, b in iterable}`` as ``dict(iterable)``
+* Rewrite ``{a: b for a, b in iterable}`` as ``dict(iterable)``
 * Rewrite ``[x for x in iterable]`` as ``list(iterable)``
 * Rewrite ``{x for x in iterable}`` as ``set(iterable)``
 
