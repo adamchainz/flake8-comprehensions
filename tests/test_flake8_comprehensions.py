@@ -801,20 +801,6 @@ else:
     "code,failures",
     [
         (
-            "[x for x in range(5)]",
-            [
-                f"./example.py:1:{1 + list_comp_col_offset}: C416 Unnecessary "
-                + "list comprehension - rewrite using list()."
-            ],
-        ),
-        (
-            "{x for x in range(5)}",
-            [
-                "./example.py:1:1: C416 Unnecessary set comprehension - "
-                + "rewrite using set().",
-            ],
-        ),
-        (
             "{x: y for x, y in zip(range(5), range(5))}",
             [
                 "./example.py:1:1: C416 Unnecessary dict comprehension - "
@@ -826,6 +812,20 @@ else:
             [
                 "./example.py:1:1: C416 Unnecessary dict comprehension - "
                 + "rewrite using dict().",
+            ],
+        ),
+        (
+            "[x for x in range(5)]",
+            [
+                f"./example.py:1:{1 + list_comp_col_offset}: C416 Unnecessary "
+                + "list comprehension - rewrite using list()."
+            ],
+        ),
+        (
+            "{x for x in range(5)}",
+            [
+                "./example.py:1:1: C416 Unnecessary set comprehension - "
+                + "rewrite using set().",
             ],
         ),
     ],
