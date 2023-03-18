@@ -757,6 +757,10 @@ def test_C415_fail(code, failures, flake8_path):
 @pytest.mark.parametrize(
     "code",
     [
+        "{x, y for x, y, z in zip('abc', '123', 'def')}",
+        "{y: x for x, y in zip('abc', '123')}",
+        "{x: y for x, (y,) in zip('a', ('1',))}",
+        "{x: z for x, (y,), z in zip('a', ('1',), 'b')}",
         "[str(x) for x in range(5)]",
         "[x + 1 for x in range(5)]",
         "[x for x in range(5) if x % 2]",
@@ -796,6 +800,20 @@ else:
 @pytest.mark.parametrize(
     "code,failures",
     [
+        (
+            "{x: y for x, y in zip(range(5), range(5))}",
+            [
+                "./example.py:1:1: C416 Unnecessary dict comprehension - "
+                + "rewrite using dict().",
+            ],
+        ),
+        (
+            "{x: y for (x, y) in zip(range(5), range(5))}",
+            [
+                "./example.py:1:1: C416 Unnecessary dict comprehension - "
+                + "rewrite using dict().",
+            ],
+        ),
         (
             "[x for x in range(5)]",
             [

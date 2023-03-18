@@ -295,15 +295,29 @@ class ComprehensionChecker:
                             type(self),
                         )
 
-            elif isinstance(node, (ast.ListComp, ast.SetComp)):
+            elif isinstance(node, (ast.DictComp, ast.ListComp, ast.SetComp)):
                 if (
                     len(node.generators) == 1
                     and not node.generators[0].ifs
                     and not node.generators[0].is_async
                     and (
-                        isinstance(node.elt, ast.Name)
-                        and isinstance(node.generators[0].target, ast.Name)
-                        and node.elt.id == node.generators[0].target.id
+                        (
+                            isinstance(node, (ast.ListComp, ast.SetComp))
+                            and isinstance(node.elt, ast.Name)
+                            and isinstance(node.generators[0].target, ast.Name)
+                            and node.elt.id == node.generators[0].target.id
+                        )
+                        or (
+                            isinstance(node, ast.DictComp)
+                            and isinstance(node.key, ast.Name)
+                            and isinstance(node.value, ast.Name)
+                            and isinstance(node.generators[0].target, ast.Tuple)
+                            and len(node.generators[0].target.elts) == 2
+                            and isinstance(node.generators[0].target.elts[0], ast.Name)
+                            and node.generators[0].target.elts[0].id == node.key.id
+                            and isinstance(node.generators[0].target.elts[1], ast.Name)
+                            and node.generators[0].target.elts[1].id == node.value.id
+                        )
                     )
                 ):
                     yield (
