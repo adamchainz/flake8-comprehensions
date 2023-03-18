@@ -312,12 +312,11 @@ class ComprehensionChecker:
                             and isinstance(node.key, ast.Name)
                             and isinstance(node.value, ast.Name)
                             and isinstance(node.generators[0].target, ast.Tuple)
-                            and tuple(
-                                x.id
-                                for x in node.generators[0].target.elts
-                                if isinstance(x, ast.Name)
-                            )
-                            == (node.key.id, node.value.id)
+                            and len(node.generators[0].target.elts) == 2
+                            and isinstance(node.generators[0].target.elts[0], ast.Name)
+                            and node.generators[0].target.elts[0].id == node.key.id
+                            and isinstance(node.generators[0].target.elts[1], ast.Name)
+                            and node.generators[0].target.elts[1].id == node.value.id
                         )
                     )
                 ):
