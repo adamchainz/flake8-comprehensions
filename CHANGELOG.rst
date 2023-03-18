@@ -2,6 +2,9 @@
 Changelog
 =========
 
+3.11.0 (2023-03-18)
+-------------------
+
 * Expand C416 to ``dict`` comprehensions.
 
   Thanks to Aaron Gokaslan in `PR #490 <https://github.com/adamchainz/flake8-comprehensions/pull/490>`__.
