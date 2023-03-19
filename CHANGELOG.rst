@@ -2,6 +2,10 @@
 Changelog
 =========
 
+* Fix false positives in C406 “unnecessary dict literal”.
+
+  Fixes `Issue #260 <https://github.com/adamchainz/flake8-comprehensions/issues/260>`__.
+
 3.11.0 (2023-03-18)
 -------------------
 
