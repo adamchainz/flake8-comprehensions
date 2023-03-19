@@ -289,6 +289,8 @@ def test_C405_fail(code, failures, flake8_path):
     "code",
     [
         "foo = dict(range)",
+        "something = (1, 2); dict([something])",
+        "dict([(1,)])",
     ],
 )
 def test_C406_pass(code, flake8_path):

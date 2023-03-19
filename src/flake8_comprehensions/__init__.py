@@ -120,7 +120,16 @@ class ComprehensionChecker:
                 elif (
                     num_positional_args == 1
                     and isinstance(node.args[0], (ast.Tuple, ast.List))
-                    and node.func.id in ("tuple", "list", "set", "dict")
+                    and (
+                        node.func.id in ("tuple", "list", "set")
+                        or (
+                            node.func.id == "dict"
+                            and all(
+                                isinstance(i, ast.Tuple) and len(i.elts) == 2
+                                for i in node.args[0].elts
+                            )
+                        )
+                    )
                 ):
                     suffix = "rewrite as a {func} literal."
                     msg_key = {
