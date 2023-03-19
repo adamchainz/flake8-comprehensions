@@ -47,6 +47,12 @@ Rules
 C400-402: Unnecessary generator - rewrite as a ``<list/set/dict>`` comprehension.
 ---------------------------------------------------------------------------------
 
+Rules:
+
+* C400 Unnecessary generator - rewrite as a list comprehension.
+* C401 Unnecessary generator - rewrite as a set comprehension.
+* C402 Unnecessary generator - rewrite as a dict comprehension.
+
 It's unnecessary to use ``list``, ``set``, or ``dict`` around a generator expression, since there are equivalent comprehensions for these types.
 For example:
 
@@ -57,6 +63,11 @@ For example:
 C403-404: Unnecessary list comprehension - rewrite as a ``<set/dict>`` comprehension.
 -------------------------------------------------------------------------------------
 
+Rules:
+
+* C403 Unnecessary list comprehension - rewrite as a set comprehension.
+* C404 Unnecessary list comprehension - rewrite as a dict comprehension.
+
 It's unnecessary to use a list comprehension inside a call to ``set`` or ``dict``, since there are equivalent comprehensions for these types.
 For example:
 
@@ -65,6 +76,9 @@ For example:
 
 C405-406: Unnecessary ``<list/tuple>`` literal - rewrite as a ``<set/dict>`` literal.
 -------------------------------------------------------------------------------------
+
+* C405 Unnecessary ``<list/tuple>`` literal - rewrite as a set literal.
+* C406 Unnecessary ``<list/tuple>`` literal - rewrite as a dict literal.
 
 It's unnecessary to use a list or tuple literal within a call to ``set`` or ``dict``.
 For example:
@@ -75,6 +89,11 @@ For example:
 * Rewrite ``dict([(1, 2)])`` as ``{1: 2}``
 * Rewrite ``dict(((1, 2),))`` as ``{1: 2}``
 * Rewrite ``dict([])`` as ``{}``
+
+C407: Unnecessary ``<dict/list>`` comprehension - ``<builtin>`` can take a generator
+------------------------------------------------------------------------------------
+
+This rule was dropped in version 3.4.0, because it promoted an increase in laziness which could lead to bugs.
 
 C408: Unnecessary ``<dict/list/tuple>`` call - rewrite as a literal.
 --------------------------------------------------------------------
@@ -88,8 +107,18 @@ For example:
 * Rewrite ``list()`` as ``[]``
 * Rewrite ``tuple()`` as ``()``
 
-C409-410: Unnecessary ``<list/tuple>`` passed to ``<list/tuple>``\() - (remove the outer call to ``<list/tuple>``()/rewrite as a ``<list/tuple>`` literal).
------------------------------------------------------------------------------------------------------------------------------------------------------------
+C409-410: Unnecessary ``<list/tuple>`` passed to ``<list/tuple>``\() - ``<advice>``.
+------------------------------------------------------------------------------------
+
+Rules:
+
+* C409 Unnecessary ``<list/tuple>`` passed to tuple() - ``<advice>``.
+* C410 Unnecessary ``list passed to list() - ``<advice>``.
+
+Where ``<advice>`` is either:
+
+* remove the outer call to ``<list/tuple>``\()
+* rewrite as a ``<list/tuple>`` literal
 
 It's unnecessary to use a list or tuple literal within a call to ``list`` or ``tuple``, since there is literal syntax for these types.
 For example:
@@ -108,6 +137,11 @@ It's unnecessary to use a ``list`` around a list comprehension, since it is equi
 For example:
 
 * Rewrite ``list([f(x) for x in foo])`` as ``[f(x) for x in foo]``
+
+C412: Unnecessary ``<dict/list/set>`` comprehension - 'in' can take a generator.
+--------------------------------------------------------------------------------
+
+This rule was dropped in version 3.4.0, because it promoted an increase in laziness which could lead to bugs.
 
 C413: Unnecessary ``<list/reversed>`` call around sorted().
 -----------------------------------------------------------
