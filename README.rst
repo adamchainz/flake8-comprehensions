@@ -216,3 +216,14 @@ For example:
 
 * Rewrite ``dict({})`` as ``{}``
 * Rewrite ``dict({"a": 1})`` as ``{"a": 1}``
+
+C419 Unnecessary list comprehension in ``<any/all>``\() prevents short-circuiting - rewrite as a generator.
+-----------------------------------------------------------------------------------------------------------
+
+Using a list comprehension inside a call to ``any()``/``all()`` prevents short-circuiting when a ``True`` / ``False`` value is found.
+The whole list will be constructed before calling ``any()``/``all()``, potentially wasting work.part-way.
+Rewrite to use a generator expression, which can stop part way.
+For example:
+
+* Rewrite ``all([condition(x) for x in iterable])`` as ``all(condition(x) for x in iterable)``
+* Rewrite ``any([condition(x) for x in iterable])`` as ``any(condition(x) for x in iterable)``

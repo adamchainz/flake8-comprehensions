@@ -47,6 +47,10 @@ class ComprehensionChecker:
             "C418 Unnecessary {type} passed to dict() - "
             + "remove the outer call to dict()."
         ),
+        "C419": (
+            "C419 Unnecessary list comprehension passed to {func}() prevents "
+            + "short-circuiting - rewrite as a generator."
+        ),
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
@@ -93,13 +97,19 @@ class ComprehensionChecker:
                 elif (
                     num_positional_args == 1
                     and isinstance(node.args[0], ast.ListComp)
-                    and node.func.id in ("list", "set")
+                    and node.func.id in ("list", "set", "any", "all")
                 ):
-                    msg_key = {"list": "C411", "set": "C403"}[node.func.id]
+                    msg_key = {
+                        "list": "C411",
+                        "set": "C403",
+                        "any": "C419",
+                        "all": "C419",
+                    }[node.func.id]
+                    msg = self.messages[msg_key].format(func=node.func.id)
                     yield (
                         node.lineno,
                         node.col_offset,
-                        self.messages[msg_key],
+                        msg,
                         type(self),
                     )
 
