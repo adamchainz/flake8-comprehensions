@@ -43,6 +43,10 @@ class ComprehensionChecker:
         "C415": "C415 Unnecessary subscript reversal of iterable within {func}().",
         "C416": "C416 Unnecessary {type} comprehension - rewrite using {type}().",
         "C417": "C417 Unnecessary use of map - use a {comp} instead.",
+        "C418": (
+            "C418 Unnecessary {type} passed to dict() - "
+            + "remove the outer call to dict()."
+        ),
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
@@ -114,6 +118,23 @@ class ComprehensionChecker:
                         msg.format(
                             type=type(node.args[0]).__name__.lower(), func=node.func.id
                         ),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args == 1
+                    and num_keyword_args == 0
+                    and isinstance(node.args[0], (ast.Dict, ast.DictComp))
+                    and node.func.id == "dict"
+                ):
+                    if isinstance(node.args[0], ast.Dict):
+                        type_ = "dict"
+                    else:
+                        type_ = "dict comprehension"
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C418"].format(type=type_),
                         type(self),
                     )
 

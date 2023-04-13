@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* Add rule C418 to check for calls passing a dict literal or dict comprehension to ``dict()``.
+
 3.11.1 (2023-03-21)
 -------------------
 
