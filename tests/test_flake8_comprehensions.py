@@ -893,3 +893,48 @@ def test_C417_fail(code, failures, flake8_path):
     (flake8_path / "example.py").write_text(dedent(code))
     result = flake8_path.run_flake8()
     assert result.out_lines == failures
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "dict({}, a=1)",
+        "dict({x: 1 for x in range(1)}, a=1)",
+    ],
+)
+def test_C418_pass(code, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == []
+
+
+@pytest.mark.parametrize(
+    "code,failures",
+    [
+        (
+            "dict({})",
+            [
+                "./example.py:1:1: C418 Unnecessary dict passed to dict() - "
+                + "remove the outer call to dict()."
+            ],
+        ),
+        (
+            "dict({'a': 1})",
+            [
+                "./example.py:1:1: C418 Unnecessary dict passed to dict() - "
+                + "remove the outer call to dict()."
+            ],
+        ),
+        (
+            "dict({'x': 1 for x in range(10)})",
+            [
+                "./example.py:1:1: C418 Unnecessary dict comprehension passed "
+                + "to dict() - remove the outer call to dict()."
+            ],
+        ),
+    ],
+)
+def test_C418_fail(code, failures, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == failures

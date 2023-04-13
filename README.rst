@@ -113,7 +113,7 @@ C409-410: Unnecessary ``<list/tuple>`` passed to ``<list/tuple>``\() - ``<advice
 Rules:
 
 * C409 Unnecessary ``<list/tuple>`` passed to tuple() - ``<advice>``.
-* C410 Unnecessary ``list passed to list() - ``<advice>``.
+* C410 Unnecessary list passed to list() - ``<advice>``.
 
 Where ``<advice>`` is either:
 
@@ -207,3 +207,12 @@ For example:
 * Rewrite ``list(map(lambda num: num * 2, nums))`` to ``[num * 2 for num in nums]``
 * Rewrite ``set(map(lambda num: num % 2 == 0, nums))`` to ``{num % 2 == 0 for num in nums}``
 * Rewrite ``dict(map(lambda v: (v, v ** 2), values))`` to ``{v : v ** 2 for v in values}``
+
+C418: Unnecessary ``<dict/dict comprehension>`` passed to dict() - remove the outer call to dict()
+--------------------------------------------------------------------------------------------------
+
+It's unnecessary to use a ``dict`` around a dict literal or dict comprehension, since either syntax already constructs a dict.
+For example:
+
+* Rewrite ``dict({})`` as ``{}``
+* Rewrite ``dict({"a": 1})`` as ``{"a": 1}``
