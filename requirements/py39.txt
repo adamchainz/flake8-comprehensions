@@ -12,9 +12,9 @@ flake8==6.0.0 \
     --hash=sha256:3833794e27ff64ea4e9cf5d410082a8b97ff1a06c16aa3d2027339cd0f1195c7 \
     --hash=sha256:c61007e76655af75e6785a931f452915b371dc48f56efd765247c8fe68f2b181
     # via pytest-flake8-path
-importlib-metadata==6.5.1 \
-    --hash=sha256:b986d197242e4e9960a12743a6ec5a9fc8b3d7054612d90489452170785c98a5 \
-    --hash=sha256:cd4687a8df60d9aefd424ed9364a8f29def203a9482ec8eb8e8070ef06075f89
+importlib-metadata==6.6.0 \
+    --hash=sha256:43dd286a2cd8995d5eaef7fee2066340423b818ed3fd70adf0bad5f1fac53fed \
+    --hash=sha256:92501cdf9cc66ebd3e612f1b4f0c0765dfa42f0fa38ffb319b6bd84dd675d705
     # via pytest-randomly
 iniconfig==2.0.0 \
     --hash=sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3 \
