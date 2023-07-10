@@ -1,15 +1,10 @@
 from __future__ import annotations
 
 import re
-import sys
+from importlib.metadata import version
 from textwrap import dedent
 
 import pytest
-
-if sys.version_info >= (3, 8):
-    from importlib.metadata import version
-else:
-    from importlib_metadata import version
 
 
 @pytest.fixture
@@ -791,14 +786,6 @@ def test_C416_pass(code, flake8_path):
     assert result.out_lines == []
 
 
-# Column offset for list comprehensions was incorrect in Python < 3.8.
-# See https://bugs.python.org/issue31241 for details.
-if sys.version_info >= (3, 8):
-    list_comp_col_offset = 0
-else:
-    list_comp_col_offset = 1
-
-
 @pytest.mark.parametrize(
     "code,failures",
     [
@@ -819,7 +806,7 @@ else:
         (
             "[x for x in range(5)]",
             [
-                f"./example.py:1:{1 + list_comp_col_offset}: C416 Unnecessary "
+                "./example.py:1:1: C416 Unnecessary "
                 + "list comprehension - rewrite using list()."
             ],
         ),
