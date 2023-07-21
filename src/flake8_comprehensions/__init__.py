@@ -46,6 +46,7 @@ class ComprehensionChecker:
             "C419 Unnecessary list comprehension passed to {func}() prevents "
             + "short-circuiting - rewrite as a generator."
         ),
+        "C420": "C420 Unnecessary generator - remove it or rewrite with as iterator",
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
@@ -196,6 +197,20 @@ class ComprehensionChecker:
                         node.lineno,
                         node.col_offset,
                         self.messages["C408"].format(type=node.func.id),
+                        type(self),
+                    )
+
+                elif (
+                    num_positional_args == 1
+                    and node.func.id == "print"
+                    and isinstance(node.args[0], ast.Call)
+                    and isinstance(node.args[0].func, ast.Name)
+                    and node.args[0].func.id == "sorted"
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C412"],
                         type(self),
                     )
 
