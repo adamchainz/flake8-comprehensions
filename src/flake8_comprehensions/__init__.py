@@ -206,6 +206,7 @@ class ComprehensionChecker:
                     and isinstance(node.args[0], ast.Call)
                     and isinstance(node.args[0].func, ast.Name)
                     and node.args[0].func.id == "sorted"
+                    and isinstance(node.args[0].args[0], ast.GeneratorExp)
                 ):
                     yield (
                         node.lineno,
