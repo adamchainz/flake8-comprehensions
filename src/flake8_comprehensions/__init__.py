@@ -201,17 +201,17 @@ class ComprehensionChecker:
                     )
 
                 elif (
-                    num_positional_args == 1
-                    and node.func.id == "print"
-                    and isinstance(node.args[0], ast.Call)
-                    and isinstance(node.args[0].func, ast.Name)
-                    and node.args[0].func.id == "sorted"
-                    and isinstance(node.args[0].args[0], ast.GeneratorExp)
+                    node.func.id == "sorted"
+                    and num_positional_args > 0
+                    and (
+                        isinstance(node.args[0], ast.GeneratorExp)
+                        and isinstance(node.args[0].elt, ast.Name)
+                    )
                 ):
                     yield (
                         node.lineno,
                         node.col_offset,
-                        self.messages["C412"],
+                        self.messages["C420"],
                         type(self),
                     )
 
