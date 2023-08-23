@@ -15,7 +15,7 @@ flake8-comprehensions
    :target: https://github.com/pre-commit/pre-commit
    :alt: pre-commit
 
-A `flake8 <https://flake8.readthedocs.io/en/latest/index.html>`_ plugin that helps you write better list/set/dict comprehensions.
+A `flake8 <https://flake8.readthedocs.io/en/latest/>`_ plugin that helps you write better list/set/dict comprehensions.
 
 Requirements
 ============
