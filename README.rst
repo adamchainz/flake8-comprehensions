@@ -17,6 +17,13 @@ flake8-comprehensions
 
 A `flake8 <https://flake8.readthedocs.io/en/latest/>`_ plugin that helps you write better list/set/dict comprehensions.
 
+----
+
+**Linting a Django project?**
+Check out my book `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>`__ which covers Flake8 and many other code quality tools.
+
+----
+
 Requirements
 ============
 
@@ -33,13 +40,6 @@ First, install with ``pip``:
 
 Second, if you define Flake8’s ``select`` setting, add the ``C4`` prefix to it.
 Otherwise, the plugin should be active by default.
-
-----
-
-**Linting a Django project?**
-Check out my book `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>`__ which covers Flake8 and many other code quality tools.
-
-----
 
 Rules
 =====
