@@ -4,6 +4,42 @@ requires = [
   "setuptools",
 ]
 
+[project]
+name = "flake8-comprehensions"
+version = "3.14.0"
+description = "A flake8 plugin to help you write better list/set/dict comprehensions."
+readme = {file = "README.rst", content-type = "text/x-rst"}
+keywords = [
+  "comprehensions",
+  "dict comprehension",
+  "flake8",
+  "list comprehension",
+  "set comprehension",
+]
+license = {text = "MIT"}
+authors = [{name = "Adam Johnson", email = "me@adamj.eu"}]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Framework :: Flake8",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Typing :: Typed",
+]
+dependencies = [
+  "flake8!=3.2.0,>=3",
+]
+urls = {Changelog = "https://github.com/adamchainz/flake8-comprehensions/blob/main/CHANGELOG.rst",Funding = "https://adamj.eu/books/",Repository = "https://github.com/adamchainz/flake8-comprehensions"}
+[project.entry-points."flake8.extension"]
+C4 = "flake8_comprehensions:ComprehensionChecker"
+
 [tool.black]
 target-version = ['py38']
 
