@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* Add rule C420 to check for dict comprehensions with constant values that can be replaced with a call to ``dict.fromkeys()``.
+
 3.14.0 (2023-07-10)
 -------------------
 

@@ -46,6 +46,9 @@ class ComprehensionChecker:
             "C419 Unnecessary list comprehension passed to {func}() prevents "
             + "short-circuiting - rewrite as a generator."
         ),
+        "C420": (
+            "C420 Unnecessary {type} comprehension - rewrite using dict.fromkeys()."
+        ),
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
@@ -335,32 +338,47 @@ class ComprehensionChecker:
                     len(node.generators) == 1
                     and not node.generators[0].ifs
                     and not node.generators[0].is_async
-                    and (
-                        (
-                            isinstance(node, (ast.ListComp, ast.SetComp))
-                            and isinstance(node.elt, ast.Name)
-                            and isinstance(node.generators[0].target, ast.Name)
-                            and node.elt.id == node.generators[0].target.id
-                        )
-                        or (
-                            isinstance(node, ast.DictComp)
-                            and isinstance(node.key, ast.Name)
-                            and isinstance(node.value, ast.Name)
-                            and isinstance(node.generators[0].target, ast.Tuple)
-                            and len(node.generators[0].target.elts) == 2
-                            and isinstance(node.generators[0].target.elts[0], ast.Name)
-                            and node.generators[0].target.elts[0].id == node.key.id
-                            and isinstance(node.generators[0].target.elts[1], ast.Name)
-                            and node.generators[0].target.elts[1].id == node.value.id
-                        )
-                    )
                 ):
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C416"].format(type=comp_type[node.__class__]),
-                        type(self),
-                    )
+                    if (
+                        isinstance(node, (ast.ListComp, ast.SetComp))
+                        and isinstance(node.elt, ast.Name)
+                        and isinstance(node.generators[0].target, ast.Name)
+                        and node.elt.id == node.generators[0].target.id
+                    ) or (
+                        isinstance(node, ast.DictComp)
+                        and isinstance(node.key, ast.Name)
+                        and isinstance(node.value, ast.Name)
+                        and isinstance(node.generators[0].target, ast.Tuple)
+                        and len(node.generators[0].target.elts) == 2
+                        and isinstance(node.generators[0].target.elts[0], ast.Name)
+                        and node.generators[0].target.elts[0].id == node.key.id
+                        and isinstance(node.generators[0].target.elts[1], ast.Name)
+                        and node.generators[0].target.elts[1].id == node.value.id
+                    ):
+                        yield (
+                            node.lineno,
+                            node.col_offset,
+                            self.messages["C416"].format(
+                                type=comp_type[node.__class__]
+                            ),
+                            type(self),
+                        )
+
+                    elif (
+                        isinstance(node, ast.DictComp)
+                        and isinstance(node.key, ast.Name)
+                        and isinstance(node.value, ast.Constant)
+                        and isinstance(node.generators[0].target, ast.Name)
+                        and node.key.id == node.generators[0].target.id
+                    ):
+                        yield (
+                            node.lineno,
+                            node.col_offset,
+                            self.messages["C420"].format(
+                                type=comp_type[node.__class__]
+                            ),
+                            type(self),
+                        )
 
 
 def has_star_args(call_node: ast.Call) -> bool:
