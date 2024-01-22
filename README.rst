@@ -227,3 +227,13 @@ For example:
 
 * Rewrite ``all([condition(x) for x in iterable])`` as ``all(condition(x) for x in iterable)``
 * Rewrite ``any([condition(x) for x in iterable])`` as ``any(condition(x) for x in iterable)``
+
+C420: Unnecessary dict comprehension - rewrite using dict.fromkeys().
+----------------------------------------------------------------------
+
+It's unnecessary to use a dict comprehension to build a dict with all values set to the same constant.
+Use ``dict.fromkeys()`` instead, which is faster.
+For example:
+
+* Rewrite ``{x: 1 for x in iterable}`` as ``dict.fromkeys(iterable, 1)``
+* Rewrite ``{x: None for x in iterable}`` as ``dict.fromkeys(iterable)``
