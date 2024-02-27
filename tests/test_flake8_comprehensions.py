@@ -22,7 +22,7 @@ def flake8_path(flake8_path):
 
 def test_version(flake8_path):
     result = flake8_path.run_flake8(["--version"])
-    version_regex = r"flake8-comprehensions:( )*" + version("flake8-comprehensions")
+    version_regex = r"flake8[-_]comprehensions:( )*" + version("flake8-comprehensions")
     unwrapped = "".join(result.out_lines)
     assert re.search(version_regex, unwrapped)
 
