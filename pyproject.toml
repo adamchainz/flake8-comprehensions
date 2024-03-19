@@ -40,9 +40,6 @@ urls = {Changelog = "https://github.com/adamchainz/flake8-comprehensions/blob/ma
 [project.entry-points."flake8.extension"]
 C4 = "flake8_comprehensions:ComprehensionChecker"
 
-[tool.black]
-target-version = ['py38']
-
 [tool.isort]
 add_imports = [
     "from __future__ import annotations"
