@@ -227,3 +227,15 @@ For example:
 
 * Rewrite ``all([condition(x) for x in iterable])`` as ``all(condition(x) for x in iterable)``
 * Rewrite ``any([condition(x) for x in iterable])`` as ``any(condition(x) for x in iterable)``
+
+C420 Unnecessary list comprehension in for loop rewrite as a generator.
+-----------------------------------------------------------------------
+
+It's unnecessary to iterate over a list comprehension in a for loop.
+
+This prevents short circuiting (e.g. the for loop may contain a ``break`` statement) and creates an unnecessary intermediate list.
+
+Use a generator expression instead:
+
+* Rewrite ``for x in [func(y) for y in iterable]:`` as ``for x in (func(y) for y in iterable):``
+* Rewrite ``async for x in [func(y) for y in async_gen]:`` as ``async for x in (func(y) for y in async_gen):``

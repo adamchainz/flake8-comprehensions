@@ -963,3 +963,57 @@ def test_C419_fail(code, failures, flake8_path):
     (flake8_path / "example.py").write_text(dedent(code))
     result = flake8_path.run_flake8()
     assert result.out_lines == failures
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "for x in (y ** 2 for y in range(10)): pass",
+        "async for x in (fcn(y) for y in async_gen): pass",
+        "for x in y: pass",
+        "for x in y: {fcn(y) for y in range(10)}",
+        "for x, y in y: {str(y): y for y in range(10)}.items()",
+    ],
+)
+def test_C420_pass(code, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == []
+
+
+@pytest.mark.parametrize(
+    "code,failures",
+    [
+        (
+            # it should detect unnecessary list comprehensions in for loops
+            "for x in [y ** 2 for y in range(10)]: pass",
+            [
+                "./example.py:1:1: C420 Unnecessary list comprehension in for loop "
+                + "rewrite as a generator: for x in (y ** 2 for y in range(10)):"
+            ],
+        ),
+        (
+            # it should also run other rules over the comprenension
+            "for x in [y for y in range(10)]: pass",
+            [
+                "./example.py:1:1: C420 Unnecessary list comprehension in for loop "
+                + "rewrite as a generator: for x in (y for y in range(10)):",
+                "./example.py:1:10: C416 Unnecessary list comprehension "
+                + "- rewrite using "
+                "list().",
+            ],
+        ),
+        (
+            # it should work for async for loops too
+            "async for x in [fcn(y) for y in async_gen]: pass",
+            [
+                "./example.py:1:1: C420 Unnecessary list comprehension in for loop "
+                + "rewrite as a generator: async for x in (fcn(y) for y in async_gen):",
+            ],
+        ),
+    ],
+)
+def test_C420_fail(code, failures, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == failures

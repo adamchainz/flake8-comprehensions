@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+from copy import deepcopy
 from importlib.metadata import version
 from typing import Any
 from typing import Generator
@@ -45,6 +46,10 @@ class ComprehensionChecker:
         "C419": (
             "C419 Unnecessary list comprehension passed to {func}() prevents "
             + "short-circuiting - rewrite as a generator."
+        ),
+        "C420": (
+            "C420 Unnecessary list comprehension in for loop "
+            + "rewrite as a generator: {fix}"
         ),
     }
 
@@ -361,6 +366,22 @@ class ComprehensionChecker:
                         self.messages["C416"].format(type=comp_type[node.__class__]),
                         type(self),
                     )
+            elif isinstance(node, (ast.AsyncFor, ast.For)) and isinstance(
+                node.iter, ast.ListComp
+            ):
+                # create a new node to fix the code:
+                _node = deepcopy(node)
+                # clear the body of the for loop
+                _node.body = []
+                # replace the list comprehension with a generator expression
+                _node.iter = ast.GeneratorExp(node.iter.elt, node.iter.generators)
+
+                yield (
+                    node.lineno,
+                    node.col_offset,
+                    self.messages["C420"].format(fix=ast.unparse(_node)),
+                    type(self),
+                )
 
 
 def has_star_args(call_node: ast.Call) -> bool:
