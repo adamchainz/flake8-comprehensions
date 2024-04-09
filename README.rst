@@ -2,7 +2,7 @@
 flake8-comprehensions
 =====================
 
-.. image:: https://img.shields.io/github/actions/workflow/status/adamchainz/flake8-comprehensions/main.yml?branch=main&style=for-the-badge
+.. image:: https://img.shields.io/github/actions/workflow/status/adamchainz/flake8-comprehensions/main.yml.svg?branch=main&style=for-the-badge
    :target: https://github.com/adamchainz/flake8-comprehensions/actions?workflow=CI
 
 .. image:: https://img.shields.io/pypi/v/flake8-comprehensions.svg?style=for-the-badge
