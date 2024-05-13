@@ -8,7 +8,7 @@ requires = [
 name = "flake8-comprehensions"
 version = "3.14.0"
 description = "A flake8 plugin to help you write better list/set/dict comprehensions."
-readme = {file = "README.rst", content-type = "text/x-rst"}
+readme = { file = "README.rst", content-type = "text/x-rst" }
 keywords = [
   "comprehensions",
   "dict comprehension",
@@ -16,8 +16,10 @@ keywords = [
   "list comprehension",
   "set comprehension",
 ]
-license = {text = "MIT"}
-authors = [{name = "Adam Johnson", email = "me@adamj.eu"}]
+license = { text = "MIT" }
+authors = [
+  { name = "Adam Johnson", email = "me@adamj.eu" },
+]
 requires-python = ">=3.8"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
@@ -34,15 +36,13 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "flake8!=3.2.0,>=3",
+  "flake8!=3.2,>=3",
 ]
-urls = {Changelog = "https://github.com/adamchainz/flake8-comprehensions/blob/main/CHANGELOG.rst",Funding = "https://adamj.eu/books/",Repository = "https://github.com/adamchainz/flake8-comprehensions"}
-[project.entry-points."flake8.extension"]
-C4 = "flake8_comprehensions:ComprehensionChecker"
-
+urls = { Changelog = "https://github.com/adamchainz/flake8-comprehensions/blob/main/CHANGELOG.rst", Funding = "https://adamj.eu/books/", Repository = "https://github.com/adamchainz/flake8-comprehensions" }
+entry-points."flake8.extension".C4 = "flake8_comprehensions:ComprehensionChecker"
 [tool.isort]
 add_imports = [
-    "from __future__ import annotations"
+  "from __future__ import annotations",
 ]
 force_single_line = true
 profile = "black"
