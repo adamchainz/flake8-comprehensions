@@ -36,23 +36,26 @@ pyflakes==3.2.0 \
     --hash=sha256:1c61603ff154621fb2a9172037d84dca3500def8c8b630657d1701f026f8af3f \
     --hash=sha256:84b5be138a2dfbb40689ca07e2152deb896a65c3a3e24c251c5c62489568074a
     # via flake8
-pytest==8.1.1 \
-    --hash=sha256:2a8386cfc11fa9d2c50ee7b2a57e7d898ef90470a7a34c4b949ff59662bb78b7 \
-    --hash=sha256:ac978141a75948948817d360297b7aae0fcb9d6ff6bc9ec6d514b85d5a65c044
+pytest==8.2.1 \
+    --hash=sha256:5046e5b46d8e4cac199c373041f26be56fdb81eb4e67dc11d4e10811fc3408fd \
+    --hash=sha256:faccc5d332b8c3719f40283d0d44aa5cf101cec36f88cde9ed8f2bc0538612b1
     # via
+    #   -r requirements.in
     #   pytest-flake8-path
     #   pytest-randomly
 pytest-flake8-path==1.5.0 \
     --hash=sha256:2c144a3127995d34e82df397350dbef7780c9920c5b7e9ebc81f63299011381e \
     --hash=sha256:8766879344883e67762fc3f4f8f0d624a0d143de71f6488788599b3583e279a9
+    # via -r requirements.in
 pytest-randomly==3.15.0 \
     --hash=sha256:0516f4344b29f4e9cdae8bce31c4aeebf59d0b9ef05927c33354ff3859eeeca6 \
     --hash=sha256:b908529648667ba5e54723088edd6f82252f540cc340d748d1fa985539687047
+    # via -r requirements.in
 tomli==2.0.1 \
     --hash=sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc \
     --hash=sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f
     # via pytest
-zipp==3.18.1 \
-    --hash=sha256:206f5a15f2af3dbaee80769fb7dc6f249695e940acca08dfb2a4769fe61e538b \
-    --hash=sha256:2884ed22e7d8961de1c9a05142eb69a247f120291bc0206a00a7642f09b5b715
+zipp==3.18.2 \
+    --hash=sha256:6278d9ddbcfb1f1089a88fde84481528b07b0e10474e09dcfe53dad4069fa059 \
+    --hash=sha256:dce197b859eb796242b0622af1b8beb0a722d52aa2f57133ead08edd5bf5374e
     # via importlib-metadata
