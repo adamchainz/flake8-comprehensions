@@ -8,7 +8,7 @@ requires = [
 name = "flake8-comprehensions"
 version = "3.14.0"
 description = "A flake8 plugin to help you write better list/set/dict comprehensions."
-readme = { file = "README.rst", content-type = "text/x-rst" }
+readme = "README.rst"
 keywords = [
   "comprehensions",
   "dict comprehension",
@@ -16,7 +16,6 @@ keywords = [
   "list comprehension",
   "set comprehension",
 ]
-license = { text = "MIT" }
 authors = [
   { name = "Adam Johnson", email = "me@adamj.eu" },
 ]
