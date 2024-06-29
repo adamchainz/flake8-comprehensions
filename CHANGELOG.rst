@@ -2,6 +2,9 @@
 Changelog
 =========
 
+3.15.0 (2024-06-29)
+-------------------
+
 * Add rule C420 to check for dict comprehensions with constant values, encouraging replacement with ``dict.fromkeys()``.
 
   Thanks to Tom Kuson in `PR #553 <https://github.com/adamchainz/flake8-comprehensions/pull/553>`__.

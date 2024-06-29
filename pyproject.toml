@@ -6,7 +6,7 @@ requires = [
 
 [project]
 name = "flake8-comprehensions"
-version = "3.14.0"
+version = "3.15.0"
 description = "A flake8 plugin to help you write better list/set/dict comprehensions."
 readme = "README.rst"
 keywords = [
