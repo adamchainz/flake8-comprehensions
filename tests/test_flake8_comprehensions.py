@@ -886,7 +886,7 @@ def test_C417_fail(code, failures, flake8_path):
     "code",
     [
         "dict({}, a=1)",
-        "dict({x: 1 for x in range(1)}, a=1)",
+        "dict({x: [] for x in range(1)}, a=1)",
     ],
 )
 def test_C418_pass(code, flake8_path):
@@ -960,6 +960,61 @@ def test_C419_pass(code, flake8_path):
     ],
 )
 def test_C419_fail(code, failures, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == failures
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "{elt: elt * 2 for elt in range(5)}",
+        "{elt: [] for elt in foo}",
+        "{elt: {1, 2, 3} for elt in ['a', 'b', 'c']}",
+        "{elt: some_func() for elt in ['a', 'b', 'c']}",
+        "{elt: SomeClass() for elt in ['a', 'b', 'c']}",
+    ],
+)
+def test_C420_pass(code, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == []
+
+
+@pytest.mark.parametrize(
+    "code,failures",
+    [
+        (
+            "{elt: None for elt in range(5)}",
+            [
+                "./example.py:1:1: C420 Unnecessary dict comprehension - "
+                + "rewrite using dict.fromkeys()."
+            ],
+        ),
+        (
+            "{elt: 1 for elt in foo}",
+            [
+                "./example.py:1:1: C420 Unnecessary dict comprehension - "
+                + "rewrite using dict.fromkeys()."
+            ],
+        ),
+        (
+            "{elt: 'value' for elt in ['a', 'b', 'c']}",
+            [
+                "./example.py:1:1: C420 Unnecessary dict comprehension - "
+                + "rewrite using dict.fromkeys()."
+            ],
+        ),
+        (
+            "{elt: True for elt in some_func()}",
+            [
+                "./example.py:1:1: C420 Unnecessary dict comprehension - "
+                + "rewrite using dict.fromkeys()."
+            ],
+        ),
+    ],
+)
+def test_C420_fail(code, failures, flake8_path):
     (flake8_path / "example.py").write_text(dedent(code))
     result = flake8_path.run_flake8()
     assert result.out_lines == failures
