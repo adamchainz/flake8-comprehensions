@@ -1018,3 +1018,43 @@ def test_C420_fail(code, failures, flake8_path):
     (flake8_path / "example.py").write_text(dedent(code))
     result = flake8_path.run_flake8()
     assert result.out_lines == failures
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "(n**2 for n in range(10))",
+        "(n for n in range(10) if n % 2 == 0)",
+        "(y for x in xs for y in ys)",
+        "((elt, idx) for idx, elt in enumerate(xs))",
+    ],
+)
+def test_C421_pass(code, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == []
+
+
+@pytest.mark.parametrize(
+    "code,failures",
+    [
+        (
+            "(n for n in range(10))",
+            [
+                "./example.py:1:1: C421 Unnecessary generator expression - rewrite "
+                + "using iter() or use the iterable directly"
+            ],
+        ),
+        (
+            "((idx, elt) for idx, elt in enumerate(xs))",
+            [
+                "./example.py:1:1: C421 Unnecessary generator expression - rewrite "
+                + "using iter() or use the iterable directly"
+            ],
+        ),
+    ],
+)
+def test_C421_fail(code, failures, flake8_path):
+    (flake8_path / "example.py").write_text(dedent(code))
+    result = flake8_path.run_flake8()
+    assert result.out_lines == failures
