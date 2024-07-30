@@ -51,7 +51,7 @@ class ComprehensionChecker:
         ),
     }
 
-    def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
+    def run(self) -> Generator[tuple[int, int, str, type[Any]]]:
         # Stores previously seen map() nodes, to avoid raising C417 on it twice.
         visited_map_calls: set[ast.Call] = set()
 
