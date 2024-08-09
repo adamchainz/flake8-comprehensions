@@ -49,6 +49,10 @@ class ComprehensionChecker:
         "C420": (
             "C420 Unnecessary {type} comprehension - rewrite using dict.fromkeys()."
         ),
+        "C421": (
+            "C421 Unnecessary generator expression - rewrite using iter() or use the "
+            + "iterable directly"
+        ),
     }
 
     def run(self) -> Generator[tuple[int, int, str, type[Any]]]:
@@ -379,6 +383,26 @@ class ComprehensionChecker:
                             ),
                             type(self),
                         )
+            elif (
+                isinstance(node, ast.GeneratorExp)
+                and len(node.generators) == 1
+                and len(node.generators[0].ifs) == 0
+            ):
+                if (
+                    isinstance(node.elt, ast.Name)
+                    and isinstance(node.generators[0].target, ast.Name)
+                    and node.elt.id == node.generators[0].target.id
+                ) or (
+                    isinstance(node.elt, ast.Tuple)
+                    and isinstance(node.generators[0].target, ast.Tuple)
+                    and tuples_match(node.elt, node.generators[0].target)
+                ):
+                    yield (
+                        node.lineno,
+                        node.col_offset,
+                        self.messages["C421"],
+                        type(self),
+                    )
 
 
 def has_star_args(call_node: ast.Call) -> bool:
@@ -387,6 +411,25 @@ def has_star_args(call_node: ast.Call) -> bool:
 
 def has_double_star_args(call_node: ast.Call) -> bool:
     return any(k.arg is None for k in call_node.keywords)
+
+
+def tuples_match(lhs: ast.Tuple, rhs: ast.Tuple) -> bool:
+    if len(lhs.elts) != len(rhs.elts):
+        return False
+
+    for lhs_elt, rhs_elt in zip(lhs.elts, rhs.elts):
+        if not (
+            isinstance(lhs_elt, ast.Name)
+            and isinstance(rhs_elt, ast.Name)
+            and lhs_elt.id == rhs_elt.id
+        ) and not (
+            isinstance(lhs_elt, ast.Tuple)
+            and isinstance(rhs_elt, ast.Tuple)
+            and tuples_match(lhs_elt, rhs_elt)
+        ):
+            return False
+
+    return True
 
 
 comp_type = {

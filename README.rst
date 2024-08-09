@@ -237,3 +237,13 @@ For example:
 
 * Rewrite ``{x: 1 for x in iterable}`` as ``dict.fromkeys(iterable, 1)``
 * Rewrite ``{x: None for x in iterable}`` as ``dict.fromkeys(iterable)``
+
+C421: Unnecessary generator expression - rewrite using iter() or use the iterable directly.
+-------------------------------------------------------------------------------------------
+
+It's unnecessary to use generator expressions to create generators that simply yield items from an iterable.
+Use ``iter()`` to get a generator from an iterable or use the underlying iterable directly, depending on the context (such as in a call to ``sorted()``, which accept an iterable).
+For example:
+
+* Rewrite ``(x for x in iterable)`` as ``iter(iterable)``
+* Rewrite ``sorted(x for x in iterable)`` as ``sorted(iterable)``
