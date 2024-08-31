@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* Add rule C421 to check for unnecessary generator expressions, encouraging replacement with ``iter()`` or the underlying iterable directly.
+
 3.15.0 (2024-06-29)
 -------------------
 
