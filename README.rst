@@ -27,7 +27,7 @@ Check out my book `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>
 Requirements
 ============
 
-Python 3.8 to 3.12 supported.
+Python 3.8 to 3.13 supported.
 
 Installation
 ============
