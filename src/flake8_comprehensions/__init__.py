@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import ast
+from collections.abc import Generator
 from importlib.metadata import version
 from typing import Any
-from typing import Generator
 
 
 class ComprehensionChecker:
