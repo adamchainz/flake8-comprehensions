@@ -35,7 +35,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "flake8!=3.2,>=3",
+  "flake8>=3,!=3.2",
 ]
 urls = { Changelog = "https://github.com/adamchainz/flake8-comprehensions/blob/main/CHANGELOG.rst", Funding = "https://adamj.eu/books/", Repository = "https://github.com/adamchainz/flake8-comprehensions" }
 entry-points."flake8.extension".C4 = "flake8_comprehensions:ComprehensionChecker"
