@@ -182,15 +182,7 @@ class ComprehensionChecker:
                     and not has_star_args(node)
                     and not has_double_star_args(node)
                     and node.func.id == "dict"
-                ):
-                    yield (
-                        node.lineno,
-                        node.col_offset,
-                        self.messages["C408"].format(type=node.func.id),
-                        type(self),
-                    )
-
-                elif (
+                ) or (
                     num_positional_args == 0
                     and num_keyword_args == 0
                     and node.func.id in ("tuple", "list")
@@ -226,9 +218,7 @@ class ComprehensionChecker:
                         if reverse_flag_value is None:
                             remediation = " - toggle reverse argument to sorted()"
                         else:
-                            remediation = " - use sorted(..., reverse={!r})".format(
-                                not reverse_flag_value
-                            )
+                            remediation = f" - use sorted(..., reverse={not reverse_flag_value!r})"
 
                     msg = self.messages["C413"].format(
                         inner=node.args[0].func.id,
