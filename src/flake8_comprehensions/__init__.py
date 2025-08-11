@@ -208,7 +208,7 @@ class ComprehensionChecker:
                             if keyword.arg != "reverse":
                                 continue
                             if isinstance(keyword.value, ast.NameConstant):
-                                reverse_flag_value = keyword.value.value
+                                reverse_flag_value = bool(keyword.value.value)
                             elif isinstance(keyword.value, ast.Num):
                                 reverse_flag_value = bool(keyword.value.n)
                             else:
