@@ -3,7 +3,6 @@ from __future__ import annotations
 import ast
 from collections.abc import Generator
 from importlib.metadata import version
-from types import EllipsisType
 from typing import Any
 
 
@@ -204,14 +203,12 @@ class ComprehensionChecker:
                 ):
                     remediation = ""
                     if node.func.id == "reversed":
-                        reverse_flag_value: (
-                            str | bytes | int | float | complex | EllipsisType | None
-                        ) = False
+                        reverse_flag_value: bool | None = False
                         for keyword in node.args[0].keywords:
                             if keyword.arg != "reverse":
                                 continue
                             if isinstance(keyword.value, ast.NameConstant):
-                                reverse_flag_value = keyword.value.value
+                                reverse_flag_value = bool(keyword.value.value)
                             elif isinstance(keyword.value, ast.Num):
                                 reverse_flag_value = bool(keyword.value.n)
                             else:
