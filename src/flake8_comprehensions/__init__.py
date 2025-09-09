@@ -207,10 +207,8 @@ class ComprehensionChecker:
                         for keyword in node.args[0].keywords:
                             if keyword.arg != "reverse":
                                 continue
-                            if isinstance(keyword.value, ast.NameConstant):
+                            if isinstance(keyword.value, ast.Constant):
                                 reverse_flag_value = bool(keyword.value.value)
-                            elif isinstance(keyword.value, ast.Num):
-                                reverse_flag_value = bool(keyword.value.n)
                             else:
                                 # Complex value
                                 reverse_flag_value = None
@@ -267,8 +265,8 @@ class ComprehensionChecker:
                     and node.args[0].slice.upper is None
                     and isinstance(node.args[0].slice.step, ast.UnaryOp)
                     and isinstance(node.args[0].slice.step.op, ast.USub)
-                    and isinstance(node.args[0].slice.step.operand, ast.Num)
-                    and node.args[0].slice.step.operand.n == 1
+                    and isinstance(node.args[0].slice.step.operand, ast.Constant)
+                    and node.args[0].slice.step.operand.value == 1
                 ):
                     yield (
                         node.lineno,
