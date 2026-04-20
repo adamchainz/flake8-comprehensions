@@ -43,7 +43,7 @@ entry-points."flake8.extension".C4 = "flake8_comprehensions:ComprehensionChecker
 
 [dependency-groups]
 test = [
-  "pytest",
+  "pytest>=9",
   "pytest-flake8-path",
   "pytest-randomly",
 ]
@@ -101,11 +101,7 @@ warn_unreachable = true
 overrides = [ { module = "tests.*", allow_untyped_defs = true } ]
 
 [tool.pytest]
-ini_options.addopts = """\
-    --strict-config
-    --strict-markers
-    """
-ini_options.xfail_strict = true
+strict = true
 
 [tool.rstcheck]
 report_level = "ERROR"
