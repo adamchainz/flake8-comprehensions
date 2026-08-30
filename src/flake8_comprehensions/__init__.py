@@ -239,6 +239,21 @@ class ComprehensionChecker:
                             node.func.id in {"set", "sorted"}
                             and node.args[0].func.id
                             in {"list", "reversed", "sorted", "tuple"}
+                            and not (
+                                node.func.id == "sorted"
+                                and node.args[0].func.id == "sorted"
+                                and (
+                                    has_double_star_args(node)
+                                    or any(
+                                        keyword.arg == "key"
+                                        and not (
+                                            isinstance(keyword.value, ast.Constant)
+                                            and keyword.value.value is None
+                                        )
+                                        for keyword in node.keywords
+                                    )
+                                )
+                            )
                         )
                         or (
                             node.func.id in {"list", "tuple"}

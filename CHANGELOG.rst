@@ -5,6 +5,12 @@ Changelog
 Unreleased
 ----------
 
+* Fix a C414 false positive for nested ``sorted()`` calls where the outer call
+  specifies a non-``None`` ``key``, including potentially through a ``**``
+  expansion.
+
+  Fixes `Issue #661 <https://github.com/adamchainz/flake8-comprehensions/issues/661>`__.
+
 * Support Python 3.15.
 
 * Switch package build backend from setuptools to `uv_build <https://docs.astral.sh/uv/concepts/build-backend/>`__.
