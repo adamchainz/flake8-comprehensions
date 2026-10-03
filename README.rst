@@ -158,6 +158,7 @@ C414: Unnecessary ``<list/reversed/set/sorted/tuple>`` call within ``<list/set/s
 --------------------------------------------------------------------------------------------------
 
 It's unnecessary to double-cast or double-process iterables by wrapping the listed functions within ``list``/``set``/``sorted``/``tuple``.
+One exception is a nested ``sorted()`` call where the outer call has a non-``None`` ``key``, including potentially through a ``**`` expansion, since the stable sorts can establish primary and secondary orderings.
 For example:
 
 * Rewrite ``list(list(iterable))`` as ``list(iterable)``

@@ -610,6 +610,9 @@ def test_C413_fail(code, failures, flake8_path):
         "list(set(a))",
         "tuple(set(a))",
         "sorted(set(a))",
+        "sorted(sorted(a), key=len)",
+        "sorted(sorted(a), **kwargs)",
+        'sorted(sorted(a), **{"key": len})',
     ],
 )
 def test_C414_pass(code, flake8_path):
@@ -672,6 +675,10 @@ def test_C414_pass(code, flake8_path):
         ),
         (
             "sorted(sorted(a), reverse=True)",
+            ["./example.py:1:1: C414 Unnecessary sorted call within sorted()."],
+        ),
+        (
+            "sorted(sorted(a), key=None)",
             ["./example.py:1:1: C414 Unnecessary sorted call within sorted()."],
         ),
         (
