@@ -15,6 +15,12 @@ Unreleased
 
 * Drop Python 3.9 support.
 
+* Fix C400 and C401 reporting generator expressions that yield their iteration
+  target unchanged, such as ``list(x for x in foo)``.
+  C416 already covers passing the iterable directly.
+
+  Thanks to Jens Tröger for the report in `Issue #643 <https://github.com/adamchainz/flake8-comprehensions/issues/643>`__.
+
 3.17.0 (2025-09-09)
 -------------------
 

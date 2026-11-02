@@ -31,6 +31,8 @@ def test_version(flake8_path):
     "code",
     [
         "foo = [x + 1 for x in range(10)]",
+        # unchanged elements are C416's business, not C400's
+        "foo = list(x for x in range(10))",
     ],
 )
 def test_C400_pass(code, flake8_path):
@@ -62,6 +64,13 @@ def test_C400_pass(code, flake8_path):
                 + "comprehension."
             ],
         ),
+        (
+            "foo = list(x for x in range(10) if x)",
+            [
+                "./example.py:1:7: C400 Unnecessary generator - rewrite as a list "
+                + "comprehension."
+            ],
+        ),
     ],
 )
 def test_C400_fail(code, failures, flake8_path):
@@ -74,6 +83,8 @@ def test_C400_fail(code, failures, flake8_path):
     "code",
     [
         "foo = {x + 1 for x in range(10)}",
+        # unchanged elements are C416's business, not C401's
+        "foo = set(x for x in range(10))",
     ],
 )
 def test_C401_pass(code, flake8_path):
@@ -101,6 +112,13 @@ def test_C401_pass(code, flake8_path):
             """,
             [
                 "./example.py:1:10: C401 Unnecessary generator - rewrite as a set "
+                + "comprehension."
+            ],
+        ),
+        (
+            "foo = set(x for x in range(10) if x)",
+            [
+                "./example.py:1:7: C401 Unnecessary generator - rewrite as a set "
                 + "comprehension."
             ],
         ),

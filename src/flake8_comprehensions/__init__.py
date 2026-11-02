@@ -64,6 +64,7 @@ class ComprehensionChecker:
                     num_positional_args == 1
                     and isinstance(node.args[0], ast.GeneratorExp)
                     and node.func.id in ("list", "set")
+                    and not is_identity_genexp(node.args[0])
                 ):
                     msg_key = {"list": "C400", "set": "C401"}[node.func.id]
                     yield (
@@ -375,6 +376,19 @@ def has_star_args(call_node: ast.Call) -> bool:
 
 def has_double_star_args(call_node: ast.Call) -> bool:
     return any(k.arg is None for k in call_node.keywords)
+
+
+def is_identity_genexp(genexp: ast.GeneratorExp) -> bool:
+    # Wrapping an iterable whose items are unchanged is covered by C416, which
+    # says to pass the iterable directly, so C400/C401 do not report it
+    return bool(
+        len(genexp.generators) == 1
+        and not genexp.generators[0].ifs
+        and not genexp.generators[0].is_async
+        and isinstance(genexp.elt, ast.Name)
+        and isinstance(genexp.generators[0].target, ast.Name)
+        and genexp.elt.id == genexp.generators[0].target.id
+    )
 
 
 comp_type = {
